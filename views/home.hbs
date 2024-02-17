@@ -3,9 +3,6 @@
     {{{output.std}}}
     {{{output.font}}}
     <style id="globalStyles"></style>
-    <style>
-
-    </style>
     {{{output.style}}}
     {{{output.fontawesome}}}
 </head>
@@ -31,52 +28,6 @@
     <div class="section"></div>
     {{{output.foot}}}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const slides = document.querySelectorAll('.imageSlides');
-            const slider = document.querySelector('.containsSlides');
-            const sliderWidth = slider.clientWidth;
-            let currentSlide = 0;
-
-            function scrollSlider(direction) {
-                const scrollAmount = direction === 'next' ? sliderWidth : -sliderWidth;
-                slider.scrollTo({
-                    left: slider.scrollLeft + scrollAmount,
-                    behavior: 'smooth'
-                });
-            }
-
-            function prevSlide() {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                scrollSlider('prev');
-            }
-
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                scrollSlider('next');
-            }
-
-            document.querySelector('.sliderButton.left').addEventListener('click', prevSlide);
-            document.querySelector('.sliderButton.right').addEventListener('click', nextSlide);
-        });
-
-        const specificElements = document.querySelectorAll('.slide');
-
-        specificElements.forEach(function (specificElement) {
-            specificElement.addEventListener('wheel', function (e) {
-                e.preventDefault();
-
-                if (e.deltaX !== 0) {
-                    specificElement.scrollLeft += e.deltaX;
-                }
-
-                if (e.deltaY !== 0) {
-                    specificElement.scrollTop += e.deltaY;
-                }
-            });
-        });
-
-
-
         function down() {
             window.scrollTo({
                 top: document.body.scrollHeight,

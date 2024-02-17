@@ -388,6 +388,11 @@ body {
     animation: slideIn 1s ease-in-out;
     width: 100%;
     object-fit: cover;
+    /*  temporary-fix  */
+    object-position: center 15%;
+}
+.vertical{
+    object-position: center 15%;
 }
 
 .heightHigh{
