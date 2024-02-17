@@ -1,0 +1,110 @@
+<head>
+    <title>{{ pageTitle }}</title>
+    {{{output.std}}}
+    <style id="globalStyles"></style>
+    <style>
+        html,
+        body {
+            width: 100%;
+        }
+
+        .slider {
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .imageSlides {
+            animation: slideIn 1s ease-in-out;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide {
+            min-height: 100vh;
+            max-height: 100vh;
+            min-width: 100vw;
+            max-width: 100vw;
+
+            background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .sliderButton {
+            position: absolute;
+            top: 50%;
+
+        }
+
+        .sliderButton.left {
+            left: 0;
+        }
+
+        .sliderButton.right {
+            right: 0;
+        }
+    </style>
+    {{{output.style}}}
+</head>
+
+<body>
+    {{{output.nav}}}
+    {{{output.content}}}
+    <div class="slider">
+        <button class="sliderButton left">+</button>
+        <!--
+        {{#each images}}
+        <div class="slide imageSlides" style="background: url('../public/images/gallery/{{this}}') no-repeat center center;"></div>
+        {{/each}}!-->
+        {{#each images}}
+        <img class="slide imageSlides" src="../public/images/gallery/{{this}}">
+        {{/each}}
+
+        <button class="sliderButton right">+</button>
+
+    </div>
+    {{{output.foot}}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.imageSlides');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides[index].classList.add('fadeIn');
+                slides[index].classList.remove('fadeIn');
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+
+            showSlide(currentSlide);
+
+            // Add event listeners for prev and next buttons if you have them
+            // Example assuming you have buttons with the IDs 'prevButton' and 'nextButton':
+            document.querySelector('.sliderButton.left').addEventListener('click', prevSlide);
+            document.querySelector('.sliderButton.right').addEventListener('click', nextSlide);
+        });
+
+    </script>
+</body>
+<!--<img class="imageSlides" src="../public/images/gallery/{{this}}" alt="{{this}}">

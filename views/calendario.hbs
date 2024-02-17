@@ -1,0 +1,29 @@
+<head>
+    <title>{{ pageTitle }}</title>
+    {{{output.std}}}
+    <style id="globalStyles"></style>
+    {{{output.style}}}
+    {{{output.font}}}
+    {{{output.fontawesome}}}
+</head>
+
+<body>
+    {{{output.nav}}}
+    <div class="slider introduceSection">
+        <div class="containsSlides heightSmall">
+            {{#each images}}
+            <img class="slide imageSlides heightSmall" src="../public/images/img/calendario/{{this}}">
+            <div class="slideOverlay heightSmall">
+                <h2></h2>
+                <p class="bigText"></p>
+                <button class="sliderButtonInfo"></button>
+            </div>
+            {{/each}}
+        </div>
+        {{{output.content}}}
+        <div class="section"></div>
+        {{{output.foot}}}
+        <script>
+
+        </script>
+</body>

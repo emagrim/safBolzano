@@ -1,0 +1,95 @@
+<head>
+    <title>{{ pageTitle }}</title>
+    {{{output.std}}}
+    {{{output.font}}}
+    <style id="globalStyles"></style>
+    <style>
+
+    </style>
+    {{{output.style}}}
+    {{{output.fontawesome}}}
+</head>
+
+<body>
+    {{{output.nav}}}
+    {{{output.content}}}
+    <div class="slider">
+        <div class="containsSlides">
+            {{#each images}}
+            <img class="slide imageSlides heightHigh" src="../public/images/gallery/{{this}}">
+            <div class="slideOverlay heightHigh">
+                <h2></h2>
+                <p class="bigText"></p>
+                <button class="sliderButtonInfo"></button>
+            </div>
+            {{/each}}
+        </div>
+        <button class="sliderButton left slideInLeft">&lt;</button>
+        <button class="sliderButton right slideInRight">&gt;</button>
+        <button class="sliderButton bottom slideIn upDown" onclick="down()">&darr;</button>
+    </div>
+    <div class="section"></div>
+    {{{output.foot}}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.imageSlides');
+            const slider = document.querySelector('.containsSlides');
+            const sliderWidth = slider.clientWidth;
+            let currentSlide = 0;
+
+            function scrollSlider(direction) {
+                const scrollAmount = direction === 'next' ? sliderWidth : -sliderWidth;
+                slider.scrollTo({
+                    left: slider.scrollLeft + scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                scrollSlider('prev');
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                scrollSlider('next');
+            }
+
+            document.querySelector('.sliderButton.left').addEventListener('click', prevSlide);
+            document.querySelector('.sliderButton.right').addEventListener('click', nextSlide);
+        });
+
+        const specificElements = document.querySelectorAll('.slide');
+
+        specificElements.forEach(function (specificElement) {
+            specificElement.addEventListener('wheel', function (e) {
+                e.preventDefault();
+
+                if (e.deltaX !== 0) {
+                    specificElement.scrollLeft += e.deltaX;
+                }
+
+                if (e.deltaY !== 0) {
+                    specificElement.scrollTop += e.deltaY;
+                }
+            });
+        });
+
+
+
+        function down() {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+
+        const sliderText = [
+            {1: 'Unisciti a noi!', 2: 'Iscriviti online ora o prendi appuntamento quando vuoi.', 3: 'Modulo di iscrizione', 4: '/iscrizioni'},
+            {1: 'Notizie', 2: 'Scopri cosa c&#39è di nuovo.', 3: 'Vai alle notizie', 4: '/news'},
+            {1: 'SAF ai campionati Italiani', 2: 'La SAF Bolzano partecipa con coraggio ai campionati italiani di categoria', 3: 'Scopri di più', 4: '/risultati'},
+            {1: 'Iscrizione aperte', 2: 'Iscriviti subito per la stagione corrente o/e la prossima.', 3: 'Modulo di iscrizione', 4: '/iscrizioni'},
+            {1: 'Sostienici!', 2: 'Dona il tuo 5x1000 a Saf Bolzano 1953', 3: 'Dona', 4: ''},
+        ];
+    </script>
+</body>
