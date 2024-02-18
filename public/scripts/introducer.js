@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             setTimeout(function () {
                 document.querySelector('.sliderButton.right').addEventListener('click', alwaysNextSlide);
-            }, 1000);
+            }, 1200);
         } else {
             const scrollAmount = direction === 'next' ? slider.clientWidth : -slider.clientWidth;
             slider.scrollTo({
