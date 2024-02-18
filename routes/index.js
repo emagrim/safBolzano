@@ -4,6 +4,9 @@ const path = require('path');
 const puppeteer = require('puppeteer');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const sqlite3 = require('sqlite3');
+
+const db = new sqlite3.Database('database.db');
 
 
 const paths = ['', 'news', 'iscrizioni', 'atleti', 'staff', 'risultati', 'galleria', 'calendario', 'info'];
@@ -46,9 +49,12 @@ router.get('/:page', async (req, res) => {
       case "atleti":
         output.content = ``;
         pathToImgDir = imgFolder + middlePath + pageName;
+
+        await getAtleti(output, res);
+
         break;
       case "staff":
-        output.content = ``;
+        getStaff();
         pathToImgDir = imgFolder + middlePath + pageName;
         break;
       case "risultati":
@@ -134,11 +140,163 @@ async function getCalendar(output, res, req, reqUrl) {
 
 </script>`;
 
-output.content = sectionHtml + reset;
+    output.content = sectionHtml + reset;
 
     await browser.close();
   } catch (error) {
     console.error('Error:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+async function getAtleti(output, res) {
+  try {
+    const websiteUrl = 'https://atletica.me/societa/211';
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
+
+    const glob_tutti_gli_atleti = await page.evaluate(() => {
+      return window.glob_tutti_gli_atleti || [];
+    });
+
+    console.log('Array Content:', glob_tutti_gli_atleti);
+    console.log('Array Length:', glob_tutti_gli_atleti.length);
+
+    // Extracting specific properties from each object
+    const extractedPropertiesArray = glob_tutti_gli_atleti.map(obj => {
+
+      if (obj[2] === null || obj[2] === 'null') {
+        obj[2] = 'https://atletica.me/img/noimage.jpg';
+      }
+
+      return {
+        profile_image: obj[2],
+        id: obj.id,
+        name: obj.nomecognome,
+        gender: obj.sesso,
+        category_id: obj.categoria_id,
+        birth_year: obj.anno_nascita,
+        age: obj.eta,
+        data_nascita: obj.data_nascita,
+        generale: obj.generale,
+        punteggio_migliore_anno_attuale: obj[10],
+      };
+    });
+
+    // Sorting by category and then by name
+    extractedPropertiesArray.sort((a, b) => {
+      if (a.category_id !== b.category_id) {
+        return a.category_id - b.category_id;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+
+    const categorie = {
+      70: "Esordienti maschi",
+      71: "Esordienti femmine",
+      72: "Ragazzi U14",
+      73: "Ragazze U14",
+      74: "Cadetti U16",
+      75: "Cadette U16",
+      76: "Alievi U18",
+      77: "Alieve U18",
+      78: "Promesse uomoni U23",
+      79: "Promesse donne U23",
+      80: "Senior uomini",
+      81: "Senior donne",
+      82: "Master uomini 35",
+      83: "Master donne 35",
+      84: "Master uomini 40",
+      85: "Master donne 40",
+      86: "Master uomini 50",
+      87: "Master donne 50",
+      88: "Master uomini 55",
+      89: "Master donne 55",
+      90: "Master uomini 60",
+      91: "Master donne 60",
+      92: "Master uomini 60+",
+      93: "Master donne 60+",
+      94: "Master uomini 65",
+      95: "Master donne 65",
+      96: "over 65 uomini",
+      97: "over 65 donne",
+    };
+
+
+    function printAthleteDataWithCategory(athletes) {
+      let lastCategory = null;
+      let lastAthleteOfCategory = null;
+      const formattedLines = [];
+
+      athletes.forEach(obj => {
+        const category_id = obj.category_id;
+        const categoryName = categorie[category_id] || "other";
+
+        if (categoryName !== lastCategory) {
+          if (lastAthleteOfCategory !== null) {
+            formattedLines.push('</div>');
+          }
+
+          if (lastCategory !== null) {
+            formattedLines.push('</div>');
+          }
+
+          formattedLines.push(`<div class="categoryDiv" id="${categoryName.replace(/\s+/g, '')}">`);
+          formattedLines.push(`<h2>${categoryName}</h2>`);
+          formattedLines.push('<div class="athletesContainer">'); // Open div for athletes in this category
+          lastCategory = categoryName;
+        }
+
+        const genderLabel = obj.gender == 2 ? "maschio" : obj.gender == 3 ? "femmina" : "other";
+
+        formattedLines.push(`
+          <div class="athlete ${genderLabel}">
+            <div class="part1">  
+              <img src="${obj.profile_image}" width="50px" height="50px" class="athleteField profileImg" />
+            </div>
+          
+            <div class="part2">
+              <div>
+                <h3 class="athleteField">${obj.name}</h3>
+              </div>
+              <div>
+                <div class="athleteField">${obj.age} Anni</div>
+                <div class="athleteField">${obj.generale}</div>
+                <div class="athleteField">${obj.punteggio_migliore_anno_attuale}</div>
+                <div class="athleteField">${obj.data_nascita}</div>
+              </div>
+            </div>
+          </div>
+        `);
+
+        lastAthleteOfCategory = obj;
+      });
+
+      if (lastAthleteOfCategory !== null) {
+        formattedLines.push('</div>'); // Close the athletesContainer div
+      }
+
+      if (lastCategory !== null) {
+        formattedLines.push('</div>'); // Close the last category div
+      }
+
+      return formattedLines.join('\n');
+    }
+
+
+
+
+
+
+    const concatenatedLines = printAthleteDataWithCategory(extractedPropertiesArray);
+
+    await browser.close();
+
+    output.content = `<div class="athletesList">${concatenatedLines}</div>`;
+  } catch (error) {
+    console.error(error);
     res.status(500).send('Internal Server Error');
   }
 }
@@ -173,7 +331,10 @@ async function getGare(output, res) {
     await browser.close();
 
     output.content = `
-    
+    <div class="longSection containsOther">
+      <div class="outputMessageForSection"><p class="title">Gare nei prossimi giorni</p><p class="message">${result}</p></div>
+      <div class="recordDiSocieta"></div>
+    </div>
     `;
 
     console.log('Content of the result:', result);
@@ -185,6 +346,81 @@ async function getGare(output, res) {
   }
 }
 
+const infoStaff = [
+  { nome: 'Alessio', cognome: 'Fuganti', anno: 2000, ruolo: 'Presidente', specialita: 'Mezzofondo', foto: 'https://' },
+  { nome: 'Mirco', cognome: 'Flaim', anno: 2000, ruolo: 'Allenatore', specialita: 'Lanci', foto: 'https://' },
+  { nome: 'Stefano', cognome: 'Sartori', anno: 2000, ruolo: 'Allenatore', specialita: 'Prove multiple', foto: 'https://' },
+  { nome: 'Michele', cognome: 'Sacco', anno: 2000, ruolo: 'Allenatore', specialita: 'Velocità', foto: 'https://' },
+  { nome: 'Chiara', cognome: 'Cardinale', anno: 2000, ruolo: 'Fiseoterapista', specialita: 'Asta', foto: 'https://' },
+];
+
+function populateStaff(){
+  db.run('CREATE TABLE IF NOT EXISTS staff (id INTEGER PRIMARY KEY, nome TEXT, cognome TEXT, anno INTEGER, ruolo TEXT, specialita TEXT, foto TEXT)');
+
+  infoStaff.forEach(person => {
+    db.run('INSERT INTO staff (nome, cognome, anno, ruolo, specialita, foto) VALUES (?, ?, ?, ?, ?, ?)', [person.nome, person.cognome, person.anno, person.ruolo, person.specialita, person.foto], function(err) {
+      if (err) {
+        console.error('Error inserting data:', err.message);
+      } else {
+        console.log(`Inserted row with ID ${this.lastID}`);
+      }
+    });
+  });
+}
+
+function getStaff() {
+  db.all('SELECT * FROM staff', (err, rows) => {
+    if (err) {
+      console.error('Error retrieving data:', err.message);
+      return;
+    }
+
+    const retrievedData = rows.map(row => ({ id: row.id, nome: row.nome, cognome: row.cognome, anno: row.anno, ruolo: row.ruolo, specialita: row.specialita, foto: row.foto }));
+
+    console.log('Retrieved Data:', retrievedData);
+
+    const readStaff = retrievedData.map(obj => {
+      if (obj.foto === null || obj.foto === 'null') {
+        obj.foto = 'https://atletica.me/img/noimage.jpg';
+      }
+
+      return {
+        id: obj.id,
+        nome: obj.nome,
+        cognome: obj.cognome,
+        anno: obj.anno,
+        ruolo: obj.ruolo,
+        specialita: obj.specialita,
+        foto: obj.foto,
+      };
+    });
+
+    console.log('Read Staff Data:', readStaff);
+
+    const before = `<div class="athletesContainer">`;
+    const after = `</div>`;
+
+    const content = readStaff.map(person => `
+    <div class="athlete staffSlot">
+            <div class="part1">  
+              <img src="${person.foto}" width="50px" height="50px" class="athleteField profileImg" />
+            </div>
+          
+            <div class="part2">
+              <div>
+                <h3 class="athleteField">${person.nome} ${person.cognome}</h3>
+              </div>
+              <div>
+                <div class="athleteField">${person.ruolo}</div>
+                <div class="athleteField">${person.specialita}</div>
+                <div class="athleteField">${person.anno}</div>
+              </div>
+            </div>
+          </div>
+    `).join('<br>');
+    output.content = before + content + after;
+  });
+}
 
 
 

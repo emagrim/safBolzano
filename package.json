@@ -19,7 +19,8 @@
     "fs.promises": "^0.1.2",
     "hbs": "^4.2.0",
     "path": "^0.12.7",
-    "puppeteer": "^22.0.0"
+    "puppeteer": "^22.0.0",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
