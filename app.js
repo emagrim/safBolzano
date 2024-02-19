@@ -1,10 +1,16 @@
 const express = require('express');
-const exphbs = require('hbs');
+const exphbs = require('express-hbs');
 const path = require('path');
 const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.engine('hbs', exphbs.express4({
+  partialsDir: path.join(__dirname, 'views', 'partials'), // If you have partials
+  layoutsDir: path.join(__dirname, 'views', 'layouts'), // If you have layouts
+  defaultLayout: 'main', // Your main layout file
+}));
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));

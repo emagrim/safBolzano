@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const sqlite3 = require('sqlite3');
+const fs = require('fs');
 
 const db = new sqlite3.Database('database.db');
 
@@ -96,16 +97,22 @@ router.get('/:page', async (req, res) => {
 });
 
 function getImagesFromFolder(folderPath) {
-  const fs = require('fs');
   if (fs.existsSync(folderPath)) {
-    return fs.readdirSync(folderPath).filter(file => {
-      const filePath = path.join(folderPath, file);
-      return (
-        fs.statSync(filePath).isFile() &&
-        /\.(jpg|jpeg|png|gif)$/i.test(file) &&
-        file.toLowerCase() !== 'favicon.ico'
-      );
-    });
+    const stats = fs.statSync(folderPath);
+
+    if (stats.isDirectory()) {
+      return fs.readdirSync(folderPath).filter(file => {
+        const filePath = path.join(folderPath, file);
+        return (
+          fs.statSync(filePath).isFile() &&
+          /\.(jpg|jpeg|png|gif)$/i.test(file) &&
+          file.toLowerCase() !== 'favicon.ico'
+        );
+      });
+    } else {
+      console.log('Error: Path is not a directory -', folderPath);
+      return [];
+    }
   } else {
     console.log('Error: Directory does not exist -', folderPath);
     return [];
