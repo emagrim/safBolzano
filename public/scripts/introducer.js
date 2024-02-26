@@ -1,38 +1,32 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function (){
     const slides = document.querySelectorAll('.imageSlides');
     const slider = document.querySelector('.containsSlides');
     const sliderWidth = slider.clientWidth;
     let currentSlide = 0;
     let isScrolling = false;
+    let isAutoScrolling = false;
+    let imagesHTML = document.querySelectorAll('.slide');
 
     const element1 = document.querySelector('.sliderButton.left');
     const element2 = document.querySelector('.sliderButton.right');
     const thereIsInCode = element1 && element2;
 
-    /*slides.forEach(function (slide) {
-        var img = container.querySelector('img');
-      
-        if (img.naturalHeight > img.naturalWidth) {
-          console.log('vertical.');
-        } else if(img.naturalHeight = img.naturalWidth) {
-          console.log('square.');
-        } else {
-            console.log('horizzontal')
-        }
-      });*/
-
     function scrollSlider(direction, callback) {
         if (thereIsInCode) {
             document.querySelector('.sliderButton.right').removeEventListener('click', alwaysNextSlide);
             const scrollAmount = direction === 'next' ? slider.clientWidth : -slider.clientWidth;
+            isAutoScrolling = true;
             slider.scrollTo({
                 left: slider.scrollLeft + scrollAmount,
                 behavior: 'smooth'
             });
 
             setTimeout(function () {
+                setTimeout(function () {
+                    isAutoScrolling = false;
+                }, 100);
                 document.querySelector('.sliderButton.right').addEventListener('click', alwaysNextSlide);
-            }, 1200);
+            }, 1500);
         } else {
             const scrollAmount = direction === 'next' ? slider.clientWidth : -slider.clientWidth;
             slider.scrollTo({
@@ -96,4 +90,29 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.sliderButton.left').addEventListener('click', prevSlide);
         document.querySelector('.sliderButton.right').addEventListener('click', alwaysNextSlide);
     }
+
+
+    function imgHeV(img) {
+
+        console.log('Image loaded:', img);
+
+        if (img && img.naturalHeight === img.naturalWidth) {
+            console.log('square');
+            img.classList.add('square');
+        } else if (img && img.naturalHeight > img.naturalWidth) {
+            console.log('vertical');
+            img.classList.add('vertical');
+        } else if (img) {
+            console.log('horizontal');
+            img.classList.add('horizontal');
+        }
+    }
+
+    imagesHTML.forEach(function (img) {
+        console.log('calling function time 1');
+        img.onload = function () {
+            console.log('calling function time 2');
+            imgHeV(img);
+        }
+    })
 });

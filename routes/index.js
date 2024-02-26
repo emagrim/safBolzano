@@ -20,7 +20,8 @@ const output = {
   },
   nav: `<div id="nav"></div>`,
   foot: `<div id="foot"></div>`,
-  std: `<script src="../scripts/std.js"></script><script src="../scripts/css.js"></script><script src="../scripts/introducer.js"></script><script src="../scripts/url.js"></script>`,
+  std: `<script src="../scripts/std.js"></script><script src="../scripts/css.js"></script><script src="../scripts/introducer.js"></script><script src="../scripts/url.js"></script><script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  `,
   content: ``,
   style: `<script>document.getElementById('globalStyles').textContent = globalStyles;</script>`,
   font: `<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,11 +90,12 @@ router.get('/:page', async (req, res) => {
     } else {
       console.log('Error: pathToImgDir is not defined');
     }
-    res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles });
 
   } else {
     res.redirect('/');
   }
+
+  res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles });
 });
 
 function getImagesFromFolder(folderPath) {
@@ -259,7 +261,7 @@ async function getAtleti(output, res) {
         const genderLabel = obj.gender == 2 ? "maschio" : obj.gender == 3 ? "femmina" : "other";
 
         formattedLines.push(`
-          <div class="athlete ${genderLabel}">
+          <div class="athlete ${genderLabel} ">
             <div class="part1">  
               <img src="${obj.profile_image}" width="50px" height="50px" class="athleteField profileImg" />
             </div>
@@ -282,11 +284,11 @@ async function getAtleti(output, res) {
       });
 
       if (lastAthleteOfCategory !== null) {
-        formattedLines.push('</div>'); // Close the athletesContainer div
+        formattedLines.push('</div>');
       }
 
       if (lastCategory !== null) {
-        formattedLines.push('</div>'); // Close the last category div
+        formattedLines.push('</div>');
       }
 
       return formattedLines.join('\n');
@@ -301,7 +303,7 @@ async function getAtleti(output, res) {
 
     await browser.close();
 
-    output.content = `<div class="athletesList">${concatenatedLines}</div>`;
+    output.content = `<div class="athletesList"><h1 titleH1>I NOSTRI ATLETI</h2>${concatenatedLines}</div>`;
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -387,7 +389,7 @@ function getStaff() {
     console.log('Retrieved Data:', retrievedData);
 
     const readStaff = retrievedData.map(obj => {
-      if (obj.foto === null || obj.foto === 'null') {
+      if (obj.foto === null || obj.foto === 'null' || obj.foto === 'https://') {
         obj.foto = 'https://atletica.me/img/noimage.jpg';
       }
 
@@ -404,11 +406,11 @@ function getStaff() {
 
     console.log('Read Staff Data:', readStaff);
 
-    const before = `<div class="athletesContainer">`;
-    const after = `</div>`;
+    const before = `<div class="athletesList"><div class="categoryDiv"><div class="athletesContainer">`;
+    const after = `</div></div></div>`;
 
     const content = readStaff.map(person => `
-    <div class="athlete staffSlot">
+    <div class="athlete staffSlot fakeGlassGreenBack">
             <div class="part1">  
               <img src="${person.foto}" width="50px" height="50px" class="athleteField profileImg" />
             </div>
@@ -424,7 +426,7 @@ function getStaff() {
               </div>
             </div>
           </div>
-    `).join('<br>');
+    `).join('\n');
     output.content = before + content + after;
   });
 }
