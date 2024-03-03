@@ -548,10 +548,10 @@ async function getHome(output, res){
     
       return `
         <div class="ig-post glassedBack">
-          ${isVideo ? `<video controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img src="${post.imageUrl}" alt="${post.description}">`}
+          ${isVideo ? `<video style="height: 300px; width: 300px;" controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img style="height: 300px; width: 300px;" src="${post.imageUrl}" alt="${post.description}">`}
           <div class="description">
             <h3>${descriptionWithLinks.split('\n')[0]}</h3>
-            <p>${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>
+            <!--<p>${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>!-->
           </div>
         </div>
       `;
