@@ -30,10 +30,6 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'img', 'favicon.ico')))
 
 //read css and print in inside a js file (how corrupt is this bruh)
 //path: ./public/styles/globals.css
-const cssContent = fs.readFileSync('./public/styles/globals.css', 'utf-8');
-fs.writeFileSync('./public/scripts/css.js', `const globalStyles = ${JSON.stringify(cssContent)};`);
-console.log('CSS content has been copied to globalsStyles.js');
-
 
 app.use('/styles', express.static(path.join(__dirname, 'public', 'styles'), { 'extensions': ['css'] }));
 
