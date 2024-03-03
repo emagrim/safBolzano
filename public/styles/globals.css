@@ -908,3 +908,50 @@ h1 {
     font-weight: 500;
     text-transform: uppercase;
 }
+/* HOME CONTENT NEWS */
+
+.ig-section {
+    padding: 100px;
+    display: grid;
+    grid-gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    margin: var(--margin-section);
+    gap: 30px;
+}
+
+.ig-post {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    border-radius: 20px;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.ig-post .description {
+    width: auto;
+    height: auto;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    order: 2;
+    margin: 10px;
+}
+.ig-post .description * {
+    margin: 0;
+}
+
+.ig-post img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    display: block;
+    order: 1;
+    justify-self: center;
+    border-radius: 10px;
+}

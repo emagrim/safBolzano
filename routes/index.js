@@ -24,7 +24,7 @@ const output = {
   },
   nav: `<div id="nav"></div>`,
   foot: `<div id="foot"></div>`,
-  std: `<script src="../scripts/std.js"></script><script src="../scripts/loader.js"></script><script src="../scripts/css.js"></script><script src="../scripts/introducer.js"></script><script src="../scripts/url.js"></script><script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  std: `<script src="../scripts/std.js"></script><script src="../scripts/css.js"></script><script src="../scripts/introducer.js"></script><script src="../scripts/url.js"></script><script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   `,
   content: ``,
   style: `<link rel="stylesheet" type="text/css" href="/styles/globals.css">`,
@@ -85,11 +85,6 @@ router.get('/:page', async (req, res) => {
         case "info":
           output.content = ``;
           pathToImgDir = imgFolder + middlePath + pageName;
-          break;
-        case "api/010":
-          await getHome(homeOne, res);
-
-          res.json(homeOne);
           break;
         default:
           output.content = ``;
@@ -568,7 +563,7 @@ async function getHome(output, res){
         .replace(/#(\S+)/g, '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">#$1</a>');
     }
     
-    homeOne = htmlOutput;
+    output.content = htmlOutput;
   } catch (error) {
     console.error('Error:', error.message);
     output.content = 'Internal Server Error';
@@ -576,9 +571,9 @@ async function getHome(output, res){
 }
 
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/gallery'));
-
+  await getHome(output, res);
   res.render('home', { pageTitle: "home", output: output, images: imageFiles });
 });
 
