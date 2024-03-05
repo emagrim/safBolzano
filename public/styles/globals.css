@@ -1014,6 +1014,10 @@ h3.athleteField {
     box-shadow: var(--glass-1-box-shadow);
     backdrop-filter: var(--glass-1-backdrop-filter);
     -webkit-backdrop-filter: var(--glass-1--webkit-backdrop-filter);
+    border-top: var(--glass-1-border);
+    border-bottom: var(--glass-1-border);
+    border-left: none;
+    border-right: none;
     color: black;
     border-radius: 30px;
 }
