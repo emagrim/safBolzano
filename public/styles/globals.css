@@ -1,13 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
 :root {
     /*glassmorphism*/
-    --glass-1-border: 1px solid rgba(255, 255, 255, 0.25);
-    --glass-1-background: rgba(255, 255, 255, 0.45);
-    --glass-1-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    --glass-1-backdrop-filter: blur(20px);
+    --glass-1-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-1-background: rgba(255, 255, 255, 0.127);
+    --glass-1-box-shadow: 0 15px 15px rgba(34, 34, 34, 0.177);
+    --glass-1-backdrop-filter: blur(30px);
     --glass-1--webkit-backdrop-filter: blur(20px);
     --glass-1-background_hover: rgba(0, 0, 0, 0.2);
     --glass-1-color_hover: rgba(255, 255, 255, 0.45);
     --glass-1-text: white;
+    --glass-1-background_before: linear-gradient(to left, rgba(255, 255, 255, 0.15), transparent);
+    --glass-1-transform_before: skewX(-45deg) translate(0);
+
+    /*
+    --
+    */
 
     --bg-section_dark: rgb(33, 36, 39);
 
@@ -31,8 +39,8 @@
 
     --button-bg-1: rgba(217, 33, 42, 0.45);
 
-    font-family: 'roboto';
-    scroll-behavior: smooth;
+    /*font-family: 'roboto';*/
+    font-family: "Roboto", sans-serif;
 }
 
 /*
@@ -133,19 +141,32 @@ body {
     height: 190px;
     min-width: 190px;
     z-index: -1;
-    background-color: var(--glass-1-background);
+    background: var(--glass-1-background);
     box-shadow: var(--glass-1-box-shadow);
-    backdrop-filter: var(--glass-1-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-1--webkit-backdrop-filter);
-    border: var(--glass-1-border);
+    border-bottom: var(--glass-1-border);
+    border-top: var(--glass-1-border);
+    backdrop-filter: var(--glass-1-backdrop-filter) ;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 
     margin-right: 15px;
+}
+.backOfLogo::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 39;
+    width: 30%;
+    height: 100%;
+    background: var(--glass-1-background_before);
+    transform: var(--glass-1-transform_before);
+    transition: 0.5s;
+    filter: blur(0px);
 }
 
 
@@ -180,11 +201,16 @@ Navbar {
     background-color: white;
 }
 
+.icon{
+    width: 30px;
+}
+
 .bars-icon {
     display: flex;
     flex-direction: column;
     gap: 2px;
     transition: transform 0.3s ease;
+    width: 30px;
 }
 
 .bars-icon:hover {
@@ -224,6 +250,11 @@ Navbar {
     align-items: center;
 }
 
+.centerO {
+    display: flex;
+    justify-content: center;
+}
+
 .top {
     display: flex;
     align-items: flex-start;
@@ -250,10 +281,23 @@ Navbar {
     padding: 14px 30px;
     background: var(--glass-1-background);
     box-shadow: var(--glass-1-box-shadow);
+    border-bottom: var(--glass-1-border);
+    border-top: var(--glass-1-border);
     backdrop-filter: var(--glass-1-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-1--webkit-backdrop-filter);
-    border: var(--glass-1-border);
     border-radius: 16px;
+}
+
+.gridInnerCente::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.15), transparent);
+    transform: skewX(-45deg) translate(0);
+    transition: 0.5s;
+    filter: blur(0px);
 }
 
 .gridInnerTop {
@@ -339,7 +383,7 @@ button.upperNavItem:hover {
         align-self: flex-end;
         justify-self: flex-end;
         justify-content: flex-end;
-        width: 10%;
+        width: 16px;
     }
 
     .gridInnerCenter {
@@ -437,13 +481,30 @@ button.upperNavItem:hover {
     box-shadow: var(--glass-1-box-shadow);
     backdrop-filter: var(--glass-1-backdrop-filter);
     -webkit-backdrop-filter: var(--glass-1--webkit-backdrop-filter);
-    border: var(--glass-1-border);
+    border-top: var(--glass-1-border);
+    border-bottom: var(--glass-1-border);
+    border-right: none;
+    border-left: none;
     padding: 10px;
     border-radius: 50%;
     height: 40px;
     width: 40px;
     margin: 10px;
     z-index: 250;
+    overflow: hidden;
+}
+
+.sliderButton::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--glass-1-background_before);
+    transform: var(--glass-1-transform_before);
+    transition: 0.5s;
+    filter: blur(0px);
 }
 
 .sliderButton:hover {
@@ -545,6 +606,17 @@ button.upperNavItem:hover {
     cursor: default;
 }
 
+.svgGrid{
+    display: none;
+}
+
+.footBack{
+    position: absolute;
+    top: 100%;
+    height: 400px;
+    
+}
+
 @media screen and (max-width: 900px) {
     .footGrid {
         display: grid;
@@ -561,7 +633,7 @@ button.upperNavItem:hover {
 .section {
     --margin-sides: 10%;
     width: calc(100% - (var(--margin-sides)*2));
-    min-height: 75%;
+    min-height: 70%;
     margin: 0 var(--margin-sides);
 }
 
@@ -775,46 +847,136 @@ h3.athleteField {
 }
 
 .adSection {
-    height: 18%;
+    /*font-family: "Oswald", sans-serif;*/
+
+    height: 25%;
     background-color: var(--color-rosso-SAF);
-    padding: 0 10% 0 10%;
+    padding: 0 15% 0 15%;
+    margin: 50px 0;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction: row;
     gap: 20px;
     text-align: center;
+    overflow: hidden;
 }
 
-.adSection .part1 {
+.adSection * {
+    color: white;
+}
+.adSection .adItem.text{
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 16px;
 }
 
-.button0 {
-    padding: 12px 16px;
+.adSection h1{
+    letter-spacing: 16px;
+    line-height: 100%;
+    font-size: 40;
+    font-weight: 300;
+}
+.adSection p{
+    font-size: 13px;
+    margin: 0;
+    letter-spacing: 10px;
+    line-height: 150%;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+.svg-back {
+    position: absolute;
+    height: 55%;
+    fill: #d65a5a;
+
+}
+
+.svg-back:nth-child(1) {
+    z-index: -2;
+    transform: translateX(2px);
+}
+
+.adItem{
+    z-index: 10;
+}
+
+.shrinkOnLine {
+    white-space: nowrap;
+    /* Prevents text from wrapping to the next line */
+    text-overflow: ellipsis;
+    /* Displays an ellipsis (...) when text overflows */
+    display: inline-block;
+    /* Allows the text to shrink without pushing other elements */
+    max-width: 100%;
+}
+
+.btn-part {
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.btn-part .btn {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 50px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-part .btn a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 15px rgba(34, 34, 34, 0.177);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 30px;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.545);
-    transition: 0.1s ease-in-out;
+    padding: 10px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    overflow: hidden;
+    color: #fff;
+    font-weight: 400px;
+    z-index: 1;
+    transition: 0.5s;
+    backdrop-filter: blur(15px);
 }
 
-.button0:hover {
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.622);
-    cursor: pointer;
+.btn-part .btn:hover a {
+    letter-spacing: 3px;
 }
 
-.button1 {
-    color: rgb(255, 255, 255);
-    background-color: var(--color-rosso-SAF);
-    border: white solid 1px;
+.btn-part .btn a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--glass-1-background_before);
+    transform: var(--glass-1-transform_before);
+    transition: 0.5s;
+    filter: blur(0px);
 }
 
-.button2 {
-    color: var(--color-rosso-SAF);
-    background-color: white;
-    border: 1px solid var(--color-rosso-SAF);
+.btn-part .btn:hover a::before {
+    transform: skewX(45deg) translate(200px);
 }
 
 .grid4Text {
@@ -905,18 +1067,30 @@ h1 {
     color: var(--color-rosso-SAF);
     font-size: 45px;
     margin: 0;
-    font-weight: 500;
+    font-weight: 800;
     text-transform: uppercase;
 }
+
 /* HOME CONTENT NEWS */
 
 .ig-section {
     padding: 100px;
-    display: grid;
     grid-gap: var(--grid-gap);
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--grid-gap);
     margin: var(--margin-section);
+    overflow-y: scroll;
     gap: 30px;
+}
+
+.ig-section-home {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+}
+
+.ig-grid-news {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
 .ig-post {
@@ -940,8 +1114,9 @@ h1 {
     justify-content: center;
     align-items: center;
     order: 2;
-    margin: 10px;
+    margin: 30px 10px 10px 10px;
 }
+
 .ig-post .description * {
     margin: 0;
 }

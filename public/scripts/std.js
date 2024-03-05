@@ -1,4 +1,5 @@
 let screenSize;
+let isOpen;
 
 async function animateBars() {
     let bars = document.querySelector('.bars-icon');
@@ -44,6 +45,7 @@ function handleScreenSizeChange() {
         toggleNav(true);
     } else {
         console.log('Mobile view');
+        isOpen = barsIcon && barsIcon.classList.contains('active');
         toggleNav(false);
     }
 

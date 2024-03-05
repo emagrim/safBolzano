@@ -57,9 +57,9 @@ router.get('/:page', async (req, res) => {
         case "atleti":
           output.content = ``;
           pathToImgDir = imgFolder + middlePath + pageName;
-  
+
           await getAtleti(output, res);
-  
+
           break;
         case "staff":
           getStaff();
@@ -68,9 +68,9 @@ router.get('/:page', async (req, res) => {
         case "risultati":
           output.content = ``;
           pathToImgDir = imgFolder + middlePath + pageName;
-  
+
           await getGare(output, res)
-  
+
           break;
         case "galleria":
           output.content = ``;
@@ -78,9 +78,9 @@ router.get('/:page', async (req, res) => {
           break;
         case "calendario":
           pathToImgDir = imgFolder + middlePath + pageName;
-  
+
           await getCalendar(output, res, req, req.originalUrl);
-  
+
           break;
         case "info":
           output.content = ``;
@@ -94,13 +94,13 @@ router.get('/:page', async (req, res) => {
 
           break;
       }
-  
+
       if (pathToImgDir) {
         imageFiles = getImagesFromFolder(path.join(__dirname, `${pathToImgDir}`));
       } else {
         console.log('Error: pathToImgDir is not defined');
       }
-  
+
     } else {
       console.log("calling function from ELSE")
       await getHome(output, res);
@@ -449,7 +449,7 @@ function getStaff() {
 async function getNews(output, res) {
   const targetUsername = 'saf_bolzano';
   const username = "alex_il_deca";
-  const password ="Alex8OttoSonoIo";
+  const password = "Alex8OttoSonoIo";
 
   try {
     const ig = new IgApiClient();
@@ -474,7 +474,7 @@ async function getNews(output, res) {
     const htmlOutput = formattedPosts.map(post => {
       const isVideo = post.videoUrl !== undefined;
       const descriptionWithLinks = linkifyMentions(post.description);
-    
+
       return `
         <div class="ig-post glassedBack">
           ${isVideo ? `<video controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img src="${post.imageUrl}" alt="${post.description}">`}
@@ -485,27 +485,27 @@ async function getNews(output, res) {
         </div>
       `;
     }).join('');
-    
+
     function linkifyMentions(description) {
       return description
         .replace(/@(\S+)/g, '<a href="https://instagram.com/$1" target="_blank">@$1</a>')
         .replace(/#(\S+)/g, '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">#$1</a>');
     }
-    
-    
+
+
     function isUpperCaseMajority(text) {
       const len = text.length;
       let upperCount = 0;
-    
+
       for (let i = 0; i < len; i++) {
         if (text[i].toUpperCase() === text[i]) {
           upperCount++;
         }
       }
-    
+
       return upperCount > len / 2;
     }
-    
+
     output.content = htmlOutput;
   } catch (error) {
     console.error('Error:', error.message);
@@ -513,10 +513,10 @@ async function getNews(output, res) {
   }
 }
 
-async function getHome(output, res){
+async function getHome(output, res) {
   const targetUsername = 'saf_bolzano';
-  const username = "alex_il_deca";
-  const password ="Alex8OttoSonoIo";
+  const username = "";
+  const password = "Alex8OttoSonoIo";
 
   console.log("initializzated getHome function");
 
@@ -545,24 +545,23 @@ async function getHome(output, res){
     const htmlOutput = formattedPosts.map(post => {
       const isVideo = post.videoUrl !== undefined;
       const descriptionWithLinks = linkifyMentions(post.description);
-    
+
       return `
         <div class="ig-post glassedBack">
-          ${isVideo ? `<video style="height: 300px; width: 300px;" controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img style="height: 300px; width: 300px;" src="${post.imageUrl}" alt="${post.description}">`}
           <div class="description">
             <h3>${descriptionWithLinks.split('\n')[0]}</h3>
-            <!--<p>${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>!-->
           </div>
+          ${isVideo ? `<video style="height: 350px; width: auto;" controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img style="height: 300px; width: 300px;" src="${post.imageUrl}" alt="${post.description}">`}
         </div>
       `;
     }).join('');
-    
+
     function linkifyMentions(description) {
       return description
         .replace(/@(\S+)/g, '<a href="https://instagram.com/$1" target="_blank">@$1</a>')
         .replace(/#(\S+)/g, '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">#$1</a>');
     }
-    
+
     output.content = htmlOutput;
   } catch (error) {
     console.error('Error:', error.message);
