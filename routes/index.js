@@ -9,10 +9,10 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 const { IgApiClient } = require('instagram-private-api');
 const { workerData, parentPort } = require('worker_threads');
+const handlebars = require('handlebars');
 
 
 const db = new sqlite3.Database('database.db');
-
 
 const paths = ['', 'news', 'iscrizioni', 'atleti', 'staff', 'risultati', 'galleria', 'calendario', 'info'];
 const Npaths = paths.length;
@@ -27,7 +27,7 @@ const output = {
   std: `<script src="../scripts/std.js"></script><script src="../scripts/css.js"></script><script src="../scripts/introducer.js"></script><script src="../scripts/url.js"></script><script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   `,
   content: ``,
-  style: `<link rel="stylesheet" type="text/css" href="/styles/globals.css">`,
+  style: `<link rel="stylesheet" type="text/css" href="/styles/globals.css"><meta name="viewport" content="width=device-width, initial-scale=1.0">`,
   font: `<link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">`,
@@ -61,6 +61,11 @@ router.get('/:page', async (req, res) => {
           await getAtleti(output, res);
 
           break;
+        case "athlete":
+
+          await getAthlete(output,res);
+
+          break;
         case "staff":
           getStaff();
           pathToImgDir = imgFolder + middlePath + pageName;
@@ -69,7 +74,9 @@ router.get('/:page', async (req, res) => {
           output.content = ``;
           pathToImgDir = imgFolder + middlePath + pageName;
 
-          await getGare(output, res)
+          await getGare(output, res);
+          populateRecordSociali();
+          await getRecordSociali(output, res);
 
           break;
         case "galleria":
@@ -309,7 +316,7 @@ async function getAtleti(output, res) {
       return formattedLines.join('\n');
     }
 
-
+  
 
 
 
@@ -322,6 +329,33 @@ async function getAtleti(output, res) {
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
+  }
+}
+
+async function getAthlete(output, res){
+  try{
+
+    const websiteUrl = "https://atletica.me/atleta/Daniel-Synek/691523";
+
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+
+    await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
+
+    const risultati_filtrati_anno = await page.evaluate(() => {
+      return window.glob_tutti_gli_atleti || [];
+    });
+
+    console.log('Array Content:', risultati_filtrati_anno);
+    console.log('Array Length:', risultati_filtrati_anno.length);
+
+    
+
+  }catch (error) {
+    console.error('Error fetching data:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+    return;
   }
 }
 
@@ -361,7 +395,7 @@ async function getGare(output, res) {
     </div>
     `;
 
-    console.log('Content of the result:', result);
+    //console.log('Content of the result:', result);
 
   } catch (error) {
     console.error('Error fetching data:', error.message);
@@ -464,27 +498,45 @@ async function getNews(output, res) {
 
     const posts = await userFeed.items();
 
-    console.log(posts);
+    //console.log(posts);
+
+    const postLinks = posts.map(post => {
+      if (post.permalink) {
+        console.log('Done.', permalink)
+        return post.permalink;
+      } else {
+        console.log('Permalink not found for post');
+        return null; // or handle accordingly
+      }
+    });
+    
+    //console.log(postLinks);
 
     const formattedPosts = posts.map(post => ({
       imageUrl: post.image_versions2.candidates[0].url,
       description: post.caption.text,
     }));
 
-    const htmlOutput = formattedPosts.map(post => {
+    const htmlOutput = formattedPosts.map((post, index) => {
       const isVideo = post.videoUrl !== undefined;
       const descriptionWithLinks = linkifyMentions(post.description);
-
+    
+      // Check if the post link is present
+      const postLink = postLinks[index];
+      const postLinkHtml = postLink ? `<a href="${postLink}" target="_blank">View Post on Instagram</a>` : '';
+    
       return `
         <div class="ig-post glassedBack">
           ${isVideo ? `<video controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img src="${post.imageUrl}" alt="${post.description}">`}
           <div class="description">
             <h3>${descriptionWithLinks.split('\n')[0]}</h3>
             <p>${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>
+            ${postLinkHtml}
           </div>
         </div>
       `;
     }).join('');
+    
 
     function linkifyMentions(description) {
       return description
@@ -513,10 +565,38 @@ async function getNews(output, res) {
   }
 }
 
+function populateRecordSociali(){
+  //table in db that contains columns: id, disciplina, tempo, nome, cognome, data, old-tempo, old-nome, old-cognome, old-data (nome e cognome sono separati)
+  db.run('CREATE TABLE IF NOT EXISTS record_sociali (id INTEGER PRIMARY KEY, disciplina TEXT, tempo TEXT, nome_cognome TEXT, data TEXT, old_tempo TEXT, old_nome_cognome TEXT, old_data TEXT)');
+
+  const recordSociali = [
+    { id: '1', disciplina: '100m', tempo: '10.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '10.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
+    { id: '2', disciplina: '200m', tempo: '20.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '20.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
+    { id: '3', disciplina: '400m', tempo: '40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
+    { id: '4', disciplina: '800m', tempo: '1:40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '1:40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
+    { id: '5', disciplina: '1500m', tempo: '3:40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '3:40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
+    { id: '6', disciplina: '5000m', tempo: '13:40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '13:40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
+  ];
+
+  recordSociali.forEach(record => {
+    db.run('INSERT INTO record_sociali (disciplina, tempo, nome, cognome, data, old_tempo, old_nome_cognome, old_data) VALUES (?, ?, ?, ?, ?, ?, ?)', [record.disciplina, record.tempo, record.nome + ' ' + record.cognome, record.data, record.old_tempo, record.old_nome + ' ' + record.old_cognome, record.old_data], function (err) {
+      if (err) {
+        console.error('Error inserting data:', err.message);
+      } else {
+        console.log(`Inserted row with ID ${this.lastID}`);
+      }
+    });
+  });
+}
+
+async function getRecordSociali(output, res) {
+
+}
+
 async function getHome(output, res) {
   const targetUsername = 'saf_bolzano';
   const username = "";
-  const password = "Alex8OttoSonoIo";
+  const password = "";
 
   console.log("initializzated getHome function");
 
