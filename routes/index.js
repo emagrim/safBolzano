@@ -10,6 +10,7 @@ const cheerio = require('cheerio');
 const { IgApiClient } = require('instagram-private-api');
 const { workerData, parentPort } = require('worker_threads');
 const handlebars = require('handlebars');
+const authenticateAdmin = require('./adminAuthMiddleware');
 
 
 const db = new sqlite3.Database('database.db');
@@ -35,6 +36,22 @@ const output = {
 }
 let homeOne = ``;
 
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
+
+router.use('/admin-panel-1953', authenticateAdmin);
+
+let adminOut;
+router.post('/admin-panel-1953', async (req, res) => {
+  try {
+    await getAdminPanel(output, adminOut);
+    res.send(adminOut);
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 router.get('/:page', async (req, res) => {
   const pageName = req.params.page;
   let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/gallery'));
@@ -46,6 +63,8 @@ router.get('/:page', async (req, res) => {
     if (pageName !== 'home') {
 
       switch (pageName) {
+        case "admin":
+          break;
         case "news":
           await getNews(output, res);
           pathToImgDir = imgFolder + middlePath + pageName;
@@ -74,8 +93,7 @@ router.get('/:page', async (req, res) => {
           output.content = ``;
           pathToImgDir = imgFolder + middlePath + pageName;
 
-          await getGare(output, res);
-          populateRecordSociali();
+          //await getGare(output, res);
           await getRecordSociali(output, res);
 
           break;
@@ -140,6 +158,16 @@ function getImagesFromFolder(folderPath) {
   } else {
     console.log('Error: Directory does not exist -', folderPath);
     return [];
+  }
+}
+
+async function getAdminPanel(output, res){
+  try{
+    adminOut = `qual il contenuto <img>`;
+    return output;
+  }catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).send('Internal Server Error');
   }
 }
 
@@ -459,9 +487,9 @@ function getStaff() {
     const after = `</div></div></div>`;
 
     const content = readStaff.map(person => `
-    <div class="athlete staffSlot fakeGlassGreenBack">
+    <div class="staffSlot fakeGlassGreenBack">
             <div class="part1">  
-              <img src="${person.foto}" width="50px" height="50px" class="athleteField profileImg" />
+              <img src="${person.foto}" width="100%" height="100%" class="athleteField staffImg" />
             </div>
           
             <div class="part2">
@@ -565,11 +593,8 @@ async function getNews(output, res) {
   }
 }
 
-function populateRecordSociali(){
-  //table in db that contains columns: id, disciplina, tempo, nome, cognome, data, old-tempo, old-nome, old-cognome, old-data (nome e cognome sono separati)
-  db.run('CREATE TABLE IF NOT EXISTS record_sociali (id INTEGER PRIMARY KEY, disciplina TEXT, tempo TEXT, nome_cognome TEXT, data TEXT, old_tempo TEXT, old_nome_cognome TEXT, old_data TEXT)');
-
-  const recordSociali = [
+async function getRecordSociali(output, res) {
+  let recordSociali = [
     { id: '1', disciplina: '100m', tempo: '10.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '10.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
     { id: '2', disciplina: '200m', tempo: '20.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '20.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
     { id: '3', disciplina: '400m', tempo: '40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
@@ -578,19 +603,23 @@ function populateRecordSociali(){
     { id: '6', disciplina: '5000m', tempo: '13:40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '13:40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
   ];
 
-  recordSociali.forEach(record => {
-    db.run('INSERT INTO record_sociali (disciplina, tempo, nome, cognome, data, old_tempo, old_nome_cognome, old_data) VALUES (?, ?, ?, ?, ?, ?, ?)', [record.disciplina, record.tempo, record.nome + ' ' + record.cognome, record.data, record.old_tempo, record.old_nome + ' ' + record.old_cognome, record.old_data], function (err) {
-      if (err) {
-        console.error('Error inserting data:', err.message);
-      } else {
-        console.log(`Inserted row with ID ${this.lastID}`);
-      }
-    });
-  });
-}
+  let tableRows = '';
 
-async function getRecordSociali(output, res) {
+  tableRows += '<tr>';
+  for (const key in recordSociali[0]) {
+    tableRows += `<th>${key}</th>`;
+  }
+  tableRows += '</tr>';
 
+  for (const record of recordSociali) {
+    tableRows += '<tr>';
+    for (const key in record) {
+      tableRows += `<td>${record[key]}</td>`;
+    }
+    tableRows += '</tr>';
+  }
+
+  output.content = `<table class="table_btm">${tableRows}</table>`;
 }
 
 async function getHome(output, res) {
