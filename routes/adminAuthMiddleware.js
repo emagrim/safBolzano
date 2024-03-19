@@ -1,3 +1,5 @@
+//saf3479frhw9348fsa
+
 const bcrypt = require('bcrypt');
 
 // Replace 'hashedPassword' with the hashed password you want to use
@@ -14,7 +16,6 @@ function authenticateAdmin(req, res, next) {
     if (err || !result) {
       return res.status(401).json({ error: 'Invalid password' });
     }
-
     next();
   });
 }

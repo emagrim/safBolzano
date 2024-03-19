@@ -34,7 +34,21 @@ const output = {
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">`,
   fontawesome: `<script src="https://kit.fontawesome.com/fb4513912a.js" crossorigin="anonymous"></script>`,
 }
-let homeOne = ``;
+
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS record_sociali (
+      id INTEGER PRIMARY KEY,
+      disciplina TEXT,
+      tempo TEXT,
+      nome TEXT,
+      cognome TEXT,
+      data TEXT,
+      old_tempo TEXT,
+      old_nome TEXT,
+      old_cognome TEXT,
+      old_data TEXT
+  )`);
+});
 
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
@@ -42,10 +56,93 @@ router.use(bodyParser.json());
 router.use('/admin-panel-1953', authenticateAdmin);
 
 let adminOut;
+router.post('/staff-save', async (req, res) => {
+  try {
+    const staffData = req.body;
+    console.log('Received staff data:', staffData);
+
+    // Check if staffData is an array
+    if (!Array.isArray(staffData)) {
+      return res.status(400).json({ error: 'Invalid data format. Expected an array.' });
+    }
+
+    db.serialize(() => {
+      // Clear existing staff records from the database
+      db.run('DELETE FROM staff', function (err) {
+        if (err) {
+          console.error('Error deleting staff records:', err);
+          return res.status(500).send('Internal Server Error');
+        }
+
+        const insertQuery = `INSERT INTO staff (id, nome, cognome, ruolo, specialita, anno, foto)
+                             VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+        staffData.forEach((staff, index) => {
+          const { id, nome, cognome, ruolo, specialita, anno, foto } = staff;
+          db.run(insertQuery, [id, nome, cognome, ruolo, specialita, anno, foto], function (err) {
+            if (err) {
+              console.error('Error inserting staff record:', err);
+            } else {
+              console.log(`Staff record inserted with ID ${id}`);
+            }
+          });
+        });
+
+        res.send('Staff data received and saved successfully.');
+      });
+    });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.post('/admin-save', async (req, res) => {
+  try {
+    const records = req.body;
+    console.log('Received data:', records);
+
+    // Check if records is an array
+    if (!Array.isArray(records)) {
+      return res.status(400).json({ error: 'Invalid data format. Expected an array.' });
+    }
+
+    db.serialize(() => {
+      db.run('DELETE FROM record_sociali', function (err) {
+        if (err) {
+          console.error('Error deleting records:', err);
+          return res.status(500).send('Internal Server Error');
+        }
+
+        const insertQuery = `INSERT INTO record_sociali (id, disciplina, tempo, nome, cognome, data, old_tempo, old_nome, old_cognome, old_data)
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+        records.forEach((record, index) => {
+          const { disciplina, tempo, nome, cognome, data, old_tempo, old_nome, old_cognome, old_data } = record;
+          const id = index + 1;
+          db.run(insertQuery, [id, disciplina, tempo, nome, cognome, data, old_tempo, old_nome, old_cognome, old_data], function (err) {
+            if (err) {
+              console.error('Error inserting record:', err);
+            } else {
+              console.log(`Record inserted with ID ${id}`);
+            }
+          });
+        });
+
+        res.send('Data received and saved successfully.');
+      });
+    });
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 router.post('/admin-panel-1953', async (req, res) => {
   try {
     await getAdminPanel(output, adminOut);
-    res.send(adminOut);
+    res.render('admin-panel-1953', { output: output, adminOut: adminOut });
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).send('Internal Server Error');
@@ -82,7 +179,7 @@ router.get('/:page', async (req, res) => {
           break;
         case "athlete":
 
-          await getAthlete(output,res);
+          await getAthlete(output, res);
 
           break;
         case "staff":
@@ -161,11 +258,28 @@ function getImagesFromFolder(folderPath) {
   }
 }
 
-async function getAdminPanel(output, res){
-  try{
-    adminOut = `qual il contenuto <img>`;
-    return output;
-  }catch (error) {
+let staffContent;
+
+async function getAdminPanel(output, res) {
+  let staff = await getStaff(output, res);
+  staff = staffContent;
+  let record = await getRecordSociali(output, res);
+  record = output.content;
+  try {
+    adminOut = `
+    <h1>Admin Panel</h1>
+    <div>
+      <h2>Staff</h2>
+      ${staff}
+    </div>
+    <div>
+      <h2>Record Sociali</h2>
+      ${record}
+    </div>
+    `;
+    return adminOut;
+    //${record.map(record => `<p>${record.disciplina} - ${record.tempo}</p>`).join('')}
+  } catch (error) {
     console.error('Error:', error.message);
     res.status(500).send('Internal Server Error');
   }
@@ -344,7 +458,7 @@ async function getAtleti(output, res) {
       return formattedLines.join('\n');
     }
 
-  
+
 
 
 
@@ -360,8 +474,8 @@ async function getAtleti(output, res) {
   }
 }
 
-async function getAthlete(output, res){
-  try{
+async function getAthlete(output, res) {
+  try {
 
     const websiteUrl = "https://atletica.me/atleta/Daniel-Synek/691523";
 
@@ -378,9 +492,9 @@ async function getAthlete(output, res){
     console.log('Array Content:', risultati_filtrati_anno);
     console.log('Array Length:', risultati_filtrati_anno.length);
 
-    
 
-  }catch (error) {
+
+  } catch (error) {
     console.error('Error fetching data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
     return;
@@ -505,6 +619,9 @@ function getStaff() {
           </div>
     `).join('\n');
     output.content = before + content + after;
+    staffContent = output.content;
+
+    return output.content;
   });
 }
 
@@ -537,7 +654,7 @@ async function getNews(output, res) {
         return null; // or handle accordingly
       }
     });
-    
+
     //console.log(postLinks);
 
     const formattedPosts = posts.map(post => ({
@@ -548,11 +665,11 @@ async function getNews(output, res) {
     const htmlOutput = formattedPosts.map((post, index) => {
       const isVideo = post.videoUrl !== undefined;
       const descriptionWithLinks = linkifyMentions(post.description);
-    
+
       // Check if the post link is present
       const postLink = postLinks[index];
       const postLinkHtml = postLink ? `<a href="${postLink}" target="_blank">View Post on Instagram</a>` : '';
-    
+
       return `
         <div class="ig-post glassedBack">
           ${isVideo ? `<video controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img src="${post.imageUrl}" alt="${post.description}">`}
@@ -564,7 +681,7 @@ async function getNews(output, res) {
         </div>
       `;
     }).join('');
-    
+
 
     function linkifyMentions(description) {
       return description
@@ -594,32 +711,30 @@ async function getNews(output, res) {
 }
 
 async function getRecordSociali(output, res) {
-  let recordSociali = [
-    { id: '1', disciplina: '100m', tempo: '10.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '10.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
-    { id: '2', disciplina: '200m', tempo: '20.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '20.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
-    { id: '3', disciplina: '400m', tempo: '40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
-    { id: '4', disciplina: '800m', tempo: '1:40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '1:40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
-    { id: '5', disciplina: '1500m', tempo: '3:40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '3:40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
-    { id: '6', disciplina: '5000m', tempo: '13:40.1', nome: 'Alessio', cognome: 'Fuganti', data: '2021-10-10', old_tempo: '13:40.2', old_nome: 'Alessio', old_cognome: 'Fuganti', old_data: '2021-10-09' },
-  ];
+  db.all("SELECT * FROM record_sociali", (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      return;
+    }
 
-  let tableRows = '';
+    let tableRows = '';
 
-  tableRows += '<tr>';
-  for (const key in recordSociali[0]) {
-    tableRows += `<th>${key}</th>`;
-  }
-  tableRows += '</tr>';
-
-  for (const record of recordSociali) {
     tableRows += '<tr>';
-    for (const key in record) {
-      tableRows += `<td>${record[key]}</td>`;
+    for (const key in rows[0]) {
+      tableRows += `<th>${key}</th>`;
     }
     tableRows += '</tr>';
-  }
 
-  output.content = `<table class="table_btm">${tableRows}</table>`;
+    rows.forEach(record => {
+      tableRows += '<tr>';
+      for (const key in record) {
+        tableRows += `<td>${record[key]}</td>`;
+      }
+      tableRows += '</tr>';
+    });
+
+    output.content = `<table class="table_btm">${tableRows}</table>`;
+  });
 }
 
 async function getHome(output, res) {

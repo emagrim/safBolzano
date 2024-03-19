@@ -6,13 +6,280 @@
     {{{output.font}}}
     {{{output.fontawesome}}}
     <style>
-
+        .editableText {
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Pannello di controllo SAF</h1>
     <div class="section">
+        <button onclick="modifyStaff()">Modify staff</button>
+        <button onclick="addMember()">add member</button>
+        <button onclick="remMember()">remove member</button>
+        <button onclick="saveChangesOfStaff()">Save changes</button>
         {{{adminOut}}}
+        <button onclick="modifyTable()">Modify table</button>
+        <button onclick="addRowToEnd()">add Row</button>
+        <button onclick="remRowToEnd()">Remove Last Row</button>
+        <button onclick="saveChanges()">Save changes</button>
     </div>
 </body>
+
+<script>
+    function modifyStaff() {
+        var staffSlots = document.querySelectorAll('.athletesContainer .staffSlot');
+        staffSlots.forEach(function (slot) {
+            var part1 = slot.querySelector('.part1');
+            var part2 = slot.querySelector('.part2');
+
+            part1.addEventListener('click', function () {
+                var imageURL = prompt("Enter the image URL:");
+                if (imageURL) {
+                    var img = part1.querySelector('img');
+                    if (img) {
+                        img.src = imageURL;
+                    } else {
+                        part1.innerHTML = "<img src='" + imageURL + "' alt='Athlete Image'>";
+                    }
+                }
+            });
+
+            var athletesFields = part2.querySelectorAll('.athleteField');
+            athletesFields.forEach(function (field) {
+                field.setAttribute('contenteditable', true);
+            });
+        });
+    }
+
+
+    function addMember() {
+        var athletesContainer = document.querySelector('.athletesContainer');
+        if (!athletesContainer) {
+            console.error('Athletes container not found.');
+            return;
+        }
+
+        var newSlot = document.createElement('div');
+        newSlot.classList.add('staffSlot');
+        newSlot.classList.add('fakeGlassGreenBack');
+
+        var part1 = document.createElement('div');
+        part1.classList.add('part1');
+        part1.innerHTML = "<img class='staffImg' src='https://atletica.me/img/noimage.jpg' alt='Athlete Image'>";
+
+        var part2 = document.createElement('div');
+        part2.classList.add('part2');
+        part2.innerHTML = "<h3 class='athleteField' contenteditable='true'>New Name and Surname</h3><div class='athleteField' contenteditable='true'>New Ruolo</div><div class='athleteField' contenteditable='true'>Specialità</div><div class='athleteField' contenteditable='true'>New Anno</div>";
+
+        newSlot.appendChild(part1);
+        newSlot.appendChild(part2);
+
+        athletesContainer.appendChild(newSlot);
+    }
+
+    function remMember() {
+        var athletesContainer = document.querySelector('.athletesContainer');
+        if (!athletesContainer) {
+            console.error('Athletes container not found.');
+            return;
+        }
+
+        var staffSlots = athletesContainer.querySelectorAll('.staffSlot');
+        var lastSlotIndex = staffSlots.length - 1;
+        if (lastSlotIndex >= 0) {
+            athletesContainer.removeChild(staffSlots[lastSlotIndex]);
+        } else {
+            console.error('No member to remove.');
+        }
+    }
+
+function saveChangesOfStaff() {
+    var staffData = [];
+
+    var staffSlots = document.querySelectorAll('.athletesContainer .staffSlot');
+    staffSlots.forEach(function(slot, index) {
+        var part1 = slot.querySelector('.part1');
+        var part2 = slot.querySelector('.part2');
+
+        var nomeCognomeElem = part2.querySelector('h3');
+        var ruoloElem = part2.querySelectorAll('.athleteField')[0];
+        var specialitaElem = part2.querySelectorAll('.athleteField')[1];
+        var annoElem = part2.querySelectorAll('.athleteField')[2];
+
+        if (nomeCognomeElem && ruoloElem && specialitaElem && annoElem) {
+            var nomeCognome = nomeCognomeElem.innerText.trim().split(' ');
+            var nome = nomeCognome[0];
+            var cognome = nomeCognome.slice(1).join(' ');
+
+            var ruolo = ruoloElem.innerText.trim();
+            var specialita = specialitaElem.innerText.trim();
+            var anno = annoElem.innerText.trim();
+            var imageURL = part1.querySelector('img').src;
+
+            var id = index; // Using index as ID, adjust as needed
+
+            staffData.push({
+                id: id,
+                nome: nome,
+                cognome: cognome,
+                ruolo: ruolo,
+                specialita: specialita,
+                anno: anno,
+                foto: imageURL
+            });
+        } else {
+            console.error("Error: One or more required fields not found in staff slot:", slot);
+        }
+    });
+
+    console.log("Staff Data:", staffData);
+
+    fetch('/staff-save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(staffData)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Staff data saved successfully.');
+        } else {
+            console.error('Failed to save staff data.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+
+
+    // ---------- TABLE ----------
+
+    var tableEditable = false;
+
+    function remRowToEnd() {
+        var table = document.querySelector('.table_btm');
+        if (!table) {
+            console.error('Table not found.');
+            return;
+        }
+
+        var lastRowIndex = table.rows.length - 1;
+        if (lastRowIndex > 0) { // Ensure there's at least one row (excluding header)
+            table.deleteRow(lastRowIndex);
+        } else {
+            console.error('No rows to remove.');
+        }
+    }
+
+
+    function addRowToEnd() {
+        var table = document.querySelector('.table_btm');
+        if (!table) {
+            console.error('Table not found.');
+            return;
+        }
+
+        var newRow = table.insertRow(-1);
+
+        var headerCells = table.rows[0].cells;
+        for (var i = 0; i < headerCells.length; i++) {
+            var newCell = newRow.insertCell(i);
+            newCell.contentEditable = true;
+            newCell.classList.add('editableText');
+        }
+    }
+
+    function addClassToTDs(className) {
+        var tds = document.getElementsByTagName('td');
+        for (var i = 0; i < tds.length; i++) {
+            tds[i].classList.add(className);
+        }
+    }
+
+    function editText() {
+        var editableTexts = document.getElementsByClassName('editableText');
+        for (var i = 0; i < editableTexts.length; i++) {
+            editableTexts[i].setAttribute('contenteditable', 'true');
+        }
+    }
+
+    function modifyTable() {
+        if (!tableEditable) {
+            addClassToTDs('editableText');
+            editText();
+            tableEditable = true;
+        }
+    }
+
+    function saveChanges() {
+        var tableData = [];
+
+        // Get the generated table element
+        var generatedTable = document.querySelector('.table_btm');
+        if (!generatedTable) {
+            console.error('Generated table not found.');
+            return;
+        }
+
+        // Get all rows in the generated table
+        var tableRows = generatedTable.querySelectorAll('tr');
+        if (tableRows.length === 0) {
+            console.error('No rows found in the generated table.');
+            return;
+        }
+
+        var headerRow = tableRows[0];
+        var headerCells = headerRow.querySelectorAll('th');
+        var headers = Array.from(headerCells).map(cell => cell.innerText.trim().toLowerCase());
+
+        for (var r = 1; r < tableRows.length; r++) {
+            var rowData = {};
+            var row = tableRows[r];
+            var rowCells = row.querySelectorAll('td');
+
+            if (rowCells.length === headers.length) {
+                rowCells.forEach((cell, index) => {
+                    rowData[headers[index]] = cell.innerText.trim();
+                });
+                tableData.push(rowData);
+            } else {
+                console.error('Row ' + r + ' has mismatched number of cells');
+            }
+        }
+
+        console.log("Table Data:", tableData);
+
+        fetch('/admin-save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tableData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Data saved successfully.');
+                } else {
+                    console.error('Failed to save data.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        if (tableEditable) {
+            var editableTexts = document.getElementsByClassName('editableText');
+            for (var i = 0; i < editableTexts.length; i++) {
+                editableTexts[i].setAttribute('contenteditable', 'false');
+            }
+            tableEditable = false;
+        }
+    }
+
+
+</script>

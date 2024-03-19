@@ -501,6 +501,7 @@ button.upperNavItem:hover {
     margin: 10px;
     z-index: 250;
     overflow: hidden;
+    color: white;
 }
 
 .sliderButton::before {
