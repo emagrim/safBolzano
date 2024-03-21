@@ -21,6 +21,7 @@
 
     --bg-section_dark: rgb(33, 36, 39);
 
+    --color-rosso-SAF_light: #ee444c;
     --color-rosso-SAF: #d9212a;
     --color-rosso-SAF_dark: rgb(147, 19, 26);
 
@@ -1213,6 +1214,10 @@ h3.athleteField {
     border-radius: 30px;
 }
 
+.shadowBack{
+    box-shadow: 2px 2px 16px #EAEAEA;
+}
+
 .fakeGlassBack {
     box-shadow: 7px 7px 15px #dedede,
         -7px -7px 15px #ffffff;
@@ -1431,4 +1436,178 @@ form#calendario input[type=submit]:hover,
 form#calendario input[type=reset]:hover {
     box-shadow: none;
     cursor: pointer;
+}
+/* INFO SECTION */
+.contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 30px;
+}
+
+.contacts .fa-text{
+    color: var(--color-rosso-SAF);
+    font-weight: 600;
+    font-size: 50px;
+    border: var(--color-rosso-SAF) solid 4px;
+    padding: 10px;
+    transition: 0.3s ease-in-out;
+    transform: skewX(-0deg);
+    margin: 0;
+    background-color: transparent;
+}
+.contacts .fa-text.active{
+    border-color: var(--color-rosso-SAF_dark);
+    color: var(--color-rosso-SAF_dark);
+}
+.contacts .fa-text.active:hover{
+    border-color: var(--color-rosso-SAF);
+    color: var(--color-rosso-SAF);
+}
+.contacts .fa-text:hover{
+    color: var(--color-rosso-SAF_light);
+    cursor: pointer;
+    transform: scale(1.3);
+    border-color: var(--color-rosso-SAF_light);
+}
+
+.contacts a {
+    text-decoration: none;
+}
+.contacts .fa-icon{
+    font-size: 120px;
+    color: var(--color-rosso-SAF);
+    transition: 0.3s ease-in-out;
+}
+.contacts .fa-icon:hover{
+    color: var(--color-rosso-SAF_light);
+    cursor: pointer;
+    transform: scale(1.15);
+}
+.contacts div{
+    display: flex;
+    justify-content: center;
+    vertical-align: center;
+    margin: 50px 0 150px 0;
+    width: 80%;
+    gap: 10%;
+}
+.contacts div:last-child{
+    margin-bottom: 0;
+
+}
+.contacts div.skewX{
+    transform: skewX(-12deg);
+}
+
+.translateY-1{
+    transform: translateY(-2px);
+}
+
+.redSection{
+    background-color: var(--color-rosso-SAF);
+}
+.graySection{
+    background-color: #f9f9f9;
+}
+
+.numbers{
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0 80px 0;
+}
+.numbers .fa-icon{
+    font-size: 120px;
+}
+.numbers div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5%;
+    flex-wrap: wrap-reverse;
+    gap: 26px;
+}
+
+.numbers .n-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    /*display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;*/
+    gap: 0;
+    text-align: center;
+
+    border-radius: 50%;
+    padding: 30px;
+    height: 180px;
+    width: 180px;
+}
+.numbers .n-container *{
+    color: rgb(50, 50, 50);
+    margin: 0;
+    font-weight: 600;
+}
+.numbers .n-container p{
+    font-size: 90px;
+}
+/* align first item to bottom and second to top*/
+.numbers .n-container:nth-child(1) {
+    align-self: end;
+}
+.numbers .n-container:nth-child(2) {
+    align-self: start;
+}
+.information{
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0 80px 0;
+    gap: 20px;
+    overflow: show;
+    align-items: center;
+    justify-content: center;
+
+}
+.information div *{
+    margin: 0;
+}
+.information div{
+    border: solid 2px #f2f2f2;
+    display: inline-block;
+    width: 450px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease-in-out;
+}
+.information div:hover{
+    transform: scale(1.075);
+}
+.information h3{
+    letter-spacing: 3px;
+}
+@media screen and (max-width: 750px) {
+    .information div{
+        width: 80%;
+    }
+}
+
+/*  FINE INFO SECTION  */
+
+#section1{
+    display: block;
+
+}
+#section2,
+#section3,
+#section4 {
+    display: none;
 }
