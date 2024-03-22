@@ -30,7 +30,7 @@
     --text-color-3: var(--color-rosso-SAF);
     --text-color-4: rgb(95, 95, 95);
     --text-color-5: rgb(176, 176, 176);
-    
+
     --text-weight-0: 300;
     --text-weight-1: 400;
     --text-weight-2: 500;
@@ -563,7 +563,8 @@ button.upperNavItem:hover {
     text-decoration: none;
     transition: 0.3s ease-in-out;
 }
-.footer a:hover{
+
+.footer a:hover {
     text-decoration: underline;
 }
 
@@ -602,7 +603,7 @@ button.upperNavItem:hover {
     align-content: center;
 }
 
-.footGridItem *{
+.footGridItem * {
     margin: 0;
 }
 
@@ -892,7 +893,8 @@ body {
 .profileImg {
     border-radius: 50%;
 }
-.staffImg{
+
+.staffImg {
     border-radius: 8px;
 }
 
@@ -1214,7 +1216,7 @@ h3.athleteField {
     border-radius: 30px;
 }
 
-.shadowBack{
+.shadowBack {
     box-shadow: 2px 2px 16px #EAEAEA;
 }
 
@@ -1290,7 +1292,7 @@ h2 {
 /* HOME CONTENT NEWS */
 
 .ig-section {
-    padding:  30px;
+    padding: 30px;
     grid-gap: var(--grid-gap);
     gap: var(--grid-gap);
     margin: var(--margin-section);
@@ -1347,6 +1349,7 @@ h2 {
     justify-self: center;
     border-radius: 10px;
 }
+
 /* SEZIONE CALENDAR */
 table {
     border-collapse: collapse;
@@ -1422,7 +1425,9 @@ form#calendario fieldset table tbody tr {
     background-color: white;
 }
 
-form#calendario input[type=submit] {margin-top: 22px;}
+form#calendario input[type=submit] {
+    margin-top: 22px;
+}
 
 form#calendario input[type=submit],
 form#calendario input[type=reset] {
@@ -1437,6 +1442,7 @@ form#calendario input[type=reset]:hover {
     box-shadow: none;
     cursor: pointer;
 }
+
 /* INFO SECTION */
 .contacts {
     display: flex;
@@ -1446,7 +1452,7 @@ form#calendario input[type=reset]:hover {
     padding-bottom: 30px;
 }
 
-.contacts .fa-text{
+.contacts .fa-text {
     color: var(--color-rosso-SAF);
     font-weight: 600;
     font-size: 50px;
@@ -1457,70 +1463,82 @@ form#calendario input[type=reset]:hover {
     margin: 0;
     background-color: transparent;
 }
-.contacts .fa-text.active{
+
+.contacts .fa-text.active {
     border-color: var(--color-rosso-SAF_dark);
     color: var(--color-rosso-SAF_dark);
 }
-.contacts .fa-text.active:hover{
+
+.contacts .fa-text.active:hover {
     border-color: var(--color-rosso-SAF);
     color: var(--color-rosso-SAF);
 }
-.contacts .fa-text:hover{
+
+.contacts .fa-text:hover {
     color: var(--color-rosso-SAF_light);
     cursor: pointer;
-    transform: scale(1.3);
+    transform: scale(1.125);
     border-color: var(--color-rosso-SAF_light);
 }
 
 .contacts a {
     text-decoration: none;
 }
-.contacts .fa-icon{
+
+.contacts .fa-icon {
     font-size: 120px;
     color: var(--color-rosso-SAF);
     transition: 0.3s ease-in-out;
 }
-.contacts .fa-icon:hover{
+
+.contacts .fa-icon:hover {
     color: var(--color-rosso-SAF_light);
     cursor: pointer;
     transform: scale(1.15);
 }
-.contacts div{
+
+.contacts div {
     display: flex;
     justify-content: center;
     vertical-align: center;
     margin: 50px 0 150px 0;
     width: 80%;
-    gap: 10%;
+    gap: 40px;
+    flex-wrap: wrap;
 }
-.contacts div:last-child{
+
+.contacts div:last-child {
     margin-bottom: 0;
 
 }
-.contacts div.skewX{
+
+.contacts div.skewX {
     transform: skewX(-12deg);
 }
 
-.translateY-1{
+.translateY-1 {
     transform: translateY(-2px);
 }
 
-.redSection{
+.redSection {
     background-color: var(--color-rosso-SAF);
 }
-.graySection{
+
+.graySection {
     background-color: #f9f9f9;
 }
 
-.numbers{
+.numbers {
     display: flex;
     flex-direction: column;
     padding: 30px 0 80px 0;
 }
-.numbers .fa-icon{
+
+.numbers .fa-icon {
     font-size: 120px;
 }
-.numbers div{
+
+.numbers div {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -1548,22 +1566,27 @@ form#calendario input[type=reset]:hover {
     height: 180px;
     width: 180px;
 }
-.numbers .n-container *{
+
+.numbers .n-container * {
     color: rgb(50, 50, 50);
     margin: 0;
     font-weight: 600;
 }
-.numbers .n-container p{
+
+.numbers .n-container p {
     font-size: 90px;
 }
+
 /* align first item to bottom and second to top*/
 .numbers .n-container:nth-child(1) {
     align-self: end;
 }
+
 .numbers .n-container:nth-child(2) {
     align-self: start;
 }
-.information{
+
+.information {
     display: flex;
     flex-direction: column;
     padding: 30px 0 80px 0;
@@ -1573,10 +1596,12 @@ form#calendario input[type=reset]:hover {
     justify-content: center;
 
 }
-.information div *{
+
+.information div * {
     margin: 0;
 }
-.information div{
+
+.information div {
     border: solid 2px #f2f2f2;
     display: inline-block;
     width: 450px;
@@ -1588,26 +1613,109 @@ form#calendario input[type=reset]:hover {
     justify-content: center;
     transition: 0.3s ease-in-out;
 }
-.information div:hover{
+
+.information div:hover {
     transform: scale(1.075);
 }
-.information h3{
+
+.information h3 {
     letter-spacing: 3px;
 }
+
 @media screen and (max-width: 750px) {
-    .information div{
+    .information div {
         width: 80%;
     }
 }
 
 /*  FINE INFO SECTION  */
 
-#section1{
+#section1 {
     display: block;
 
 }
+
 #section2,
 #section3,
 #section4 {
     display: none;
+}
+
+/* ISCRIZIONI */
+
+.formIscrizione {
+    width: 85%;
+
+}
+
+.formIscrizione .form-grid {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+
+.formIscrizione .input-form-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 37px;
+}
+.formIscrizione .input-form-div *{
+    margin: 0;
+}
+
+.formIscrizione .input-form-div .placeholder {
+
+}
+
+.formIscrizione .input-form-div input:hover+.placeholder,
+.formIscrizione .input-form-div input:valid+.placeholder {
+    font-size: 6px;
+    transform: translateY(-50px);
+    transition: 0.3s ease-in-out;
+}
+
+.formIscrizione .input-form-div input {
+    width: 100%;
+    height: 100%;
+    vertical-align: bottom;
+    border: solid 1px #b1b0b0;
+    border-radius: 0;
+}
+
+.formIscrizione .input-form-div input:focus::placeholder {
+    transform: translateY(-12px);
+    font-size: 8px;
+    transition: 0.2s ease-in-out;
+}
+
+/**/
+
+img.imgFR{
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+.checkBoxCont{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.form-label{
+    font-size: 12px;
+}
+
+@media screen and (max-width: 1080px) {
+    .formIscrizione .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media screen and (max-width: 720px){
+    .formIscrizione .form-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

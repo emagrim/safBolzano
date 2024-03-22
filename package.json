@@ -23,6 +23,7 @@
     "ico": "^0.3.3",
     "instagram-private-api": "^1.45.3",
     "path": "^0.12.7",
+    "pdf-lib": "^1.17.1",
     "puppeteer": "^22.0.0",
     "serve-favicon": "^2.5.0",
     "sqlite3": "^5.1.7"

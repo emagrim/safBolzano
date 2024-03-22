@@ -11,6 +11,8 @@ const { IgApiClient } = require('instagram-private-api');
 const { workerData, parentPort } = require('worker_threads');
 const handlebars = require('handlebars');
 const authenticateAdmin = require('./adminAuthMiddleware');
+const { send } = require('process');
+const { PDFDocument } = require('pdf-lib');
 
 
 const db = new sqlite3.Database('database.db');
@@ -55,6 +57,34 @@ router.use(bodyParser.json());
 router.use('/admin-panel-1953', authenticateAdmin);
 
 let adminOut;
+let pdfBytes;
+
+router.post('/estelle-pdf-modul', async (req, res) => {
+  try {
+      const modulData = req.body;
+      console.log('Received data:', modulData);
+
+      const pdfDoc = await PDFDocument.create();
+      const page = pdfDoc.addPage([600, 800]);
+      const { width, height } = page.getSize();
+      page.drawText('Hello, World!', {
+          x: 50,
+          y: height - 40,
+          size: 30,
+      });
+
+      const pdfBytes = await pdfDoc.save();
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.send(pdfBytes);
+      console.log('PDF sent.');
+  } catch (error) {
+      console.error('Error:', error.message);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+
 router.post('/staff-save', async (req, res) => {
   try {
     const staffData = req.body;
