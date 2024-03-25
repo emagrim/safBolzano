@@ -75,6 +75,16 @@ body {
     padding: 0;
     margin: 0;
 }
+p{
+    font-size: 17px;
+    letter-spacing: 1px;
+    line-height: 130%;
+    text-align: justify;
+}
+
+h1{
+    flex-wrap: wrap-reverse;
+}
 
 /* LOADING STD */
 
@@ -380,6 +390,27 @@ button.upperNavItem:hover {
 .excluded {
     display: none;
     min-height: 2px;
+}
+
+.dropdown{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--glass-1-background);
+    box-shadow: var(--glass-1-box-shadow);
+    border-bottom: var(--glass-1-border);
+    border-top: var(--glass-1-border);
+    backdrop-filter: var(--glass-1-backdrop-filter);
+    border-radius: 30px;
+    z-index: 100;
+
+}
+
+.dropdown-trigger:hover p{
+    display: block;
+    background-color: blue;
 }
 
 @media screen and (max-width: 1045px) {
@@ -1191,6 +1222,15 @@ h3.athleteField {
     }
 }
 
+.flex{
+    display: flex;
+}
+.center{
+    justify-content: center;
+    align-items: center;
+
+}
+
 .flexVertical {
     display: flex;
     flex-direction: column;
@@ -1455,7 +1495,7 @@ form#calendario input[type=reset]:hover {
 .contacts .fa-text {
     color: var(--color-rosso-SAF);
     font-weight: 600;
-    font-size: 50px;
+    font-size: 40px;
     border: var(--color-rosso-SAF) solid 4px;
     padding: 10px;
     transition: 0.3s ease-in-out;
@@ -1469,22 +1509,21 @@ form#calendario input[type=reset]:hover {
     color: var(--color-rosso-SAF_dark);
 }
 
-.contacts .fa-text.active:hover {
-    border-color: var(--color-rosso-SAF);
-    color: var(--color-rosso-SAF);
-}
 
 .contacts .fa-text:hover {
-    color: var(--color-rosso-SAF_light);
+    color: var(--color-rosso-SAF_dark);
     cursor: pointer;
     transform: scale(1.125);
-    border-color: var(--color-rosso-SAF_light);
+    border-color: var(--color-rosso-SAF_dark);
 }
 
 .contacts a {
     text-decoration: none;
 }
+.contacts h1{
+    margin: 0 0 20px 0;
 
+}
 .contacts .fa-icon {
     font-size: 120px;
     color: var(--color-rosso-SAF);
@@ -1501,10 +1540,14 @@ form#calendario input[type=reset]:hover {
     display: flex;
     justify-content: center;
     vertical-align: center;
-    margin: 50px 0 150px 0;
+    margin-top: 50px;
     width: 80%;
-    gap: 40px;
+    gap: 30px;
     flex-wrap: wrap;
+}
+
+.margin_bottom {
+    margin-bottom: 150px;
 }
 
 .contacts div:last-child {
@@ -1589,7 +1632,7 @@ form#calendario input[type=reset]:hover {
 .information {
     display: flex;
     flex-direction: column;
-    padding: 30px 0 80px 0;
+    padding: 0 0 45px 0;
     gap: 20px;
     overflow: show;
     align-items: center;
@@ -1630,15 +1673,50 @@ form#calendario input[type=reset]:hover {
 
 /*  FINE INFO SECTION  */
 
-#section1 {
-    display: block;
 
-}
-
+#section1,
 #section2,
 #section3,
 #section4 {
     display: none;
+}
+
+#section1,
+#section2,
+#section3,
+#section4 {
+    width: 100%;
+}
+
+#section1 h2,
+#section2 h2,
+#section3 h2,
+#section4 h2 {
+    text-align: center;
+    font-size: 30px;
+    margin: 0;
+    padding: 20px;
+}
+
+h2.paragraph,
+h1.paragraph{
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+
+}
+
+p.paragraph {
+    text-align: justify;
+    margin: 0 5%;
+    font-weight: lighter;
+}
+
+@media screen and (min-width: 800){
+    .paragraph{
+        text-align: justify;
+        margin: 0 10%;
+    }
 }
 
 /* ISCRIZIONI */
@@ -1691,6 +1769,10 @@ form#calendario input[type=reset]:hover {
     transition: 0.2s ease-in-out;
 }
 
+.formIscrizione button[type="button"]{
+    height: 37px;
+}
+
 /**/
 
 img.imgFR{
@@ -1705,6 +1787,7 @@ img.imgFR{
     align-items: center;
     justify-content: center;
 }
+
 .form-label{
     font-size: 12px;
 }

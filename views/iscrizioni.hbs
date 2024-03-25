@@ -133,7 +133,7 @@
             </path>
         </svg>
     </div>
-    <div class="section">
+    <div class="section flex center">
         <form class="formIscrizione">
             <div class="form-grid">
                 <div class="input-form-div">
@@ -146,23 +146,28 @@
                 </div>
                 <div class="input-form-div">
                     <!--<label class="placeholder form-label">Codice Fiscale</label>-->
-                    <input type="text" name="codice-fiscale" placeholder="Codice Fiscale" required>
+                    <input type="text" name="codice_fiscale" placeholder="Codice Fiscale" required>
                 </div>
                 <div class="input-form-div">
                     <!--<label class="placeholder form-label">Data di Nascita</label>-->
-                    <input type="text" name="data-nascita" placeholder="Data di Nascita" required>
+                    <input type="text" name="data_nascita" placeholder="Data di Nascita" required>
                 </div>
                 <div class="input-form-div">
                     <!--<label class="placeholder form-label">Luogo di Nascita</label>-->
-                    <input type="text" name="luogo-nascita" placeholder="Luogo di Nascita" required>
+                    <input type="text" name="luogo_nascita" placeholder="Luogo di Nascita" required>
                 </div>
                 <div class="input-form-div">
                     <!--<label class="placeholder form-label">Nazionalità</label>-->
                     <input type="text" name="nazionalita" placeholder="Nazionalità" required>
                 </div>
-                <div class="input-form-div">
-                    <!--<label class="placeholder form-label">Doppia Cittadinanza</label>-->
-                    <input type="text" name="doppia-cittadinanza" placeholder="Doppia Cittadinanza" required>
+                <div class="input-form-div checkBoxCont">
+                    <!--<label</div> class="placeholder form-label">Doppia Cittadinanza</label>-->
+                    <input style="height: 20px; width: 20px;" type="checkbox" name="doppia_cittadinanza" id="doppia_cittadinanza_checkbox" onchange="toggleVisibility('CITT2')">
+                    <p>DOPPIA CITTADINANZA</p>
+                </div>
+                <div class="input-form-div CITT2" style="display: none;">
+                    <!--<label class="placeholder form-label">Cittadinanza 2</label>-->
+                    <input type="text" name="cittadinanza_2" placeholder="Cittadinanza 2">
                 </div>
                 <div class="input-form-div">
                     <!--<label class="placeholder form-label">Residenza</label>-->
@@ -178,194 +183,120 @@
                 </div>
                 <div class="input-form-div">
                     <!--<label class="placeholder form-label">E-mail</label>-->
-                    <input type="text" name="e-mail" placeholder="E-mail" required>
+                    <input type="text" name="e_mail" placeholder="E-mail" required>
                 </div>
                 <div class="input-form-div checkBoxCont">
-                    <input type="checkbox" id="checkBox" onchange="toggleVisibility()"
-                        style="height: 20px; width: 20px;">
+                    <input type="checkbox" id="checkBox" onchange="toggleVisibility('NOT18yo')" style="height: 20px; width: 20px;">
                     <p>ATLETA MINORENNE</p>
                 </div>
-            </div>
-            <hr />
-            <div class="form-grid">
+                </div>
+                <hr />
+                <div class="form-grid">
                 <div class="input-form-div NOT18yo" style="display: none;">
                     <!--<label class="placeholder form-label">Nome</label>-->
-                    <input type="text" name="nome-g" placeholder="Nome genitore" required>
+                    <input type="text" name="nome_g" placeholder="Nome genitore" required>
                 </div>
                 <div class="input-form-div NOT18yo" style="display: none;">
                     <!--<label class="placeholder form-label">Cognome</label>-->
-                    <input type="text" name="cognome-g" placeholder="Cognome genitore" required>
+                    <input type="text" name="cognome_g" placeholder="Cognome genitore" required>
                 </div>
                 <div class="input-form-div NOT18yo" style="display: none;">
                     <!--<label class="placeholder form-label">Codice Fiscale</label>-->
-                    <input type="text" name="codice-fiscale-g" placeholder="Codice Fiscale genitore" required>
+                    <input type="text" name="codice_fiscale_g" placeholder="Codice Fiscale genitore" required>
                 </div>
                 <div class="input-form-div ">
                     <div>
                         <label class="form-label">Foto Atleta </label>
-                        <input type="file" style="border:none; height:auto;" id="fotoAtletaInput"
-                            accept=".png .jpeg .jpg .HEIC" onchange="displayFile('fotoAtleta')">
+                        <input type="file" style="border:none; height:auto;" id="fotoAtletaInput" accept=".png .jpeg .jpg .HEIC" onchange="displayFile('fotoAtleta')">
                     </div>
                 </div>
+                <!--
                 <div class="input-form-div ">
                     <div>
                         <label class="form-label">Firma atleta o genitore se minorenne</label>
-                        <input type="file" style="border:none; height:auto;" id="firmaInput" accept=".png"
-                            onchange="displayFile('firma')">
+                        <input type="file" style="border:none; height:auto;" id="firmaInput" accept=".png" onchange="displayFile('firma')">
                     </div>
                 </div>
-                <button type="button" onclick="return confirmSubmit()">Invia Modulo</button>
-                <button type="button" onclick="fetchData()"></button>
-            </div>
-        </form>
-        <img class="imgFR atleta" alt="atleta" style="display: none;">
-        <img class="imgFR firma" alt="firma" style="display: none;">
+                !-->
+                <button type="button" onclick="confirmSubmit()">Invia Modulo</button>
+                </div>
+                </form>
+                <img class="imgFR atleta" alt="atleta" style="display: none;">
+                <img class="imgFR firma" alt="firma" style="display: none;">
 
-    </div>
-    <section id="pdfSection">
-        <iframe id="pdfFrame" width="100%" height="600"></iframe>
-    </section>
-    {{{output.foot}}}
-    <script>
-
-        function confirmSubmit() {
-            // Bestätigungsfenster anzeigen
-            var confirmation = confirm("Sei sicuro di inviare il modulo?");
-
-            if (confirmation) {
-                // Daten aus dem Formular sammeln
-                let items = document.getElementsByClassName("formIscrizione")[0].querySelectorAll("input, textarea");
-                let data = {};
-
-                for (let i = 0; i < items.length; i++) {
-                    let item = items[i];
-                    let name = item.getAttribute("name");
-                    let value = item.value;
-                    data[name] = value;
-                }
-
-                // POST-Anfrage an den Server senden
-                fetch("/estelle-pdf-modul", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.blob();
+                </div>
+                <section id="pdfSection">
+                </section>
+                {{{output.foot}}}
+                <script>
+                function toggleVisibility(name) {
+                    var elements = document.getElementsByClassName(name);
+                    for (var i = 0; i < elements.length; i++) {
+                        if (elements[i].style.display === "none") {
+                            elements[i].style.display = "block";
                         } else {
-                            console.error("Errore nell'invio del modulo");
+                            elements[i].style.display = "none";
                         }
-                    })
-                    .then(blob => {
-                        // PDF-Dokument im iframe anzeigen
-                        let url = URL.createObjectURL(blob);
-                        document.getElementById("pdfFrame").src = url;
-                    })
-                    .catch(error => {
-                        console.error("Errore:", error);
-                    });
-
-                console.log("Data:", data);
-            }
-
-            return confirmation;
-        }
-
-        /*function confirmSubmit() {
-            var confirmation = confirm("Sei sicuro di inviare il modulo?");
-
-            if (confirmation) {
-                let items = document.getElementsByClassName("formIscrizione")[0].querySelectorAll("input, textarea");
-                let data = {};
-
-                for (let i = 0; i < items.length; i++) {
-                    let item = items[i];
-                    let name = item.getAttribute("name");
-                    let value = item.value;
-                    data[name] = value;
-                }
-
-                fetch("/estelle-pdf-modul", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            console.log("Modulo inviato con successo");
-                        } else {
-                            console.error("Errore nell'invio del modulo");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Errore:", error);
-                    });
-
-                console.log("Data:", data);
-            }
-
-            return confirmation;
-        }
-
-        function fetchData() { // Removed the parameters from the function definition
-            fetch("/estelle-pdf-modul", { // Removed the URL and method parameters
-                method: "POST"
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.blob();
-                    } else {
-                        console.error("Errore nel fetch del pdf");
                     }
-                })
-                .then(blob => {
-                    let url = URL.createObjectURL(blob);
-                    document.getElementById("pdfFrame").src = url;
-                })
-                .catch(error => {
-                    console.error("Errore:", error);
-                    console.error("Errore nel fetch del pdf");
-                });
-        } */
-
-
-        function displayFile(type) {
-            var fileInput;
-            var img;
-            if (type === 'fotoAtleta') {
-                fileInput = document.getElementById("fotoAtletaInput");
-                img = document.getElementsByClassName("imgFR atleta")[0];
-            } else if (type === 'firma') {
-                fileInput = document.getElementById("firmaInput");
-                img = document.getElementsByClassName("imgFR firma")[0];
-            }
-            var file = fileInput.files[0];
-            console.log(file);
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                img.src = e.target.result;
-                img.style.display = "block";
-            }
-            reader.readAsDataURL(file);
-        }
-
-        function toggleVisibility() {
-            var checkBox = document.getElementById("checkBox");
-            var NOT18yo = document.getElementsByClassName("NOT18yo");
-            if (checkBox.checked) {
-                for (var i = 0; i < NOT18yo.length; i++) {
-                    NOT18yo[i].style.display = "block";
                 }
-            } else {
-                for (var i = 0; i < NOT18yo.length; i++) {
-                    NOT18yo[i].style.display = "none";
+
+                function confirmSubmit() {
+                    var confirmation = confirm("Sei sicuro di inviare il modulo?");
+
+                    if (confirmation) {
+                        let items = document.getElementsByClassName("formIscrizione")[0].querySelectorAll("input, textarea");
+                        let data = {};
+
+                        for (let i = 0; i < items.length; i++) {
+                            let item = items[i];
+                            let name = item.getAttribute("name");
+                            let value = item.value;
+                            data[name] = value;
+                        }
+
+                        fetch("/send-email", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(data)
+                        })
+                            .then(response => {
+                                if (response.ok) {
+                                    console.log("Modulo inviato con successo");
+                                } else {
+                                    console.error("Errore nell'invio del modulo");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Errore:", error);
+                            });
+
+                        console.log("Data:", data);
+                    }
+
+                    return confirmation;
                 }
-            }
-        }
-    </script>
-</body>
+
+                function fetchData() {
+                    fetch("/send-email", {
+                        method: "POST"
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.blob();
+                            } else {
+                                console.error("Errore nel fetch del pdf");
+                            }
+                        })
+                        .then(blob => {
+                            let url = URL.createObjectURL(blob);
+                            document.getElementById("pdfFrame").src = url;
+                        })
+                        .catch(error => {
+                            console.error("Errore:", error);
+                            console.error("Errore nel fetch del pdf");
+                        });
+                }
+                </script>
+                </body>
