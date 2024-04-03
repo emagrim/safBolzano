@@ -162,7 +162,8 @@
                 </div>
                 <div class="input-form-div checkBoxCont">
                     <!--<label</div> class="placeholder form-label">Doppia Cittadinanza</label>-->
-                    <input style="height: 20px; width: 20px;" type="checkbox" name="doppia_cittadinanza" id="doppia_cittadinanza_checkbox" onchange="toggleVisibility('CITT2')">
+                    <input style="height: 20px; width: 20px;" type="checkbox" name="doppia_cittadinanza"
+                        id="doppia_cittadinanza_checkbox" onchange="toggleVisibility('CITT2')">
                     <p>DOPPIA CITTADINANZA</p>
                 </div>
                 <div class="input-form-div CITT2" style="display: none;">
@@ -186,12 +187,13 @@
                     <input type="text" name="e_mail" placeholder="E-mail" required>
                 </div>
                 <div class="input-form-div checkBoxCont">
-                    <input type="checkbox" id="checkBox" onchange="toggleVisibility('NOT18yo')" style="height: 20px; width: 20px;">
+                    <input type="checkbox" id="checkBox" onchange="toggleVisibility('NOT18yo')"
+                        style="height: 20px; width: 20px;">
                     <p>ATLETA MINORENNE</p>
                 </div>
-                </div>
-                <hr />
-                <div class="form-grid">
+            </div>
+            <hr />
+            <div class="form-grid">
                 <div class="input-form-div NOT18yo" style="display: none;">
                     <!--<label class="placeholder form-label">Nome</label>-->
                     <input type="text" name="nome_g" placeholder="Nome genitore" required>
@@ -207,7 +209,8 @@
                 <div class="input-form-div ">
                     <div>
                         <label class="form-label">Foto Atleta </label>
-                        <input type="file" style="border:none; height:auto;" id="fotoAtletaInput" accept=".png .jpeg .jpg .HEIC" onchange="displayFile('fotoAtleta')">
+                        <input type="file" style="border:none; height:auto;" id="fotoAtletaInput"
+                            accept=".png .jpeg .jpg .HEIC" onchange="displayFile('fotoAtleta')">
                     </div>
                 </div>
                 <!--
@@ -219,84 +222,97 @@
                 </div>
                 !-->
                 <button type="button" onclick="confirmSubmit()">Invia Modulo</button>
-                </div>
-                </form>
-                <img class="imgFR atleta" alt="atleta" style="display: none;">
-                <img class="imgFR firma" alt="firma" style="display: none;">
+            </div>
+        </form>
+        <img class="imgFR atleta" alt="atleta" style="display: none;">
+        <img class="imgFR firma" alt="firma" style="display: none;">
 
-                </div>
-                <section id="pdfSection">
-                </section>
-                {{{output.foot}}}
-                <script>
-                function toggleVisibility(name) {
-                    var elements = document.getElementsByClassName(name);
-                    for (var i = 0; i < elements.length; i++) {
-                        if (elements[i].style.display === "none") {
-                            elements[i].style.display = "block";
+    </div>
+    <div class="imageSection">
+
+        <div class="imageSectionItem glassedBack">
+            <a href="">
+                <h3>scarica il Modulo di iscrizione</h3>
+                <i class="fa-regular fa-file"></i>
+            </a>
+        </div>
+        <div class="imageSectionItem glassedBack">
+            <a href="">
+                <h3>contattaci per saperne di più</h3>
+                <i class="fa-solid fa-users-rectangle"></i>
+            </a>
+        </div>
+    </div>
+    {{{output.foot}}}
+    <script>
+        function toggleVisibility(name) {
+            var elements = document.getElementsByClassName(name);
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].style.display === "none") {
+                    elements[i].style.display = "block";
+                } else {
+                    elements[i].style.display = "none";
+                }
+            }
+        }
+
+        function confirmSubmit() {
+            var confirmation = confirm("Sei sicuro di inviare il modulo?");
+
+            if (confirmation) {
+                let items = document.getElementsByClassName("formIscrizione")[0].querySelectorAll("input, textarea");
+                let data = {};
+
+                for (let i = 0; i < items.length; i++) {
+                    let item = items[i];
+                    let name = item.getAttribute("name");
+                    let value = item.value;
+                    data[name] = value;
+                }
+
+                fetch("/send-email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log("Modulo inviato con successo");
                         } else {
-                            elements[i].style.display = "none";
+                            console.error("Errore nell'invio del modulo");
                         }
-                    }
-                }
-
-                function confirmSubmit() {
-                    var confirmation = confirm("Sei sicuro di inviare il modulo?");
-
-                    if (confirmation) {
-                        let items = document.getElementsByClassName("formIscrizione")[0].querySelectorAll("input, textarea");
-                        let data = {};
-
-                        for (let i = 0; i < items.length; i++) {
-                            let item = items[i];
-                            let name = item.getAttribute("name");
-                            let value = item.value;
-                            data[name] = value;
-                        }
-
-                        fetch("/send-email", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(data)
-                        })
-                            .then(response => {
-                                if (response.ok) {
-                                    console.log("Modulo inviato con successo");
-                                } else {
-                                    console.error("Errore nell'invio del modulo");
-                                }
-                            })
-                            .catch(error => {
-                                console.error("Errore:", error);
-                            });
-
-                        console.log("Data:", data);
-                    }
-
-                    return confirmation;
-                }
-
-                function fetchData() {
-                    fetch("/send-email", {
-                        method: "POST"
                     })
-                        .then(response => {
-                            if (response.ok) {
-                                return response.blob();
-                            } else {
-                                console.error("Errore nel fetch del pdf");
-                            }
-                        })
-                        .then(blob => {
-                            let url = URL.createObjectURL(blob);
-                            document.getElementById("pdfFrame").src = url;
-                        })
-                        .catch(error => {
-                            console.error("Errore:", error);
-                            console.error("Errore nel fetch del pdf");
-                        });
-                }
-                </script>
-                </body>
+                    .catch(error => {
+                        console.error("Errore:", error);
+                    });
+
+                console.log("Data:", data);
+            }
+
+            return confirmation;
+        }
+
+        function fetchData() {
+            fetch("/send-email", {
+                method: "POST"
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.blob();
+                    } else {
+                        console.error("Errore nel fetch del pdf");
+                    }
+                })
+                .then(blob => {
+                    let url = URL.createObjectURL(blob);
+                    document.getElementById("pdfFrame").src = url;
+                })
+                .catch(error => {
+                    console.error("Errore:", error);
+                    console.error("Errore nel fetch del pdf");
+                });
+        }
+    </script>
+</body>

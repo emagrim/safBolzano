@@ -103,9 +103,9 @@ function saveChangesOfStaff() {
         var part2 = slot.querySelector('.part2');
 
         var nomeCognomeElem = part2.querySelector('h3');
-        var ruoloElem = part2.querySelectorAll('.athleteField')[0];
-        var specialitaElem = part2.querySelectorAll('.athleteField')[1];
-        var annoElem = part2.querySelectorAll('.athleteField')[2];
+        var ruoloElem = part2.querySelectorAll('.athleteField')[1];
+        var specialitaElem = part2.querySelectorAll('.athleteField')[2];
+        var annoElem = part2.querySelectorAll('.athleteField')[3];
 
         if (nomeCognomeElem && ruoloElem && specialitaElem && annoElem) {
             var nomeCognome = nomeCognomeElem.innerText.trim().split(' ');
@@ -132,6 +132,7 @@ function saveChangesOfStaff() {
             console.error("Error: One or more required fields not found in staff slot:", slot);
         }
     });
+
 
     console.log("Staff Data:", staffData);
 

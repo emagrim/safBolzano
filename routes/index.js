@@ -88,7 +88,7 @@ router.post('/estelle-pdf-modul', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
+*/
 
 router.post('/staff-save', async (req, res) => {
   try {
@@ -111,9 +111,9 @@ router.post('/staff-save', async (req, res) => {
         const insertQuery = `INSERT INTO staff (id, nome, cognome, ruolo, specialita, anno, foto)
                              VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-        staffData.forEach((staff, index) => {
+        staffData.forEach(async (staff, index) => {
           const { id, nome, cognome, ruolo, specialita, anno, foto } = staff;
-          db.run(insertQuery, [id, nome, cognome, ruolo, specialita, anno, foto], function (err) {
+          await db.run(insertQuery, [id, nome, cognome, ruolo, specialita, anno, foto], function (err) {
             if (err) {
               console.error('Error inserting staff record:', err);
             } else {
@@ -131,48 +131,40 @@ router.post('/staff-save', async (req, res) => {
   }
 });
 
-*/
-
 router.post('/send-email', (req, res) => {
-
   const { nome, email, cognome, codice_fiscale, data_nascita, luogo_nascita } = req.body;
 
-  let transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'info@safbolzano.it',
-      pass: 'your-password'
+      user: 'noreply.safbolzano1953@gmail.com',
+      pass: 'chloebraccioalzato14'
     }
   });
 
-  let mailOptions = {
-    from: 'info@safbolzano.it',
+  const mailOptions = {
+    from: 'noreply.safbolzano1953@gmail.com',
     to: email,
     subject: `SAF BZ 1953 - Conferma dati iscrizione atleta ${nome} ${cognome}`,
-    text: `Ciao, ${nome} ${cognome},\n
-
-      nome: ${nome},
-      cognome: ${cognome},
-      Codice Fiscale: ${codice_fiscale},
-      data nascita: ${data_nascita}, luogo nascita: ${luogo_nascita},
-      
-
-      Controlla i dati per fare richiesta di iscrizione alla nostra società "SAF BOLZANO 1953".
-      In caso di dati errati o mancanti rispondere a questa mail o recompilare il modulo sul sito ufficiale safbolzano.it .
-      Se tutto è andato bene, ci vediamo prossimamente al campo!
-
-      Saluti,
-      lo staff di Saf Bolzano.
-      `
+    html: `<p>Ciao, ${nome} ${cognome},</p>
+      <p>Nome: ${nome}</p>
+      <p>Cognome: ${cognome}</p>
+      <p>Codice Fiscale: ${codice_fiscale}</p>
+      <p>Data di nascita: ${data_nascita}</p>
+      <p>Luogo di nascita: ${luogo_nascita}</p>
+      <p>Controlla i dati per fare richiesta di iscrizione alla nostra società "SAF BOLZANO 1953".</p>
+      <p>In caso di dati errati o mancanti, rispondere a questa mail o ricompilare il modulo sul sito ufficiale safbolzano.it.</p>
+      <p>Se tutto è andato bene, ci vediamo prossimamente al campo!</p>
+      <p>Saluti,<br/>Lo staff di Saf Bolzano.</p>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
-      res.send('Error occurred while sending email.');
+      console.error('Error sending email:', error);
+      res.status(500).send('Internal Server Error');
     } else {
-      console.log('Email sent: ' + info.response);
-      res.send('Email sent successfully!');
+      console.log('Email sent:', info.response);
+      res.status(200).send('Email Sent');
     }
   });
 });
@@ -758,7 +750,7 @@ async function getNews(output, res) {
           ${isVideo ? `<video controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img src="${post.imageUrl}" alt="${post.description}">`}
           <div class="description">
             <h3>${descriptionWithLinks.split('\n')[0]}</h3>
-            <p>${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>
+            <p class="paragraph">${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>
             ${postLinkHtml}
           </div>
         </div>

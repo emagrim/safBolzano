@@ -78,7 +78,7 @@ body {
 p{
     font-size: 17px;
     letter-spacing: 1px;
-    line-height: 130%;
+    line-height: 150%;
     text-align: justify;
 }
 
@@ -369,11 +369,17 @@ Navbar {
 
 button.upperNavItem {
     background-color: var(--color-rosso-SAF);
-    border: 1px solid white;
+    border-bottom: rgb(147, 19, 26) 1px solid;
+    border-top: rgb(255, 146, 151) 1px solid;
+    border-radius: 30px;
+    border-right: 0;
+    border-left: 0;
     height: 35px;
     width: 150px;
     text-shadow: none;
     transition: 0.3s ease-in-out;
+
+
 }
 
 button.upperNavItem:hover {
@@ -407,10 +413,12 @@ button.upperNavItem:hover {
     z-index: 100;
 
 }
-
-.dropdown-trigger:hover p{
+/* MAKE DROPDOWN WORK */
+.dropdown-trigger {
+    transition: 0.3s ease-in-out;
+}
+.dropdown-trigger:hover .dropdown {
     display: block;
-    background-color: blue;
 }
 
 @media screen and (max-width: 1045px) {
@@ -716,6 +724,14 @@ button.upperNavItem:hover {
     align-items: center;
 }
 
+.imageSection i{
+    font-size: 100px;
+}
+
+.imageSection a{
+    cursor: pointer;
+}
+
 .imageSection .imageSectionItem {
     height: 70%;
     width: 70%;
@@ -732,6 +748,8 @@ button.upperNavItem:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    padding: 32px;
 }
 
 .imageSection .imageSectionItem::before {
@@ -1511,10 +1529,8 @@ form#calendario input[type=reset]:hover {
 
 
 .contacts .fa-text:hover {
-    color: var(--color-rosso-SAF_dark);
     cursor: pointer;
     transform: scale(1.125);
-    border-color: var(--color-rosso-SAF_dark);
 }
 
 .contacts a {
