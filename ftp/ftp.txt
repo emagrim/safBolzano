@@ -1,0 +1,11 @@
+exQgl8tzLwMo
+saf93821
+weburl@safbolzano.it
+
+Nome utente FTP: saf93821
+Server FTP: ftp.safbolzano.it
+Porta FTPS esplicita & FTP:  21
+
+Nome utente FTP: weburl@safbolzano.it
+Server FTP: ftp.safbolzano.it
+Porta FTPS esplicita & FTP:  21

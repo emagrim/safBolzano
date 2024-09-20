@@ -221,12 +221,182 @@ router.post('/admin-panel-1953', async (req, res) => {
   }
 });
 
+router.get('/galleria/:folder', (req, res) => {
+  const folder = req.params.folder;
+  console.log('Folder:', folder);
+
+  const folderPath = path.join('public/images/gallery', folder);
+  console.log('Folder Path:', folderPath);
+
+  if (!fs.existsSync(folderPath) || !fs.statSync(folderPath).isDirectory()) {
+    return res.status(404).send('Folder does not exist.');
+  }
+
+  const images = getImagesFromFolder(folderPath);
+  console.log('Images:', images);
+
+  if (!images || images.length === 0) {
+    return res.status(404).send('No images found or folder does not exist.');
+  }
+
+  const subfolders = getSubfoldersFromFolder(folderPath); // Use folderPath here
+
+  let imageTags = '';
+
+  for (const image of images) {
+    imageTags += `
+    <div class="image">
+      
+      <img src="/${folderPath}/${image}" alt="${image}" style="width: 75%; height: auto;">
+    
+      <a href="/${folderPath}/${image}" download="${image}">
+        <svg class="dwIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128l-368 0zm79-167l80 80c9.4 9.4 24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-39 39L344 184c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 134.1-39-39c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9z"/></svg>
+      </a>
+    </div>
+    
+    `;
+  }
+
+  res.send(`
+    <html>
+    <head>
+        <title>${folder}</title>
+        ${output.style}
+        <style>
+            .image{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .dwIcon{
+                width: 75px;
+                transition: all 0.3s ease-in-out;
+            }
+            .dwIcon:hover{
+                opacity: 0.5;
+                scale: 1.1;
+            }
+            .gallery {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .gallery img {
+                margin: 10px;
+            }
+            img:hover{
+                transform: scale(1.015);
+            }
+            .line{
+                width: 100%;
+                height: 3px;
+                background-color: #000;
+            }
+        </style>
+        ${output.std}
+    </head>
+    <body>
+        <div style="z-index: 98;padding: 100px auto 100px auto; background-color: #1c1e21; position:fixed;width:100%;">
+          <h1 style="color: white; text-align: center; font-size: 50px;">${folder}</h1>
+        </div>
+        <div class="gallery">
+            ${imageTags}
+        </div>
+        <div>
+        </div>
+        <a href="/galleria" class="circle" style="width:50px; height:50px; border-radius:50%;position:fixed; background-color:#1c1e21;bottom:20px; left:20px;z-index:99;font-size:44px;color:white;text-decoration:none;text-align:center;">
+          &#8592;
+        </a>
+        ${output.foot}
+    </body>
+    </html>
+`);
+
+});
+
+function getImagesFromFolder(folderPath) {
+  let imageFiles = [];
+
+  function searchFolder(currentPath) {
+    if (fs.existsSync(currentPath)) {
+      const stats = fs.statSync(currentPath);
+
+      if (stats.isDirectory()) {
+        const files = fs.readdirSync(currentPath);
+
+        files.forEach(file => {
+          const filePath = path.join(currentPath, file);
+          const fileStats = fs.statSync(filePath);
+
+          if (fileStats.isDirectory()) {
+            searchFolder(filePath); // Recursive call for subfolders
+          } else if (/\.(jpg|jpeg|png|gif)$/i.test(file) && file.toLowerCase() !== 'favicon.ico') {
+            const relativePath = path.relative(folderPath, filePath);
+            imageFiles.push(relativePath); // Collect image file paths with relative path
+          }
+        });
+      }
+    } else {
+      console.log('Error: Directory does not exist -', currentPath);
+    }
+  }
+
+  searchFolder(folderPath); // Initial call with the provided folder path
+  return imageFiles;
+}
+
+function getFirstImage(folderPath) {
+  if (fs.existsSync(folderPath)) {
+    const files = fs.readdirSync(folderPath).filter(file => {
+      const ext = path.extname(file).toLowerCase();
+      return ext === '.jpg' || ext === '.png' || ext === '.jpeg' || ext === '.gif';
+    });
+
+    return files.length > 0 ? files[0] : null;
+  } else {
+    return null;
+  }
+}
+
+function getSubfoldersFromFolder(folderPath) {
+  if (fs.existsSync(folderPath)) {
+    const stats = fs.statSync(folderPath);
+
+    if (stats.isDirectory()) {
+      return fs.readdirSync(folderPath)
+        .filter(file => {
+          const filePath = path.join(folderPath, file);
+          return fs.statSync(filePath).isDirectory();
+        })
+        .map(folder => {
+          const folderFullPath = path.join(folderPath, folder);
+          const date = folder.substring(0, 10);
+          const name = folder.substring(11);
+          const firstImage = getFirstImage(folderFullPath);
+          return { date, name, folder, firstImage };
+        })
+        .reverse();
+    } else {
+      console.log('Error: Path is not a directory -', folderPath);
+      return [];
+    }
+  } else {
+    console.log('Error: Directory does not exist -', folderPath);
+    return [];
+  }
+}
+
+module.exports = router;
+
+
 router.get('/:page', async (req, res) => {
   const pageName = req.params.page;
   let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/gallery'));
   const imgFolder = '../public/images/';
   const middlePath = 'img/';
   let pathToImgDir;
+  const folderPath = path.join(__dirname, '../public/images/gallery');
+  const subfolders = getSubfoldersFromFolder(folderPath);
 
   try {
     if (pageName !== 'home') {
@@ -239,7 +409,7 @@ router.get('/:page', async (req, res) => {
           pathToImgDir = imgFolder + middlePath + pageName;
           break;
         case "iscrizioni":
-          output.content = ``;
+          await getNumberOfAthletes(output, res);
           pathToImgDir = imgFolder + middlePath + pageName;
           break;
         case "atleti":
@@ -277,7 +447,7 @@ router.get('/:page', async (req, res) => {
 
           break;
         case "info":
-          output.content = ``;
+          await getNumberOfAthletes(output, res);
           pathToImgDir = imgFolder + middlePath + pageName;
           break;
         default:
@@ -304,31 +474,9 @@ router.get('/:page', async (req, res) => {
     res.render("Error in handling route.");
   }
   console.log('Content:', output.content);
-  res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles });
+  res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
 });
 
-function getImagesFromFolder(folderPath) {
-  if (fs.existsSync(folderPath)) {
-    const stats = fs.statSync(folderPath);
-
-    if (stats.isDirectory()) {
-      return fs.readdirSync(folderPath).filter(file => {
-        const filePath = path.join(folderPath, file);
-        return (
-          fs.statSync(filePath).isFile() &&
-          /\.(jpg|jpeg|png|gif)$/i.test(file) &&
-          file.toLowerCase() !== 'favicon.ico'
-        );
-      });
-    } else {
-      console.log('Error: Path is not a directory -', folderPath);
-      return [];
-    }
-  } else {
-    console.log('Error: Directory does not exist -', folderPath);
-    return [];
-  }
-}
 
 let staffContent;
 
@@ -541,7 +689,7 @@ async function getAtleti(output, res) {
 
     await browser.close();
 
-    output.content = `<div class="athletesList"><h1 titleH1>I NOSTRI ATLETI</h2>${concatenatedLines}</div>`;
+    output.content = `<div class="athletesList"><h1 class="bigBigTitle">I NOSTRI ATLETI</h1>${concatenatedLines}</div>`;
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -702,8 +850,8 @@ function getStaff() {
 
 async function getNews(output, res) {
   const targetUsername = 'saf_bolzano';
-  const username = "alex_il_deca";
-  const password = "Alex8OttoSonoIo";
+  const username = "pakistan_torri";
+  const password = "TORREMORTA1234!";
 
   try {
     const ig = new IgApiClient();
@@ -1061,8 +1209,48 @@ async function getInfo(output, res) {
         </div>
   `;
 
+
+
 }
 
+async function getNumberOfAthletes(output, res) {
+  try {
+    const websiteUrl = 'https://www.fidal.it/societa/SAF-BOLZANO-1953/BZ018';
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
+
+    const numbers = await page.evaluate(() => {
+      const labels = document.querySelectorAll('.dati-societa label');
+      const lastThreeLabels = Array.from(labels).slice(-3);
+      return lastThreeLabels.map(label => label.textContent.trim());
+    });
+
+    const totalAthletesNumber = numbers[0] ? parseInt(numbers[0].replace(/[^\d]/g, ''), 10) : 0;
+    const maleAthletesNumber = numbers[1] ? parseInt(numbers[1].replace(/[^\d]/g, ''), 10) : 0;
+    const femaleAthletesNumber = numbers[2] ? parseInt(numbers[2].replace(/[^\d]/g, ''), 10) : 0;
+
+    await browser.close();
+
+    output.content = `<div>
+                <div class="n-container beat shadowBack">
+                    <h3>MASCHI</h3>
+                    <p>${maleAthletesNumber}</p>
+                </div>
+                <div class="n-container beat shadowBack">
+                    <h3>FEMMINE</h3>
+                    <p>${femaleAthletesNumber}</p>
+                </div>
+                <div class="n-container beat shadowBack">
+                    <h3>ATLETI</h3>
+                    <p>${totalAthletesNumber}</p>
+                </div>
+            </div>`;
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+}
 
 router.get('/', async (req, res) => {
   const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/gallery'));

@@ -1,4 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Protest+Guerrilla&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unlock&display=swap');
+
+
 
 :root {
     /*glassmorphism*/
@@ -21,9 +26,12 @@
 
     --bg-section_dark: rgb(33, 36, 39);
 
+    --color-link: #b85f71;
+    --color-rosso-SAF_very_light: #f06970;
     --color-rosso-SAF_light: #ee444c;
     --color-rosso-SAF: #d9212a;
     --color-rosso-SAF_dark: rgb(147, 19, 26);
+    --color_rosso_SAF_light_super: #c13d43;
 
     --text-color-1: white;
     --text-color-2: black;
@@ -53,6 +61,29 @@ box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(20px);
 -webkit-backdrop-filter: blur(20px);
 */
+
+.dn{
+    display: none;
+}
+
+a{
+    color: var(--color-link);
+    cursor: pointer;
+
+}
+
+.inv-w{
+
+}
+
+.abImg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 10;
+    transform: translateY(-50%);
+}
 
 i.fa,
 i.fa-brands {
@@ -713,15 +744,19 @@ button.upperNavItem:hover {
     overflow: hidden;
 }
 
-.imageSection {
+.imageSection{
     height: 80%;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.144), rgba(0, 0, 0, 0.166)), url('/public/images/gallery/speedkingbz258.jpg') center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.144), rgba(0, 0, 0, 0.166)), url('/public/images/gallery/2023.05.10_SPEED\ KING\ AND\ QEEN\ BZ/speedkingbz258.jpg') center center;
     background-size: cover;
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
     align-items: center;
+}
+.imageSection.two{
+    background: linear-gradient(rgba(0, 0, 0, 0.367), rgba(0, 0, 0, 0.395)), url('/public/images/gallery/2024.08.23MEETING\ FRANCO\ CRISCUOLO/IMG_7146.jpg') center center;
+    background-size: cover;
 }
 
 .imageSection i{
@@ -733,15 +768,15 @@ button.upperNavItem:hover {
 }
 
 .imageSection .imageSectionItem {
-    height: 70%;
-    width: 70%;
+    height: 50%;
+    width: 50%;
 
     background: var(--glass-1-background);
     box-shadow: var(--glass-1-box-shadow);
     border-bottom: var(--glass-1-border);
     border-top: var(--glass-1-border);
     backdrop-filter: var(--glass-1-backdrop-filter);
-    border-radius: 50px;
+    border-radius: 20px;
     overflow: hidden;
 
     display: flex;
@@ -750,6 +785,7 @@ button.upperNavItem:hover {
     justify-content: center;
 
     padding: 32px;
+    z-index: 100;
 }
 
 .imageSection .imageSectionItem::before {
@@ -768,6 +804,10 @@ button.upperNavItem:hover {
 .imageSection .imageSectionItem * {
     color: var(--text-color-1);
     text-align: center;
+}
+
+.imageSectionItem h2{
+    margin-top: 0;
 }
 
 @media screen and (max-width: 850px) {
@@ -926,6 +966,10 @@ body {
     transition: 0.2s ease-in-out;
 }
 
+.staffslot *{
+    color: #1c1e21;
+}
+
 
 .maschio {
     background-color: #e4fbff;
@@ -969,6 +1013,13 @@ h3.athleteField {
 .categoryDiv {
     padding: 0;
     border-radius: 24px;
+}
+
+.categoryDiv h2 {
+    margin: 12px 0 6px 0;
+}
+.categoryDiv * {
+    color: #1c1e21;
 }
 
 @media screen and (min-width: 1080px) {
@@ -1159,6 +1210,13 @@ h3.athleteField {
     justify-content: center;
     max-width: 500px;
 }
+.grid4text .description{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
+}
 
 .grid4Text h1,
 .grid4Text a {
@@ -1284,9 +1342,9 @@ h3.athleteField {
 }
 
 .fakeGlassGreenBack {
-    background: #ffb7b7;
-    box-shadow: 3px 3px 2px #e8a7a7,
-        -3px -3px 2px #ffebeb;
+    background: #ebebeb;
+    box-shadow: 3px 3px 2px #bcbcbc,
+        -3px -3px 2px #ffffff;
 }
 
 .neophormedInside {
@@ -1298,6 +1356,86 @@ h3.athleteField {
 
 .mediumTitle {
     margin: 0;
+}
+
+.recordMove{
+    transition: 0.3s ease-in-out;
+    transform: translateY(60px);
+}
+
+.bigBigTitle {
+    margin: 0;
+    font-size: 100px;
+    font-weight: 600;
+    font-family: "Unlock", serif;
+    color: var(--color-rosso-SAF_very_light);
+}
+.underBigTitle {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: "Unlock", serif;
+    color: var(--color-rosso-SAF_very_light);
+}
+
+.rosa{
+    color: var(--color-rosso-SAF_very_light);
+}
+
+.littleSection{
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.veryLittleSection{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px;
+
+}
+
+.veryLittleSection *{
+    font-family: "unlock", serif;
+}
+
+.veryLittleSection .littleRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: scroll;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.veryLittleSection .littleRow div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(247, 247, 247);
+    padding: 10px;
+    border-radius: 10px;
+}
+.veryLittleSection .littleRow div *{
+    color: rgb(50, 50, 50);
+    margin: 0;
+}
+
+.veryLittleSection .littleRow div h2{
+    margin: 10px;
+}
+
+
+.translate30px {
+    transition: ease-in-out 0.75s all;
 }
 
 .bigIcon {
@@ -1323,12 +1461,17 @@ h3.athleteField {
 }
 
 h1 {
-    color: var(--color-rosso-SAF);
-    font-size: 45px;
+    color: var(--color-rosso-SAF_very_light);
+    font-size: 100px;
     margin: 0;
     font-weight: 800;
     text-transform: uppercase;
     text-align: center;
+    font-family: unlock, serif;
+}
+
+.col-sm-4 h1{
+    padding: 15px 0 30px 0;
 }
 
 h2 {
@@ -1511,10 +1654,10 @@ form#calendario input[type=reset]:hover {
 }
 
 .contacts .fa-text {
-    color: var(--color-rosso-SAF);
+    color: var(--color-rosso-SAF_very_light);
     font-weight: 600;
     font-size: 40px;
-    border: var(--color-rosso-SAF) solid 4px;
+    border: var(--color-rosso-SAF_very_light) solid 4px;
     padding: 10px;
     transition: 0.3s ease-in-out;
     transform: skewX(-0deg);
@@ -1523,8 +1666,8 @@ form#calendario input[type=reset]:hover {
 }
 
 .contacts .fa-text.active {
-    border-color: var(--color-rosso-SAF_dark);
-    color: var(--color-rosso-SAF_dark);
+    border-color: var(--color_rosso_SAF_light_super);
+    color: var(--color_rosso_SAF_light_super);
 }
 
 
@@ -1542,7 +1685,7 @@ form#calendario input[type=reset]:hover {
 }
 .contacts .fa-icon {
     font-size: 120px;
-    color: var(--color-rosso-SAF);
+    color: var(--color-rosso-SAF_very_light);
     transition: 0.3s ease-in-out;
 }
 
@@ -1624,7 +1767,47 @@ form#calendario input[type=reset]:hover {
     padding: 30px;
     height: 180px;
     width: 180px;
+
+    cursor: pointer;
 }
+
+.beat {
+    animation: beat 3s infinite;
+    transition: transform 0.3s;
+}
+
+.beat:hover {
+    transform: scale(1.1);
+}
+
+.beat.paused {
+    animation-play-state: paused;
+}
+
+@keyframes beat {
+    0%, 100% {
+        transform: rotate(0deg) scale(1) translate(0, 0);
+    }
+    25% {
+        transform: rotate(2deg) scale(1.05) translate(2px, 2px);
+    }
+    50% {
+        transform: rotate(-2deg) scale(0.95) translate(-2px, -2px);
+    }
+    75% {
+        transform: rotate(1deg) scale(1.03) translate(1px, 1px);
+    }
+}
+
+
+.beat:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.beat:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
 
 .numbers .n-container * {
     color: rgb(50, 50, 50);
@@ -1719,13 +1902,44 @@ h1.paragraph{
     text-align: center;
     margin-left: 10%;
     margin-right: 10%;
+    font-family: "Unlock", serif;
+    color: #1c1e21;
 
+}
+
+.lateral{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    white-space: wrap;
+    color: #1c1e21;
+    line-height: 60vh;
+    font-size: clamp(16px, 2vw, 24px);
+}
+.lateral{
+    /*transform: rotate(-90deg) translateY(-47vw);*/
+    color: white;
+}
+.description h1{
+    font-size: 45px;
 }
 
 p.paragraph {
     text-align: justify;
     margin: 0 5%;
     font-weight: lighter;
+}
+
+p.paragraph i.fa-solid,
+p.paragraph i.fa-regular {
+    transition: ease-in 0.15s all;
+    transition: ease-out 0.3s all;
+}
+
+p.paragraph i.fa-solid:hover,
+p.paragraph i.fa-regular:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
 @media screen and (min-width: 800){
