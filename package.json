@@ -27,7 +27,8 @@
     "pdf-lib": "^1.17.1",
     "puppeteer": "^22.0.0",
     "serve-favicon": "^2.5.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "vanilla-cookieconsent": "^3.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"

@@ -13,13 +13,14 @@
     {{{output.nav}}}
     <div class="slider introduceSection">
         <div class="containsSlides heightSmall">
-            {{#each images}}
-            <img class="slide imageSlides heightSmall" src="../public/images/img/news/{{this}}">
             <div class="slideOverlay heightSmall">
                 <h2></h2>
                 <p class="bigText"></p>
                 <button class="sliderButtonInfo"></button>
             </div>
+            {{#each images}}
+            <img class="slide imageSlides heightSmall" src="../public/images/img/news/{{this}}">
+
             {{/each}}
             <svg class="svgSlider not-full" version="1.0" xmlns="http://www.w3.org/2000/svg">
                 <g transform="translate(0 90) scale(.1 -.1)" fill="#fff">
@@ -31,7 +32,7 @@
         </div>
 
         <div class="section">
-            <h1>ULTIME NOTIZIE</h1>
+            <h1 class="bigBigTitle">ULTIME NOTIZIE</h1>
             <div class="ig-section ig-grid-news">
                 {{{output.content}}}
             </div>

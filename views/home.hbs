@@ -4,23 +4,25 @@
     {{{output.font}}}
     {{{output.style}}}
     {{{output.fontawesome}}}
+    {{{output.cookies}}}
 </head>
 
 <body>
     {{{output.nav}}}
     <div class="slider">
         <div class="containsSlides">
-            {{#each images}}
-            <img class="slide imageSlides heightHigh" src="../public/images/gallery/{{this}}">
-            <div class="slideOverlay heightHigh">
+            <div class="slideOverlay heightMedium">
                 <h2></h2>
                 <p class="bigText"></p>
-                <button class="sliderButtonInfo"></button>
             </div>
+            {{#each images}}
+            
+            <img class="slide imageSlides heightMedium" src="../public/images/gallery/{{this}}">
+            
             {{/each}}
         </div>
-        <button class="sliderButton left slideInLeft">&lt;</button>
-        <button class="sliderButton right slideInRight">&gt;</button>
+        <button class="sliderButton left slideInLeft"><i class="fa-solid fa-angle-left"></i></button>
+        <button class="sliderButton right slideInRight"><i class="fa-solid fa-angle-right"></i></button>
         <button class="sliderButton bottom slideIn upDown" onclick="down()">&darr;</button>
         <!--<svg class="svgSlider" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path class="svgSlider" fill="white" fill-opacity="1" d="M0,128L24,144C48,160,96,192,144,218.7C192,245,240,267,288,240C336,213,384,139,432,133.3C480,128,528,192,576,197.3C624,203,672,149,720,128C768,107,816,117,864,133.3C912,149,960,171,1008,192C1056,213,1104,235,1152,213.3C1200,192,1248,128,1296,117.3C1344,107,1392,149,1416,170.7L1440,192L1440,320L1416,320C1392,320,1344,320,1296,320C1248,320,1200,320,1152,320C1104,320,1056,320,1008,320C960,320,912,320,864,320C816,320,768,320,720,320C672,320,624,320,576,320C528,320,480,320,432,320C384,320,336,320,288,320C240,320,192,320,144,320C96,320,48,320,24,320L0,320Z"></path></svg>
     !-->

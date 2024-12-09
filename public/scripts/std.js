@@ -74,3 +74,28 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(animateBars(), 10000);
 
 });
+
+setTimeout(function() {
+    const cookieConsentTag = document.querySelector('.cc-window');
+
+    if (cookieConsentTag) {
+        const cc = new CookieConsent({
+            content: {
+                message: "Non utilizziamo i cookies, ci teniamo alla tua privacy.",
+                dismiss: "Accetta",
+                link: "Leggi di più",
+            },
+            theme: "classic",
+            palette: {
+                popup: { background: "#2B373B" },
+                button: { background: "#f1d600" },
+            },
+            onAccept: function () {
+                console.log("Cookies accettati!");
+            },
+        });
+        cc.init();
+    } else {
+        console.error('Il tag del banner dei cookie non è stato caricato correttamente.');
+    }
+}, 10000);

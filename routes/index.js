@@ -14,6 +14,8 @@ const authenticateAdmin = require('./adminAuthMiddleware');
 const { send } = require('process');
 const { PDFDocument } = require('pdf-lib');
 const nodemailer = require('nodemailer');
+const fetch = require('node-fetch');
+const CookieConsent = require('vanilla-cookieconsent');
 
 
 
@@ -36,6 +38,8 @@ const output = {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">`,
   fontawesome: `<script src="https://kit.fontawesome.com/fb4513912a.js" crossorigin="anonymous"></script>`,
+  cookies: `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3.1.1/build/cookieconsent.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3.1.1/build/cookieconsent.min.js"></script>`,
 }
 
 db.serialize(() => {
@@ -51,6 +55,18 @@ db.serialize(() => {
       old_cognome TEXT,
       old_data TEXT
   )`);
+  db.run(`CREATE TABLE IF NOT EXISTS record_sociali_f (
+    id INTEGER PRIMARY KEY,
+    disciplina TEXT,
+    tempo TEXT,
+    nome TEXT,
+    cognome TEXT,
+    data TEXT,
+    old_tempo TEXT,
+    old_nome TEXT,
+    old_cognome TEXT,
+    old_data TEXT
+)`);
 });
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -89,6 +105,7 @@ router.post('/estelle-pdf-modul', async (req, res) => {
   }
 });
 */
+
 
 router.post('/staff-save', async (req, res) => {
   try {
@@ -562,6 +579,10 @@ async function getAtleti(output, res) {
       if (obj[2] === null || obj[2] === 'null') {
         obj[2] = 'https://atletica.me/img/noimage.jpg';
       }
+      if(obj.generale === null || obj.generale === 'null'){
+        obj.generale = 'Polivalente';
+      }
+
 
       return {
         profile_image: obj[2],
@@ -659,8 +680,7 @@ async function getAtleti(output, res) {
               <div>
                 <div class="athleteField">${obj.age} Anni</div>
                 <div class="athleteField">${obj.generale}</div>
-                <div class="athleteField">${obj.punteggio_migliore_anno_attuale}</div>
-                <div class="athleteField">${obj.data_nascita}</div>
+                <div class="athleteField">${new Date(obj.data_nascita).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
               </div>
             </div>
           </div>
@@ -689,7 +709,7 @@ async function getAtleti(output, res) {
 
     await browser.close();
 
-    output.content = `<div class="athletesList"><h1 class="bigBigTitle">I NOSTRI ATLETI</h1>${concatenatedLines}</div>`;
+    output.content = `<div class="athletesList"> <h1 class="bigBigTitle"><p style="font-size: 0.655em; text-align: center; margin: 0; line-height: 70%; transform: translateX(0.1em)">I NOSTRI</p>ATLETI</h1>${concatenatedLines}</div>`;
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -848,93 +868,56 @@ function getStaff() {
   });
 }
 
+/* IGQWRQQURlZAUdOVmxiYmRKZAE5xcDh3QTQ5cy1fZA05yRzBtRS1FM0lta05lLUJOdlRsdEN4cGRrSmUtWkMzSV9yVDBTQ01RWFRnVS1NNk5FQ2x4dnZA1bVF4Ry1XODEyVXpSYzlaVUFERmdUb3RSbE4ya2NuMUY4YjgZD */
 async function getNews(output, res) {
+  const accessToken = 'IGQWRQOFpMTEk1Y2w1T1B0TmtQLUpXd3FPVnBlTGFnYjVjbU95SDNZAQVlPclo4cUtURG1IY0Fwd3VwS2tqYUd2bl9iVVg2WmhqZA3luSXJKVVFlMEc1SU8wTWJtTW1EclRHT0ctOHFzMTkzS2lrSVlpS3Y0U21TSTgZD';
   const targetUsername = 'saf_bolzano';
   const username = "pakistan_torri";
-  const password = "TORREMORTA1234!";
+  const password = "pakistan2024!!";
+  const userId = '17841410337593221';
 
   try {
-    const ig = new IgApiClient();
-    ig.state.generateDevice(username);
-    await ig.account.login(username, password);
-    console.log(username, password);
+    const response = await fetch(
+      `https://graph.instagram.com/${userId}/media?fields=id,caption,media_url,permalink,media_type&access_token=${accessToken}&limit=20`
+    );
+    const { data: posts } = await response.json();
 
-    const user = await ig.user.searchExact(targetUsername);
-    const userId = user.pk;
+    if (!posts || posts.length === 0) {
+      output.content = 'No posts found.';
+      return;
+    }
 
-    const userFeed = ig.feed.user(userId);
-
-    const posts = await userFeed.items();
-
-    //console.log(posts);
-
-    const postLinks = posts.map(post => {
-      if (post.permalink) {
-        console.log('Done.', permalink)
-        return post.permalink;
-      } else {
-        console.log('Permalink not found for post');
-        return null; // or handle accordingly
-      }
-    });
-
-    //console.log(postLinks);
-
-    const formattedPosts = posts.map(post => ({
-      imageUrl: post.image_versions2.candidates[0].url,
-      description: post.caption.text,
-    }));
-
-    const htmlOutput = formattedPosts.map((post, index) => {
-      const isVideo = post.videoUrl !== undefined;
-      const descriptionWithLinks = linkifyMentions(post.description);
-
-      // Check if the post link is present
-      const postLink = postLinks[index];
-      const postLinkHtml = postLink ? `<a href="${postLink}" target="_blank">View Post on Instagram</a>` : '';
+    const htmlOutput = posts.map((post) => {
+      const isVideo = post.media_type === 'VIDEO';
+      const descriptionWithLinks = linkifyMentions(post.caption || ''); // Handle missing captions
 
       return `
-        <div class="ig-post glassedBack">
-          ${isVideo ? `<video controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img src="${post.imageUrl}" alt="${post.description}">`}
+        <div class="ig-post newsBack">
+          ${isVideo ? `<video controls><source src="${post.media_url}" type="video/mp4"></video>` : `<img src="${post.media_url}" alt="${post.caption || 'Instagram Post'}">`}
           <div class="description">
             <h3>${descriptionWithLinks.split('\n')[0]}</h3>
             <p class="paragraph">${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>
-            ${postLinkHtml}
+            <a class="newsLink" href="${post.permalink}" target="_blank">Continua su instagram</a>
           </div>
         </div>
       `;
     }).join('');
-
-
-    function linkifyMentions(description) {
-      return description
-        .replace(/@(\S+)/g, '<a href="https://instagram.com/$1" target="_blank">@$1</a>')
-        .replace(/#(\S+)/g, '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">#$1</a>');
-    }
-
-
-    function isUpperCaseMajority(text) {
-      const len = text.length;
-      let upperCount = 0;
-
-      for (let i = 0; i < len; i++) {
-        if (text[i].toUpperCase() === text[i]) {
-          upperCount++;
-        }
-      }
-
-      return upperCount > len / 2;
-    }
 
     output.content = htmlOutput;
   } catch (error) {
     console.error('Error:', error.message);
     output.content = 'Internal Server Error';
   }
+
+  function linkifyMentions(description) {
+    return description
+      .replace(/@(\S+)/g, '<a href="https://instagram.com/$1" target="_blank">@$1</a>')
+      .replace(/#(\S+)/g, '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">#$1</a>');
+  }
 }
 
 async function getRecordSociali(output, res) {
-  db.all("SELECT * FROM record_sociali", (err, rows) => {
+  db.all("SELECT disciplina, tempo, nome, cognome, data FROM record_sociali", (err, rows) => {
     if (err) {
       console.error(err.message);
       return;
@@ -1216,7 +1199,7 @@ async function getInfo(output, res) {
 async function getNumberOfAthletes(output, res) {
   try {
     const websiteUrl = 'https://www.fidal.it/societa/SAF-BOLZANO-1953/BZ018';
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
 

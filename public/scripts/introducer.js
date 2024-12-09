@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', async function (){
+document.addEventListener('DOMContentLoaded', function () {
     const slides = document.querySelectorAll('.imageSlides');
     const slider = document.querySelector('.containsSlides');
     const sliderWidth = slider.clientWidth;
@@ -11,29 +11,24 @@ document.addEventListener('DOMContentLoaded', async function (){
     const element2 = document.querySelector('.sliderButton.right');
     const thereIsInCode = element1 && element2;
 
+    // Funzione per gestire lo scorrimento dello slider
     function scrollSlider(direction, callback) {
-        if (thereIsInCode) {
-            document.querySelector('.sliderButton.right').removeEventListener('click', alwaysNextSlide);
-            const scrollAmount = direction === 'next' ? slider.clientWidth : -slider.clientWidth;
-            isAutoScrolling = true;
-            slider.scrollTo({
-                left: slider.scrollLeft + scrollAmount,
-                behavior: 'smooth'
-            });
+        if (isScrolling) return;  // Se lo slider è in movimento, blocca il clic
 
-            setTimeout(function () {
-                setTimeout(function () {
-                    isAutoScrolling = false;
-                }, 100);
-                document.querySelector('.sliderButton.right').addEventListener('click', alwaysNextSlide);
-            }, 1500);
-        } else {
-            const scrollAmount = direction === 'next' ? slider.clientWidth : -slider.clientWidth;
-            slider.scrollTo({
-                left: slider.scrollLeft + scrollAmount,
-                behavior: 'smooth'
-            });
-        }
+        isScrolling = true;  // Imposta lo stato di scrolling a true
+        const scrollAmount = direction === 'next' ? slider.clientWidth : -slider.clientWidth;
+        
+        // Imposta lo scrolling e abilita la transizione fluida
+        slider.scrollTo({
+            left: slider.scrollLeft + scrollAmount,
+            behavior: 'smooth'
+        });
+
+        // Dopo l'animazione, ripristina lo stato e consenti di nuovo il clic
+        setTimeout(function () {
+            isScrolling = false;  // Rende di nuovo disponibile lo scorrimento
+            if (callback) callback();  // Esegui il callback se fornito
+        }, 1500);  // Tempo di attesa per il termine dell'animazione
     }
 
     function toStart() {
@@ -43,8 +38,6 @@ document.addEventListener('DOMContentLoaded', async function (){
             behavior: 'smooth'
         });
     }
-
-
 
     function prevSlide() {
         currentSlide = (currentSlide - 1 + slides.length) % slides.length;
@@ -59,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async function (){
 
             setTimeout(function () {
                 isTimeoutFinished = true;
-            }, 5000);
+            }, 5000);  // Impostiamo un timeout per evitare troppi clic
 
             currentSlide = (currentSlide + 1) % slides.length;
             scrollSlider('next');
@@ -79,21 +72,18 @@ document.addEventListener('DOMContentLoaded', async function (){
     function alwaysNextSlide() {
         currentSlide = (currentSlide + 1) % slides.length;
         scrollSlider('next');
-
     }
 
+    setTimeout(nextSlide, 6000);  // Avvia automaticamente lo slider
 
-    setTimeout(nextSlide, 6000);
-
-
+    // Event listeners per i pulsanti di navigazione
     if (thereIsInCode) {
         document.querySelector('.sliderButton.left').addEventListener('click', prevSlide);
         document.querySelector('.sliderButton.right').addEventListener('click', alwaysNextSlide);
     }
 
-
+    // Funzione per determinare la forma dell'immagine
     function imgHeV(img) {
-
         console.log('Image loaded:', img);
 
         if (img && img.naturalHeight === img.naturalWidth) {
@@ -108,11 +98,27 @@ document.addEventListener('DOMContentLoaded', async function (){
         }
     }
 
+    // Applica la funzione alle immagini caricate
     imagesHTML.forEach(function (img) {
         console.log('calling function time 1');
         img.onload = function () {
             console.log('calling function time 2');
             imgHeV(img);
         }
-    })
+    });
+
+    // Funzione per ricalcolare lo scroll quando cambia la larghezza
+    function handleResize() {
+        if (isScrolling) return; // Se lo slider è in movimento, non fare nulla
+
+        const newSliderWidth = slider.clientWidth;
+        const scrollOffset = currentSlide * newSliderWidth;
+        slider.scrollTo({
+            left: scrollOffset,
+            behavior: 'instant'  // Immediate scrolling senza animazione
+        });
+    }
+
+    // Ascolta l'evento di resize e aggiorna lo scroll
+    window.addEventListener('resize', handleResize);
 });
