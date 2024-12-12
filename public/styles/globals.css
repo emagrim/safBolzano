@@ -12,6 +12,7 @@
     --glass-1-border: 1px solid rgba(255, 255, 255, 0.1);
     --glass-1-background: rgba(255, 255, 255, 0.127);
     --glass-1-box-shadow: 0 15px 15px rgba(34, 34, 34, 0.177);
+    --glass-2-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     --glass-1-backdrop-filter: blur(30px);
     --glass-1--webkit-backdrop-filter: blur(20px);
     --glass-1-background_hover: rgba(0, 0, 0, 0.2);
@@ -1431,6 +1432,11 @@ h3.athleteField {
     padding: 20px;
 }
 
+.newsBack:hover {
+    box-shadow: var(--glass-2-box-shadow);
+    cursor: pointer;
+}
+
 .newsLink{
     font-weight: 300;
     text-decoration: none;
@@ -1641,6 +1647,7 @@ h2 {
     );
     border-image-slice: 1; /* Applica il gradiente interamente */
     border-bottom-color: var(--color-link);
+    transition: 0.3s ease-in-out;
 }
 
 .ig-post .description {
@@ -1679,6 +1686,10 @@ h2 {
 .ig-post a{
     position: relative;
     bottom: 0;
+}
+
+.ig-post:hover {
+    transform: scale(0.975);
 }
 
 /* SEZIONE CALENDAR */

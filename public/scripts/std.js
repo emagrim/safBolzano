@@ -99,3 +99,36 @@ setTimeout(function() {
         console.error('Il tag del banner dei cookie non è stato caricato correttamente.');
     }
 }, 10000);
+
+function enableLazyLoading() {
+    // Seleziona tutte le immagini, video, iframe, e altri elementi supportati
+    const elements = document.querySelectorAll('img, video, iframe, source, picture, object');
+
+    elements.forEach(element => {
+        // Aggiungi l'attributo loading="lazy" se non è già presente
+        if (!element.hasAttribute('loading')) {
+            element.setAttribute('loading', 'lazy');
+        }
+    });
+}
+
+// Crea un MutationObserver per rilevare l'aggiunta di nuovi elementi al DOM
+const observer = new MutationObserver(() => {
+    enableLazyLoading(); // Applica lazy loading ai nuovi elementi
+});
+
+// Configura l'observer per monitorare l'aggiunta di nuovi nodi nel body
+observer.observe(document.body, {
+    childList: true, // Rileva l'aggiunta di nuovi figli
+    subtree: true     // Rileva modifiche in tutto il DOM, non solo nel corpo
+});
+
+// Esegui la funzione inizialmente per caricare i primi elementi
+document.addEventListener('DOMContentLoaded', enableLazyLoading);
+
+function goToPost(id) {
+    if (id) {
+      window.location.href = `/news/${id}`;
+    }
+  }
+  

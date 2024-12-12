@@ -494,6 +494,18 @@ router.get('/:page', async (req, res) => {
   res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
 });
 
+router.get('/news/:articleId', async (req, res) => {
+  const articleId = req.params.articleId;  // Extract the ID from the URL
+  console.log('Article ID:', articleId);  // Log the id for debugging
+
+  try {
+    await getArticle(res, articleId);  // Call your function to fetch the article by ID
+  } catch (error) {
+    res.status(500).send('Error fetching article');
+  }
+});
+
+
 
 let staffContent;
 
@@ -579,7 +591,7 @@ async function getAtleti(output, res) {
       if (obj[2] === null || obj[2] === 'null') {
         obj[2] = 'https://atletica.me/img/noimage.jpg';
       }
-      if(obj.generale === null || obj.generale === 'null'){
+      if (obj.generale === null || obj.generale === 'null') {
         obj.generale = 'Polivalente';
       }
 
@@ -868,6 +880,43 @@ function getStaff() {
   });
 }
 
+async function getArticle(output, res, articleId) {
+  const accessToken = 'IGQWRQOFpMTEk1Y2w1T1B0TmtQLUpXd3FPVnBlTGFnYjVjbU95SDNZAQVlPclo4cUtURG1IY0Fwd3VwS2tqYUd2bl9iVVg2WmhqZA3luSXJKVVFlMEc1SU8wTWJtTW1EclRHT0ctOHFzMTkzS2lrSVlpS3Y0U21TSTgZD';
+  const userId = '17841410337593221';
+
+  try {
+    const response = await fetch(
+      `https://graph.instagram.com/${articleId}?fields=id,caption,media_url,permalink,media_type&access_token=${accessToken}`
+    );
+    const article = await response.json();
+    console.log('API Response:', article);
+    console.log('Article ID:', articleId);
+
+    if (!article || article.error) {
+      output.content = 'Article not found.';
+      return;
+    }
+
+    const isVideo = article.media_type === 'VIDEO';
+    const descriptionWithLinks = linkifyMentions(article.caption || '');
+
+    output.content = `
+      <div class="ig-post articleBack">
+        ${isVideo ? `<video controls><source src="${article.media_url}" type="video/mp4"></video>` : `<img src="${article.media_url}" alt="${article.caption || 'Instagram Post'}">`}
+        <div class="description">
+          <h3>${descriptionWithLinks.split('\n')[0]}</h3>
+          <p class="paragraph">${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>
+          <a class="articleLink" href="${article.permalink}" target="_blank">Continua su instagram</a>
+        </div>
+      </div>
+    `;
+    res.send(output.content);
+  } catch (error) {
+    console.error('Error:', error.message);
+    output.content = 'Internal Server Error';
+  }
+};
+
 /* IGQWRQQURlZAUdOVmxiYmRKZAE5xcDh3QTQ5cy1fZA05yRzBtRS1FM0lta05lLUJOdlRsdEN4cGRrSmUtWkMzSV9yVDBTQ01RWFRnVS1NNk5FQ2x4dnZA1bVF4Ry1XODEyVXpSYzlaVUFERmdUb3RSbE4ya2NuMUY4YjgZD */
 async function getNews(output, res) {
   const accessToken = 'IGQWRQOFpMTEk1Y2w1T1B0TmtQLUpXd3FPVnBlTGFnYjVjbU95SDNZAQVlPclo4cUtURG1IY0Fwd3VwS2tqYUd2bl9iVVg2WmhqZA3luSXJKVVFlMEc1SU8wTWJtTW1EclRHT0ctOHFzMTkzS2lrSVlpS3Y0U21TSTgZD';
@@ -892,7 +941,7 @@ async function getNews(output, res) {
       const descriptionWithLinks = linkifyMentions(post.caption || ''); // Handle missing captions
 
       return `
-        <div class="ig-post newsBack">
+        <div class="ig-post newsBack" id="${post.id}" onclick="goToPost(${post.id})">
           ${isVideo ? `<video controls><source src="${post.media_url}" type="video/mp4"></video>` : `<img src="${post.media_url}" alt="${post.caption || 'Instagram Post'}">`}
           <div class="description">
             <h3>${descriptionWithLinks.split('\n')[0]}</h3>
