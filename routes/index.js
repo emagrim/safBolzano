@@ -385,14 +385,7 @@ function getSubfoldersFromFolder(folderPath) {
           const filePath = path.join(folderPath, file);
           return fs.statSync(filePath).isDirectory();
         })
-        .map(folder => {
-          const folderFullPath = path.join(folderPath, folder);
-          const date = folder.substring(0, 10);
-          const name = folder.substring(11);
-          const firstImage = getFirstImage(folderFullPath);
-          return { date, name, folder, firstImage };
-        })
-        .reverse();
+        .map(folder => { const folderFullPath = path.join(folderPath, folder); const date = folder.substring(0, 10).split('.').reverse().join('/'); const name = folder.substring(11); const firstImage = getFirstImage(folderFullPath); return { date, name, folder, firstImage }; }).reverse();
     } else {
       console.log('Error: Path is not a directory -', folderPath);
       return [];
@@ -595,10 +588,9 @@ async function getAtleti(output, res) {
         obj.generale = 'Polivalente';
       }
 
-
       return {
         profile_image: obj[2],
-        id: obj.id,
+        id: obj.id || 'No ID',
         name: obj.nomecognome,
         gender: obj.sesso,
         category_id: obj.categoria_id,
@@ -609,6 +601,8 @@ async function getAtleti(output, res) {
         punteggio_migliore_anno_attuale: obj[10],
       };
     });
+
+    //res.send(extractedPropertiesArray);
 
     // Sorting by category and then by name
     extractedPropertiesArray.sort((a, b) => {
@@ -638,12 +632,12 @@ async function getAtleti(output, res) {
       85: "Master donne O35",
       86: "Master uomini O40",
       87: "Master donne O40",
-      88: "Master uomini O50",
-      89: "Master donne O50",
-      90: "Master uomini O55",
-      91: "Master donne O55",
-      92: "Master uomini O60",
-      93: "Master donne O60",
+      88: "Master uomini O45",
+      89: "Master donne O45",
+      90: "Master uomini O50",
+      91: "Master donne O50",
+      92: "Master uomini O55",
+      93: "Master donne O55",
       94: "Master uomini O60",
       95: "Master donne O60",
       96: "Master uomini O65",
@@ -680,7 +674,7 @@ async function getAtleti(output, res) {
         const genderLabel = obj.gender == 2 ? "maschio" : obj.gender == 3 ? "femmina" : "other";
 
         formattedLines.push(`
-          <div class="athlete ${genderLabel} ">
+          <div class="athlete ${genderLabel} " onclick="openLink('https://atletica.me/atleta/${obj.id}');">
             <div class="part1">  
               <img src="${obj.profile_image}" width="50px" height="50px" class="athleteField profileImg" />
             </div>
@@ -692,7 +686,15 @@ async function getAtleti(output, res) {
               <div>
                 <div class="athleteField">${obj.age} Anni</div>
                 <div class="athleteField">${obj.generale}</div>
-                <div class="athleteField">${new Date(obj.data_nascita).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
+<div class="athleteField">
+    ${obj.data_nascita && !isNaN(new Date(obj.data_nascita).getFullYear()) ?
+        (obj.data_nascita.length === 4 ?
+            new Date(obj.data_nascita, 0).toLocaleDateString('it-IT', { year: 'numeric' }) :
+            new Date(obj.data_nascita).toLocaleDateString('it-IT', { day: '2-digit', month: 'long' })) :
+        (typeof obj.data_nascita === 'string' ? obj.data_nascita.slice(0, 4) : 'Data non valida')}
+</div>
+
+
               </div>
             </div>
           </div>
@@ -939,15 +941,18 @@ async function getNews(output, res) {
     const htmlOutput = posts.map((post) => {
       const isVideo = post.media_type === 'VIDEO';
       const descriptionWithLinks = linkifyMentions(post.caption || ''); // Handle missing captions
-
+      //onclick="goToPost(${post.id})"
+      //<!--<a class="newsLink" href="${post.permalink}" target="_blank"><i class="fa-brands fa-instagram color"></i></a>!-->
       return `
-        <div class="ig-post newsBack" id="${post.id}" onclick="goToPost(${post.id})">
+        <div class="ig-post newsBack" id="${post.id}" onlick="openLink(${post.permalink})">
           ${isVideo ? `<video controls><source src="${post.media_url}" type="video/mp4"></video>` : `<img src="${post.media_url}" alt="${post.caption || 'Instagram Post'}">`}
           <div class="description">
             <h3>${descriptionWithLinks.split('\n')[0]}</h3>
             <p class="paragraph">${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>
-            <a class="newsLink" href="${post.permalink}" target="_blank">Continua su instagram</a>
+            <a href="${post.permalink}" target="_blank" class="newsLink"><i class="fa-solid fa-chevron-down"></i></a>
           </div>
+          
+          
         </div>
       `;
     }).join('');
@@ -993,60 +998,54 @@ async function getRecordSociali(output, res) {
 }
 
 async function getHome(output, res) {
-  const targetUsername = 'saf_bolzano';
-  const username = "";
-  const password = "";
-
-  console.log("initializzated getHome function");
+  const accessToken = 'IGQWRQOFpMTEk1Y2w1T1B0TmtQLUpXd3FPVnBlTGFnYjVjbU95SDNZAQVlPclo4cUtURG1IY0Fwd3VwS2tqYUd2bl9iVVg2WmhqZA3luSXJKVVFlMEc1SU8wTWJtTW1EclRHT0ctOHFzMTkzS2lrSVlpS3Y0U21TSTgZD';
+  const userId = '17841410337593221';
 
   try {
-    console.log("inside TRY-CATCH (home)");
-    const ig = new IgApiClient();
-    ig.state.generateDevice(username);
-    await ig.account.login(username, password);
-    console.log(username, password);
+    const response = await fetch(
+      `https://graph.instagram.com/${userId}/media?fields=id,caption,media_url,permalink,media_type&access_token=${accessToken}&limit=20`
+    );
+    const { data: posts } = await response.json();
 
-    const user = await ig.user.searchExact(targetUsername);
-    const userId = user.pk;
+    if (!posts || posts.length === 0) {
+      output.content = 'No posts found.';
+      return;
+    }
 
-    const userFeed = ig.feed.user(userId);
+    // Prendi solo gli ultimi 3 post
+    const latestPosts = posts.slice(0, 3);
 
-    const posts = await userFeed.items();
-    const limitedPosts = posts.slice(0, 3);
-
-    console.log(posts);
-
-    const formattedPosts = limitedPosts.map(post => ({
-      imageUrl: post.image_versions2.candidates[0].url,
-      description: post.caption.text,
-    }));
-
-    const htmlOutput = formattedPosts.map(post => {
-      const isVideo = post.videoUrl !== undefined;
-      const descriptionWithLinks = linkifyMentions(post.description);
+    const htmlOutput = latestPosts.map((post) => {
+      const isVideo = post.media_type === 'VIDEO';
+      const descriptionWithLinks = linkifyMentions(post.caption || ''); // Gestisci le didascalie mancanti
 
       return `
-        <div class="ig-post glassedBack">
-          <div class="description">
-            <h3>${descriptionWithLinks.split('\n')[0]}</h3>
-          </div>
-          ${isVideo ? `<video style="height: 350px; width: auto;" controls><source src="${post.videoUrl}" type="video/mp4"></video>` : `<img style="height: 300px; width: 300px;" src="${post.imageUrl}" alt="${post.description}">`}
+      <a class="newsLink newsHome" href="${post.permalink}" target="_blank">
+        <div class="" id="${post.id}">
+          ${isVideo ? `<video controls><source src="${post.media_url}" type="video/mp4"></video>` : `<img src="${post.media_url}" alt="${post.caption || 'Instagram Post'}">`}
         </div>
+        <div class="description">
+            <h3>${descriptionWithLinks.split('\n')[0]}</h3>
+            <!--<p class="paragraph">${descriptionWithLinks.substring(descriptionWithLinks.indexOf('\n') + 1).replace(/\n/g, '<br>')}</p>!-->
+            
+          </div>
+        </a>
       `;
     }).join('');
-
-    function linkifyMentions(description) {
-      return description
-        .replace(/@(\S+)/g, '<a href="https://instagram.com/$1" target="_blank">@$1</a>')
-        .replace(/#(\S+)/g, '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">#$1</a>');
-    }
 
     output.content = htmlOutput;
   } catch (error) {
     console.error('Error:', error.message);
     output.content = 'Internal Server Error';
   }
+
+  function linkifyMentions(description) {
+    return description
+      .replace(/@(\S+)/g, '<a href="https://instagram.com/$1" target="_blank">@$1</a>')
+      .replace(/#(\S+)/g, '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">#$1</a>');
+  }
 }
+
 
 async function getInfo(output, res) {
   const titles = ['PICCOLA STORIA DI UNA GRANDE SQUADRA', '1953 LA FONDAZIONE E LE ORIGINI', 'I SUCCESSI DEL PRIMO DECENNIO', '1960 L EPOCA DEI TALENTI', 'GLI ANNI 80 e 90 LA SAF AL MASCHILE', 'LA SAF DI OGGI E DI DOMANI'];

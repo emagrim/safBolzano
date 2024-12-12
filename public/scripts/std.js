@@ -131,4 +131,4 @@ function goToPost(id) {
       window.location.href = `/news/${id}`;
     }
   }
-  
+

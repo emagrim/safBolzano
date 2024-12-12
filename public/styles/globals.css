@@ -67,20 +67,24 @@ backdrop-filter: blur(20px);
 */
 
 ::selection {
-    background-color: var(--color-rosso-SAF_very_light); /* Change this to your desired selection color */
-    color: white; /* Change text color if needed */
+    background-color: var(--color-rosso-SAF_very_light);
+    /* Change this to your desired selection color */
+    color: white;
+    /* Change text color if needed */
 }
 
 ::-moz-selection {
-    background-color: var(--color-rosso-SAF_very_light); /* Change this to your desired selection color */
-    color: white; /* Change text color if needed */
+    background-color: var(--color-rosso-SAF_very_light);
+    /* Change this to your desired selection color */
+    color: white;
+    /* Change text color if needed */
 }
 
 .cc-window {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
-  }
+}
 
 .dn {
     display: none;
@@ -101,12 +105,27 @@ a {
     transform: translateY(-50%);
 }
 
+@media (min-aspect-ratio: 16/9) {
+    .lowerImgOnDisplay {
+        object-position: 50% 40%;
+    }
+
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .lowerImgOnDisplay {
+        object-position: 50% 70%;
+    }
+
+}
+
 i.fa,
 i.fa-brands {
     color: white;
     font-size: 18px;
 
 }
+
 
 html {
     width: 100%;
@@ -135,7 +154,7 @@ h1 {
 
 }
 
-h2{
+h2 {
     font-family: "Slackey", sans-serif;
 }
 
@@ -414,7 +433,7 @@ Navbar {
     height: 100%;
 }
 
-button.upperNavItem{
+button.upperNavItem {
     font-family: "Slackey", sans-serif;
     font-weight: 300;
 }
@@ -508,37 +527,43 @@ button.upperNavItem:hover {
         width: 100%;
         justify-content: center;
     }
+
     .contacts h1 {
         font-size: 65px;
-    
+
     }
+
     h1.paragraph {
         font-size: 30px !important;
     }
+
     .imageSection i {
         font-size: 60px !important;
     }
 
-    .imageSectionItem h2{
+    .imageSectionItem h2 {
         font-size: 20px !important;
     }
-    .imageSectionItem p{
+
+    .imageSectionItem p {
         font-size: 16px !important;
         margin-top: 0;
         font-family: "Slackey", sans-serif !important;
     }
+
     .bigBigTitle {
         font-size: 60px !important;
     }
 
-    .veryLittleSection h1{
+    .veryLittleSection h1 {
         font-size: 40px !important;
     }
 
-    .veryLittleSection h2{
+    .veryLittleSection h2 {
         font-size: 24px !important;
     }
-    .veryLittleSection h3{
+
+    .veryLittleSection h3 {
         font-size: 12px !important;
     }
 
@@ -567,11 +592,13 @@ button.upperNavItem:hover {
         min-width: 80px;
         border-radius: 40px;
     }
+
     .contacts h1 {
         font-size: 40px;
-    
+
     }
-    .veryLittleSection h1{
+
+    .veryLittleSection h1 {
         font-size: 25px !important;
     }
 
@@ -995,7 +1022,8 @@ body {
 
 .sliderButton.bottom {
     top: 89%;
-    right: 50%;
+    right: calc(50% - 40px);
+
     animation: upDown 2s ease-in-out infinite;
 }
 
@@ -1039,6 +1067,7 @@ body {
 
 .athlete:hover {
     box-shadow: none;
+    cursor: pointer;
 }
 
 .staffSlot {
@@ -1283,6 +1312,8 @@ h3.athleteField {
     transform: skewX(45deg) translate(200px);
 }
 
+.btn-special {}
+
 .grid4Text {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1432,19 +1463,71 @@ h3.athleteField {
     padding: 20px;
 }
 
+.newsHome {
+    display: grid;
+    grid-template-columns: minmax(100px, 300px) minmax(150px, 500px) 1fr;
+    gap: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.newsHome *:nth-child(1) {
+    width: 250px;
+    height: 100%;
+    z-index: 1;
+}
+
+.newsHome *:nth-child(2) {
+    width: 250px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    display: flex;
+}
+
+.newsHome img,
+.newsHome video {
+    width: 25%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+.newsHome h3 {
+    position: absolute;
+    top: 50%;
+    margin: 0;
+    width: 100%;
+    height: 50%;
+}
+
 .newsBack:hover {
     box-shadow: var(--glass-2-box-shadow);
     cursor: pointer;
 }
 
-.newsLink{
+.newsLink {
     font-weight: 300;
     text-decoration: none;
+    color: var(--color-rosso-SAF_very_light) !important;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+.newsLink i{
+    font-size: 25px !important;
+    color: var(--color-link);
 }
 
-.newsLink:hover{
+.newsLink:hover {
     text-decoration: underline;
 }
+
 .shadowBack {
     box-shadow: 2px 2px 16px #EAEAEA;
 }
@@ -1624,6 +1707,13 @@ h2 {
     padding: 100px 100px 0 100px;
 }
 
+@media (max-aspect-ratio: 1/1) {
+    .ig-section-home {
+        flex-direction: column;
+    }
+
+}
+
 .ig-grid-news {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -1639,15 +1729,16 @@ h2 {
     align-items: flex-start;
     box-sizing: border-box;
 
-    border: 1px solid white; /* Colore di default */
-    border-image-source: linear-gradient(
-        to bottom,
-        white 400px,
-        var(--color-link)450px
-    );
-    border-image-slice: 1; /* Applica il gradiente interamente */
+    border: 1px solid white;
+    /* Colore di default */
+    border-image-source: linear-gradient(to bottom,
+            white 400px,
+            var(--color-link)450px);
+    border-image-slice: 1;
+    /* Applica il gradiente interamente */
     border-bottom-color: var(--color-link);
     transition: 0.3s ease-in-out;
+    position: relative;
 }
 
 .ig-post .description {
@@ -1667,8 +1758,8 @@ h2 {
     margin: 0;
 }
 
-.ig-post .paragraph{
-    overflow: scroll;
+.ig-post .paragraph {
+    overflow: hidden;
     height: 200px;
     font-size: 15px;
 }
@@ -1683,7 +1774,7 @@ h2 {
     justify-self: center;
 }
 
-.ig-post a{
+.ig-post a {
     position: relative;
     bottom: 0;
 }
@@ -1797,13 +1888,14 @@ form#calendario input[type=reset]:hover {
 .contacts .fa-text {
     color: var(--color-rosso-SAF_very_light);
     font-weight: 600;
-    font-size: 40px;
+    font-size: 30px;
     border: var(--color-rosso-SAF_very_light) solid 4px;
     padding: 10px;
     transition: 0.3s ease-in-out;
     transform: skewX(-0deg);
     margin: 0;
     background-color: transparent;
+    font-family: "Slackey", sans-serif !important;
 }
 
 .contacts .fa-text.active {
