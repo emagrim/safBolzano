@@ -14,10 +14,10 @@ const authenticateAdmin = require('./adminAuthMiddleware');
 const { send } = require('process');
 const { PDFDocument } = require('pdf-lib');
 const nodemailer = require('nodemailer');
-const fetch = require('node-fetch');
 const CookieConsent = require('vanilla-cookieconsent');
-require('web-streams-polyfill/ponyfill');
+require('web-streams-polyfill');
 const fetch = require('node-fetch');
+globalThis.fetch = fetch;
 
 
 
@@ -1251,7 +1251,10 @@ async function getInfo(output, res) {
 async function getNumberOfAthletes(output, res) {
   try {
     const websiteUrl = 'https://www.fidal.it/societa/SAF-BOLZANO-1953/BZ018';
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: "new",
+    });
+    
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
 
