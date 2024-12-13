@@ -1783,6 +1783,34 @@ h2 {
     transform: scale(0.975);
 }
 
+@media (max-width: 1000px) {
+    .ig-section-home {
+        padding: 100px 50px 0 50px;
+    }
+
+    .ig-post{
+        max-width: 80vw;
+    }
+
+    .ig-post img,
+    .ig-post video {
+        height: 300px;
+    }
+
+    .ig-post .description {
+        margin: 8px 10px 2px 10px;
+    }
+
+    .ig-post .paragraph {
+        height: 150px;
+    }
+    .ig-section{
+        padding: 0;
+
+        padding-top: 30px !important;
+    }
+}
+
 /* SEZIONE CALENDAR */
 table {
     border-collapse: collapse;
@@ -1874,6 +1902,13 @@ form#calendario input[type=submit]:hover,
 form#calendario input[type=reset]:hover {
     box-shadow: none;
     cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+    .tableScroll{
+        overflow-x: scroll;
+    }
+    
 }
 
 /* INFO SECTION */

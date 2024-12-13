@@ -16,6 +16,10 @@ const { PDFDocument } = require('pdf-lib');
 const nodemailer = require('nodemailer');
 const fetch = require('node-fetch');
 const CookieConsent = require('vanilla-cookieconsent');
+require('web-streams-polyfill/ponyfill');
+const fetch = require('node-fetch');
+
+
 
 
 
@@ -690,7 +694,7 @@ async function getAtleti(output, res) {
     ${obj.data_nascita && !isNaN(new Date(obj.data_nascita).getFullYear()) ?
         (obj.data_nascita.length === 4 ?
             new Date(obj.data_nascita, 0).toLocaleDateString('it-IT', { year: 'numeric' }) :
-            new Date(obj.data_nascita).toLocaleDateString('it-IT', { day: '2-digit', month: 'long' })) :
+            new Date(obj.data_nascita).toLocaleDateString('it-IT', { year: 'numeric', day: '2-digit', month: 'long' })) :
         (typeof obj.data_nascita === 'string' ? obj.data_nascita.slice(0, 4) : 'Data non valida')}
 </div>
 
