@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const slides = document.querySelectorAll('.imageSlides');
     const slider = document.querySelector('.containsSlides');
-    const sliderWidth = slider.clientWidth;
+    const sliderWidth = Math.floor(slider.clientWidth);
     let currentSlide = 0;
     let isScrolling = false;
     let isAutoScrolling = false;
