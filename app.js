@@ -41,6 +41,6 @@ app.get('/favicon.ico', (req, res) => res.status(204));
 app.set('apiKey', process.env.API_KEY);
 
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port ${PORT}`);
 });
