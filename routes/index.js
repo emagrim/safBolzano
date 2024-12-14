@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const puppeteer = require('puppeteer-core');
+//const puppeteer = require('puppeteer-core');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const sqlite3 = require('sqlite3');
@@ -18,6 +18,7 @@ const CookieConsent = require('vanilla-cookieconsent');
 require('web-streams-polyfill');
 const fetch = require('node-fetch');
 globalThis.fetch = fetch;
+const { chromium } = require('playwright');
 
 const chromiumPath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
 
@@ -487,7 +488,8 @@ router.get('/:page', async (req, res) => {
       res.redirect('/');
     }
   } catch {
-    res.render("Error in handling route.");
+    res.send('Error');
+    console.error('Error:', error.message);
   }
   console.log('Content:', output.content);
   res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
@@ -573,10 +575,7 @@ async function getCalendar(output, res, req, reqUrl) {
 async function getAtleti(output, res) {
   try {
     const websiteUrl = 'https://atletica.me/societa/211';
-    const browser = await puppeteer.launch({
-      headless: true,
-      executablePath: path.join(__dirname, 'chromium-112.0.5615.121-linux-x64', 'chrome'),
-    });
+    const browser = await chromium.launch();
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
 
@@ -1256,9 +1255,7 @@ async function getInfo(output, res) {
 async function getNumberOfAthletes(output, res) {
   try {
     const websiteUrl = 'https://www.fidal.it/societa/SAF-BOLZANO-1953/BZ018';
-    const browser = await puppeteer.launch({
-      headless: "new",
-    });
+    const browser = await chromium.launch();
 
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
