@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --ext css,hbs,html --ignore /public/scripts/css.js app.js"
+    "start": "nodemon --ext css,hbs,html --ignore /public/scripts/css.js app.js",
+    "build": "apt-get update && apt-get install -y chromium && npm install"
   },
   "keywords": [],
   "author": "",
