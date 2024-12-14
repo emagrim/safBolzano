@@ -19,6 +19,8 @@ require('web-streams-polyfill');
 const fetch = require('node-fetch');
 globalThis.fetch = fetch;
 
+const chromiumPath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
+
 
 process.env.PUPPETEER_CACHE_DIR = '/la_cash';
 
@@ -573,7 +575,7 @@ async function getAtleti(output, res) {
     const websiteUrl = 'https://atletica.me/societa/211';
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: '/opt/render/project/src/.heroku/chromium',
+      executablePath: chromiumPath,
     });
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
