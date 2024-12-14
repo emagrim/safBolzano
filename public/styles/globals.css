@@ -1664,7 +1664,7 @@ h3.athleteField {
 }
 
 .svgSlider.not-full {
-    top: calc(70% - 88px);
+    top: calc(70vh - 88px);
 }
 
 h1 {

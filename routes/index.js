@@ -488,7 +488,7 @@ router.get('/:page', async (req, res) => {
       res.redirect('/');
     }
   } catch {
-    res.send('Error');
+    res.send('Errore grave. contattare alex.decarli@safbolzano.it');
     console.error('Error:', error.message);
   }
   console.log('Content:', output.content);
@@ -538,7 +538,7 @@ async function getAdminPanel(output, res) {
 async function getCalendar(output, res, req, reqUrl) {
   router.use(bodyParser.json());
   try {
-    const browser = await puppeteer.launch();
+    const browser = await chromium.launch();
     const page = await browser.newPage();
 
     const website = 'https://www.fidal.it/calendario.php';
