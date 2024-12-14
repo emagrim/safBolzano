@@ -403,6 +403,8 @@ Navbar {
 
     justify-content: right;
 
+    overflow: hidden;
+
     align-items: center;
 
     white-space: nowrap;
@@ -1434,6 +1436,14 @@ h3.athleteField {
     padding: 30px;
 }
 
+@media screen and (max-width: 600px) {
+    .flexVertical {
+        justify-content: left;
+        padding: 0;
+    }
+    
+}
+
 .textOnGlass {
     color: black;
 }
@@ -1911,6 +1921,10 @@ form#calendario input[type=submit]:hover,
 form#calendario input[type=reset]:hover {
     box-shadow: none;
     cursor: pointer;
+}
+
+.tableScol {
+    width: 100vw;
 }
 
 @media (max-width: 1000px) {
