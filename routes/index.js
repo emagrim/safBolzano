@@ -35,7 +35,7 @@ const output = {
   },
   nav: `<div id="nav"></div>`,
   foot: `<div id="foot"></div>`,
-  std: `<script src="../scripts/std.js"></script><script src="../scripts/css.js"></script><script src="../scripts/introducer.js"></script><script src="../scripts/url.js"></script><script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script><script src="../scripts/functions.js"></script>`,
+  std: `<meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="../scripts/std.js"></script><script src="../scripts/css.js"></script><script src="../scripts/introducer.js"></script><script src="../scripts/url.js"></script><script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script><script src="../scripts/functions.js"></script>`,
   content: ``,
   style: `<link rel="stylesheet" type="text/css" href="/styles/globals.css"><meta name="viewport" content="width=device-width, initial-scale=1.0">`,
   font: `<link rel="preconnect" href="https://fonts.googleapis.com">

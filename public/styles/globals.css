@@ -405,7 +405,6 @@ Navbar {
 
     align-items: center;
 
-    overflow: scroll;
     white-space: nowrap;
     animation: scroll 5s linear infinite;
 }
