@@ -446,7 +446,6 @@ router.get('/:page', async (req, res) => {
           pathToImgDir = imgFolder + middlePath + pageName;
           break;
         case "risultati":
-          output.content = ``;
           pathToImgDir = imgFolder + middlePath + pageName;
 
           //await getGare(output, res);
