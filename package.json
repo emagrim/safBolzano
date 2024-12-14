@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --ext css,hbs,html --ignore /public/scripts/css.js app.js",
-    "download-chromium": "curl -LO https://github.com/puppeteer/puppeteer/releases/download/v22.0.0/chromium-112.0.5615.121-linux-x64.tar.bz2 && tar -xjf chromium-112.0.5615.121-linux-x64.tar.bz2"
+    "download-chromium": "curl -LO https://storage.googleapis.com/chromium-browser-snapshots/Win/1127915/chrome-win.zip && unzip chrome-win.zip"
+
   },
   "keywords": [],
   "author": "",
