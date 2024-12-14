@@ -20,7 +20,7 @@ const fetch = require('node-fetch');
 globalThis.fetch = fetch;
 
 
-
+process.env.PUPPETEER_CACHE_DIR = '/la_cash';
 
 
 const db = new sqlite3.Database('database.db');
