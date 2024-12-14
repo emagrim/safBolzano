@@ -501,7 +501,7 @@ button.upperNavItem:hover {
     display: block;
 }
 
-@media screen and (max-width: 1045px) {
+@media screen and (max-width: 1145px) {
     .gridCenter {
         display: grid;
     }
