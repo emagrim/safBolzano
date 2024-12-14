@@ -1659,7 +1659,9 @@ h3.athleteField {
 @media screen and (min-width: 2200px) {
     .svgSlider {
         transform: translate(20vw, 0) !important;
+        width: 1400px;
     }
+
     
 }
 
