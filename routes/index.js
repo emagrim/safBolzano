@@ -573,7 +573,7 @@ async function getAtleti(output, res) {
     const websiteUrl = 'https://atletica.me/societa/211';
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: '/usr/bin/chromium',
+      executablePath: '/opt/render/project/src/.heroku/chromium',
     });
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
