@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const sqlite3 = require('sqlite3');
@@ -571,7 +571,10 @@ async function getCalendar(output, res, req, reqUrl) {
 async function getAtleti(output, res) {
   try {
     const websiteUrl = 'https://atletica.me/societa/211';
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: true,
+      executablePath: '/usr/bin/chromium',
+    });
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
 
@@ -692,10 +695,10 @@ async function getAtleti(output, res) {
                 <div class="athleteField">${obj.generale}</div>
 <div class="athleteField">
     ${obj.data_nascita && !isNaN(new Date(obj.data_nascita).getFullYear()) ?
-        (obj.data_nascita.length === 4 ?
-            new Date(obj.data_nascita, 0).toLocaleDateString('it-IT', { year: 'numeric' }) :
-            new Date(obj.data_nascita).toLocaleDateString('it-IT', { year: 'numeric', day: '2-digit', month: 'long' })) :
-        (typeof obj.data_nascita === 'string' ? obj.data_nascita.slice(0, 4) : 'Data non valida')}
+            (obj.data_nascita.length === 4 ?
+              new Date(obj.data_nascita, 0).toLocaleDateString('it-IT', { year: 'numeric' }) :
+              new Date(obj.data_nascita).toLocaleDateString('it-IT', { year: 'numeric', day: '2-digit', month: 'long' })) :
+            (typeof obj.data_nascita === 'string' ? obj.data_nascita.slice(0, 4) : 'Data non valida')}
 </div>
 
 
@@ -1254,7 +1257,7 @@ async function getNumberOfAthletes(output, res) {
     const browser = await puppeteer.launch({
       headless: "new",
     });
-    
+
     const page = await browser.newPage();
     await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
 
