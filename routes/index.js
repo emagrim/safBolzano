@@ -1253,38 +1253,38 @@ async function getInfo(output, res) {
 
 async function getNumberOfAthletes(output, res) {
   try {
-    const websiteUrl = 'https://www.fidal.it/societa/SAF-BOLZANO-1953/BZ018';
-    const browser = await chromium.launch();
+    // const websiteUrl = 'https://www.fidal.it/societa/SAF-BOLZANO-1953/BZ018';
+    // const browser = await chromium.launch();
 
-    const page = await browser.newPage();
-    await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
+    // const page = await browser.newPage();
+    // await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
 
-    const numbers = await page.evaluate(() => {
-      const labels = document.querySelectorAll('.dati-societa label');
-      const lastThreeLabels = Array.from(labels).slice(-3);
-      return lastThreeLabels.map(label => label.textContent.trim());
-    });
+    // const numbers = await page.evaluate(() => {
+    //   const labels = document.querySelectorAll('.dati-societa label');
+    //   const lastThreeLabels = Array.from(labels).slice(-3);
+    //   return lastThreeLabels.map(label => label.textContent.trim());
+    // });
 
-    const totalAthletesNumber = numbers[0] ? parseInt(numbers[0].replace(/[^\d]/g, ''), 10) : 0;
-    const maleAthletesNumber = numbers[1] ? parseInt(numbers[1].replace(/[^\d]/g, ''), 10) : 0;
-    const femaleAthletesNumber = numbers[2] ? parseInt(numbers[2].replace(/[^\d]/g, ''), 10) : 0;
+    // const totalAthletesNumber = numbers[0] ? parseInt(numbers[0].replace(/[^\d]/g, ''), 10) : 0;
+    // const maleAthletesNumber = numbers[1] ? parseInt(numbers[1].replace(/[^\d]/g, ''), 10) : 0;
+    // const femaleAthletesNumber = numbers[2] ? parseInt(numbers[2].replace(/[^\d]/g, ''), 10) : 0;
 
-    await browser.close();
+    // await browser.close();
 
-    output.content = `<div>
-                <div class="n-container beat shadowBack">
-                    <h3>MASCHI</h3>
-                    <p>${maleAthletesNumber}</p>
-                </div>
-                <div class="n-container beat shadowBack">
-                    <h3>FEMMINE</h3>
-                    <p>${femaleAthletesNumber}</p>
-                </div>
-                <div class="n-container beat shadowBack">
-                    <h3>ATLETI</h3>
-                    <p>${totalAthletesNumber}</p>
-                </div>
-            </div>`;
+    // output.content = `<div>
+    //             <div class="n-container beat shadowBack">
+    //                 <h3>MASCHI</h3>
+    //                 <p>${maleAthletesNumber}</p>
+    //             </div>
+    //             <div class="n-container beat shadowBack">
+    //                 <h3>FEMMINE</h3>
+    //                 <p>${femaleAthletesNumber}</p>
+    //             </div>
+    //             <div class="n-container beat shadowBack">
+    //                 <h3>ATLETI</h3>
+    //                 <p>${totalAthletesNumber}</p>
+    //             </div>
+    //         </div>`;
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
