@@ -1,8 +1,8 @@
 {
   "name": "safbolzano",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --ext css,hbs,html --ignore /public/scripts/css.js app.js",
@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "1.4",
+    "axios": "^1.10.0",
     "bcrypt": "^5.1.1",
     "cheerio": "^1.0.0-rc.12",
     "download": "^8.0.0",
@@ -31,7 +31,7 @@
     "puppeteer-core": "^22.0.0",
     "serve-favicon": "^2.5.0",
     "sqlite3": "^5.1.7",
-    "undici": "^4.16.0",
+    "undici": "^7.11.0",
     "vanilla-cookieconsent": "^3.0.1",
     "web-streams-polyfill": "^4.0.0"
   },
