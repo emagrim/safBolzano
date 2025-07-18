@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const getBrowser = require('./browser'); // path to the shared browser module
 //const puppeteer = require('puppeteer-core');
 const bodyParser = require('body-parser');
 const axios = require('axios');
