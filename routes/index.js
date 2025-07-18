@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const getBrowser = require('./browser'); // path to the shared browser module
 //const puppeteer = require('puppeteer-core');
 const bodyParser = require('body-parser');
 const axios = require('axios');
@@ -18,13 +19,13 @@ const CookieConsent = require('vanilla-cookieconsent');
 require('web-streams-polyfill');
 const fetch = require('node-fetch');
 globalThis.fetch = fetch;
-const { chromium } = require('playwright');
+// const { chromium } = require('playwright');
 
-const chromiumPath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
-
+// const chromiumPath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
 
 process.env.PUPPETEER_CACHE_DIR = '/la_cash';
 
+router.use(bodyParser.json());
 
 const db = new sqlite3.Database('database.db');
 
@@ -664,9 +665,9 @@ async function getAdminPanel(output, res) {
 }
 
 async function getCalendar(output, res, req, reqUrl) {
-  router.use(bodyParser.json());
   try {
-    const browser = await chromium.launch();
+    // const browser = await chromium.launch();
+    const browser = await getBrowser();
     const page = await browser.newPage();
 
     const website = 'https://www.fidal.it/calendario.php';
@@ -694,7 +695,7 @@ async function getCalendar(output, res, req, reqUrl) {
     // output.content = sectionHtml + reset;
                                                                                                                                                                                                                     output.content = sectionHtml;
 
-    await browser.close();
+    await page.close();
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).send('Internal Server Error getcalendar');
