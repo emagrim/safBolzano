@@ -461,9 +461,164 @@ router.get('/:page', async (req, res) => {
     res.send('Errore grave. contattare alex.decarli@safbolzano.it');
     console.error('Error:', error.message);
   }
+  output.content = `        <div class="text-holder">
+            
+            <div class="row">
+                <div class="col-sm-4">
+                    <h1>
+                        Calendario                    </h1>
+                </div>
+                <div class="col-sm-4 right" style="float:right;">
+                    <a href="calendario_graf.php" class="calendarbot">
+                        <i class="fa fa-calendar" style="color:black;"></i><label>calendario grafico</label>
+                    </a>
+                </div>
+            </div>    
+            
+
+            <div class="common_section none">
+                <p>
+                </p><form id="calendario" method="GET" action="">
+                    <fieldset>
+
+                        <table class="selezione" style="width:100%;">
+                            <tbody><tr>
+                                <td>
+                                    <label for="anno">Anno:</label> <br>
+                                    <select name="anno" id="anno">
+                                        <option value="2025" selected="">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002                                    </option></select>
+                                </td>
+                                <td>
+                                    <label for="mese">Mese:</label><br>
+                                    <select name="mese" id="mese">
+                                        <option value="1">Gennaio
+</option><option value="2">Febbraio
+</option><option value="3">Marzo
+</option><option value="4">Aprile
+</option><option value="5">Maggio
+</option><option value="6">Giugno
+</option><option value="7" selected="">Luglio
+</option><option value="8">Agosto
+</option><option value="9">Settembre
+</option><option value="10">Ottobre
+</option><option value="11">Novembre
+</option><option value="12">Dicembre
+                                    </option></select>
+                                </td>
+                                <td>
+                                    <label for="livello">Livello:</label><br>
+                                    <select name="livello" id="livello" onchange="setTipologie();">
+                                        <option value=""></option>
+                                        <option value="COD" selected="">Nazionale</option><option value="REG">Regionale</option>                                    </select>
+                                </td>
+                                <td>
+                                    <label for="regione">Regione:</label><br>
+                                    <select name="new_regione" id="new_regione">        
+                                        <option value="" selected=""></option><option value="ABRUZZO">Abruzzo</option><option value="ALTOADIGE">Alto Adige</option><option value="BASILICATA">Basilicata</option><option value="CALABRIA">Calabria</option><option value="CAMPANIA">Campania</option><option value="EMILIAROMAGNA">Emilia Romagna</option><option value="FRIULIVENEZIAGIULIA">Friuli Venezia Giulia</option><option value="LAZIO">Lazio</option><option value="LIGURIA">Liguria</option><option value="LOMBARDIA">Lombardia</option><option value="MARCHE">Marche</option><option value="MOLISE">Molise</option><option value="PIEMONTE">Piemonte</option><option value="PUGLIA">Puglia</option><option value="SARDEGNA">Sardegna</option><option value="SICILIA">Sicilia</option><option value="TOSCANA">Toscana</option><option value="TRENTINO">Trentino</option><option value="UMBRIA">Umbria</option><option value="VALLEDAOSTA">Valledaosta</option><option value="VENETO">Veneto</option>      
+                                    </select>
+                                </td>
+                                <td>
+                                    <label for="new_tipo">Tipologia:</label><br>
+                                    <select name="new_tipo" id="tipo" onchange="setOmologazione(this.value);">
+                                        <option value="0"></option>
+                                        <option value="2">Cross</option><option value="3">Indoor</option><option value="8">Marcia su strada</option><option value="11">Montagna</option><option value="4">Montagna/trail</option><option value="13">Nordic walking</option><option value="5">Outdoor</option><option value="10">Piazza e altri ambiti</option><option value="6">Strada</option><option value="12">Trail</option><option value="7">Ultramaratona</option><option value="9">Ultramaratona/trail</option>  
+                                    </select>
+                                </td>
+                                <td><label for="new_categoria">Categoria:</label><br>
+                                    <select name="new_categoria" id="categoria">
+                                        <option value="" selected=""></option><option value="ESO">Esordienti</option><option value="RAG">Ragazzi</option><option value="CAD">Cadetti</option><option value="ALL">Allievi</option><option value="JUN">Juniores</option><option value="PRO">Promesse</option><option value="SEN">Seniores</option><option value="MAS">Master</option>
+                                    </select>
+                                </td>
+                                <td style="margin-top:22px;"><input type="reset" value="Reset"><br></td>
+                                <td>
+                                <input style="margin-top:6px;" class="button" type="submit" name="submit" id="submit" value="Invia">
+                                </td>
+                            </tr>
+                        </tbody></table>
+
+                        <table class="selezione" style="width:100%;">
+                            <tbody><tr>
+                                <td style="width:180px;">
+                                                                        <input type="checkbox" id="new_campionati" name="new_campionati" value="1">
+                                    <label for="new_campionati">Campionati Federali</label>
+                                </td>
+                                <td style="width:180px;">
+                                    <label id="omologazione_lb" for="omologazione" style="display: none;">Omologazione:</label>
+                                    <select name="omologazione" id="omologazione" disabled="" style="display: none;">
+                                        <option value="">Tutte</option>
+                                        <option value="no">No</option>
+                                        <option value="si">Si</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <label id="omologazione_tipo_lb" for="omologazione_tipo" style="display: none;">Omologazione tipo:</label>
+                                    <select name="omologazione_tipo" id="omologazione_tipo" disabled="" style="display: none;">
+                                        <option value="">Tutte</option>
+                                        <option value="a">A</option>
+                                        <option value="b">B</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody></table>
+ 
+                        </fieldset>
+                    </form>
+                <p></p>  
+
+            </div>
+
+                        
+            <a href="https://www.fidal.it/ical/ical_man.php?&amp;anno=2025&amp;mese=07&amp;livello=COD" target="_blank" class="calendarbot" style="float:left;">
+                <i class="fa fa-calendar-check-o"></i>
+            </a>
+            <br>
+            <br>
+                        <div class="table_btm">
+                            <table width="100%" class="table tablesorter tablesorter-default" role="grid" aria-labelledby="tablesorter019e516f28f65caption">
+                                <caption class="sr-only" id="tablesorter019e516f28f65caption"></caption>
+                                <thead class="head">
+                                    <tr role="row" class="tablesorter-headerRow"><th width="3%" data-column="0" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label=": No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner"></div></th>
+                                    <th width="7%" data-column="1" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Data: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Data</div></th>
+                                    <th width="3%" data-column="2" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Livello: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Livello</div></th>
+                                    <th data-column="3" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Denominazione: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Denominazione</div></th>
+                                    <th data-column="4" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Tipologia: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Tipologia</div></th>
+                                    <th data-column="5" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Località: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Località</div></th>
+                                </tr></thead>    
+                                <tbody aria-live="polite" aria-relevant="all">
+
+                                </tbody>
+                            </table>
+                        </div>    
+                        
+                        <br><br>
+                        <div>
+                            <h5>Legenda</h5>
+                            <table style="background:transparent;">
+                                <tbody><tr>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:green; margin-right:2px;"></i>Ultramaratona/Trail</td>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:green; margin-right:2px;"></i>Montagna</td>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:green; margin-right:2px;"></i>Cross</td>
+                                </tr>
+                                <tr>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:gray; margin-right:2px;"></i>Marcia su strada</td>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:gray; margin-right:2px;"></i>Ultramaratona</td>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:gray; margin-right:2px;"></i>Strada</td>
+                                </tr>
+                                <tr>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:red; margin-right:2px;"></i>Outdoor</td>
+                                    <td class="legendatd"><i class="fa fa-circle" style="color:blue; margin-right:2px;"></i>Indoor</td>
+                                    <td></td>
+                                </tr>
+                            </tbody></table>
+                        </div>
+            
+
+        </div>
+        <script>
+
+</script>`
   console.log('Content:', output.content);
-  // res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
-  res.render(pageName, { pageTitle: pageName, output: ``, images: imageFiles, folder: subfolders });
+  res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
 });
 
 router.get('/news/:articleId', async (req, res) => {
@@ -534,7 +689,8 @@ async function getCalendar(output, res, req, reqUrl) {
 
 </script>`;
 
-    output.content = sectionHtml + reset;
+    // output.content = sectionHtml + reset;
+                                                                                                                                                                                                                    output.content = sectionHtml;
 
     await browser.close();
   } catch (error) {
