@@ -430,7 +430,7 @@ router.get('/:page', async (req, res) => {
         case "calendario":
           pathToImgDir = imgFolder + middlePath + pageName;
 
-          // await getCalendar(output, res, req, req.originalUrl);
+          await getCalendar(output, res, req, req.originalUrl);
 
           break;
         case "info":
