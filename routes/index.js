@@ -463,7 +463,7 @@ router.get('/:page', async (req, res) => {
   }
   console.log('Content:', output.content);
   // res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
-  res.render(pageName, { pageTitle: pageName, output: output});
+  res.render(pageName, { pageTitle: pageName, output: ``, images: imageFiles, folder: subfolders });
 });
 
 router.get('/news/:articleId', async (req, res) => {
