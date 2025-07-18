@@ -462,163 +462,6 @@ router.get('/:page', async (req, res) => {
     res.send('Errore grave. contattare alex.decarli@safbolzano.it');
     console.error('Error:', error.message);
   }
-  output.content = `        <div class="text-holder">
-            
-            <div class="row">
-                <div class="col-sm-4">
-                    <h1>
-                        Calendario                    </h1>
-                </div>
-                <div class="col-sm-4 right" style="float:right;">
-                    <a href="calendario_graf.php" class="calendarbot">
-                        <i class="fa fa-calendar" style="color:black;"></i><label>calendario grafico</label>
-                    </a>
-                </div>
-            </div>    
-            
-
-            <div class="common_section none">
-                <p>
-                </p><form id="calendario" method="GET" action="">
-                    <fieldset>
-
-                        <table class="selezione" style="width:100%;">
-                            <tbody><tr>
-                                <td>
-                                    <label for="anno">Anno:</label> <br>
-                                    <select name="anno" id="anno">
-                                        <option value="2025" selected="">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002                                    </option></select>
-                                </td>
-                                <td>
-                                    <label for="mese">Mese:</label><br>
-                                    <select name="mese" id="mese">
-                                        <option value="1">Gennaio
-</option><option value="2">Febbraio
-</option><option value="3">Marzo
-</option><option value="4">Aprile
-</option><option value="5">Maggio
-</option><option value="6">Giugno
-</option><option value="7" selected="">Luglio
-</option><option value="8">Agosto
-</option><option value="9">Settembre
-</option><option value="10">Ottobre
-</option><option value="11">Novembre
-</option><option value="12">Dicembre
-                                    </option></select>
-                                </td>
-                                <td>
-                                    <label for="livello">Livello:</label><br>
-                                    <select name="livello" id="livello" onchange="setTipologie();">
-                                        <option value=""></option>
-                                        <option value="COD" selected="">Nazionale</option><option value="REG">Regionale</option>                                    </select>
-                                </td>
-                                <td>
-                                    <label for="regione">Regione:</label><br>
-                                    <select name="new_regione" id="new_regione">        
-                                        <option value="" selected=""></option><option value="ABRUZZO">Abruzzo</option><option value="ALTOADIGE">Alto Adige</option><option value="BASILICATA">Basilicata</option><option value="CALABRIA">Calabria</option><option value="CAMPANIA">Campania</option><option value="EMILIAROMAGNA">Emilia Romagna</option><option value="FRIULIVENEZIAGIULIA">Friuli Venezia Giulia</option><option value="LAZIO">Lazio</option><option value="LIGURIA">Liguria</option><option value="LOMBARDIA">Lombardia</option><option value="MARCHE">Marche</option><option value="MOLISE">Molise</option><option value="PIEMONTE">Piemonte</option><option value="PUGLIA">Puglia</option><option value="SARDEGNA">Sardegna</option><option value="SICILIA">Sicilia</option><option value="TOSCANA">Toscana</option><option value="TRENTINO">Trentino</option><option value="UMBRIA">Umbria</option><option value="VALLEDAOSTA">Valledaosta</option><option value="VENETO">Veneto</option>      
-                                    </select>
-                                </td>
-                                <td>
-                                    <label for="new_tipo">Tipologia:</label><br>
-                                    <select name="new_tipo" id="tipo" onchange="setOmologazione(this.value);">
-                                        <option value="0"></option>
-                                        <option value="2">Cross</option><option value="3">Indoor</option><option value="8">Marcia su strada</option><option value="11">Montagna</option><option value="4">Montagna/trail</option><option value="13">Nordic walking</option><option value="5">Outdoor</option><option value="10">Piazza e altri ambiti</option><option value="6">Strada</option><option value="12">Trail</option><option value="7">Ultramaratona</option><option value="9">Ultramaratona/trail</option>  
-                                    </select>
-                                </td>
-                                <td><label for="new_categoria">Categoria:</label><br>
-                                    <select name="new_categoria" id="categoria">
-                                        <option value="" selected=""></option><option value="ESO">Esordienti</option><option value="RAG">Ragazzi</option><option value="CAD">Cadetti</option><option value="ALL">Allievi</option><option value="JUN">Juniores</option><option value="PRO">Promesse</option><option value="SEN">Seniores</option><option value="MAS">Master</option>
-                                    </select>
-                                </td>
-                                <td style="margin-top:22px;"><input type="reset" value="Reset"><br></td>
-                                <td>
-                                <input style="margin-top:6px;" class="button" type="submit" name="submit" id="submit" value="Invia">
-                                </td>
-                            </tr>
-                        </tbody></table>
-
-                        <table class="selezione" style="width:100%;">
-                            <tbody><tr>
-                                <td style="width:180px;">
-                                                                        <input type="checkbox" id="new_campionati" name="new_campionati" value="1">
-                                    <label for="new_campionati">Campionati Federali</label>
-                                </td>
-                                <td style="width:180px;">
-                                    <label id="omologazione_lb" for="omologazione" style="display: none;">Omologazione:</label>
-                                    <select name="omologazione" id="omologazione" disabled="" style="display: none;">
-                                        <option value="">Tutte</option>
-                                        <option value="no">No</option>
-                                        <option value="si">Si</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <label id="omologazione_tipo_lb" for="omologazione_tipo" style="display: none;">Omologazione tipo:</label>
-                                    <select name="omologazione_tipo" id="omologazione_tipo" disabled="" style="display: none;">
-                                        <option value="">Tutte</option>
-                                        <option value="a">A</option>
-                                        <option value="b">B</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody></table>
- 
-                        </fieldset>
-                    </form>
-                <p></p>  
-
-            </div>
-
-                        
-            <a href="https://www.fidal.it/ical/ical_man.php?&amp;anno=2025&amp;mese=07&amp;livello=COD" target="_blank" class="calendarbot" style="float:left;">
-                <i class="fa fa-calendar-check-o"></i>
-            </a>
-            <br>
-            <br>
-                        <div class="table_btm">
-                            <table width="100%" class="table tablesorter tablesorter-default" role="grid" aria-labelledby="tablesorter019e516f28f65caption">
-                                <caption class="sr-only" id="tablesorter019e516f28f65caption"></caption>
-                                <thead class="head">
-                                    <tr role="row" class="tablesorter-headerRow"><th width="3%" data-column="0" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label=": No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner"></div></th>
-                                    <th width="7%" data-column="1" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Data: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Data</div></th>
-                                    <th width="3%" data-column="2" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Livello: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Livello</div></th>
-                                    <th data-column="3" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Denominazione: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Denominazione</div></th>
-                                    <th data-column="4" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Tipologia: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Tipologia</div></th>
-                                    <th data-column="5" class="tablesorter-header tablesorter-headerUnSorted" tabindex="0" scope="col" role="columnheader" aria-disabled="false" unselectable="on" aria-sort="none" aria-label="Località: No sort applied, activate to apply an ascending sort" style="user-select: none;"><div class="tablesorter-header-inner">Località</div></th>
-                                </tr></thead>    
-                                <tbody aria-live="polite" aria-relevant="all">
-
-                                <tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="VenerdÃ¬ - Domenica">04-06/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/CAMPIONATI-ITALIANI-INDIVIDUALI-su-PISTA-JUNIORES-E-PROMESSE/COD13168">CAMPIONATI ITALIANI INDIVIDUALI su PISTA JUNIORES E PROMESSE</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Grosseto (GR)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="VenerdÃ¬">04/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XIV^-Edizione-CorriArsago-3-Memorial-“Corri-per-il-Gaspa”/COD13304">XIV^ Edizione CorriArsago 3° Memorial “Corri per il Gaspa”</a><br><font style="font-style: italic;">5km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Arsago Seprio (VA)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Sabato">05/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/X^-Sei-Ore-de-Conti/COD13064">X^ Sei Ore de Conti</a><br><font style="font-style: italic;">6h</font></td><td style="text-align: left;">ULTRAMARATONA</td><td style="text-align: left;">Serra De' Conti (AN)</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="Sabato">05/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/X^-Primiero-Dolomiti-Marathon/COD12958">X^ Primiero Dolomiti Marathon</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">TRAIL</td><td style="text-align: left;">Primiero San Martino Di Castrozza TN</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="Domenica">06/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XVIII^-IVARS-Tre-Campanili-Half-Marathon/COD13266">XVIII^ IVARS Tre Campanili Half Marathon</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">MONTAGNA</td><td style="text-align: left;">Vestone (BS)</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="Domenica">06/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/X^-Trofeo-Fattoria-Didattica/COD13300">X^ Trofeo Fattoria Didattica</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">MONTAGNA</td><td style="text-align: left;">Morbegno (SO)</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="Domenica">06/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/VII^-Birrasta-Memorial-Gian-Paolo-PAPO-Bolondi-/COD12872">VII^ Birrasta "Memorial Gian Paolo PAPO Bolondi"</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">PIAZZA e altri ambiti</td><td style="text-align: left;">Novellara (RE)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Domenica">06/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/Annullato-X^-Trofeo-Citta-di-Castrofilippo/COD12890">Annullato - X^ Trofeo Citta' di Castrofilippo</a><br><font style="font-style: italic;">10km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Castrofilippo (AG)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="MartedÃ¬">08/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXXVI^-Meeting-Arcobaleno-EAP-Atleticaeuropa/COD12874">XXXVI^ Meeting Arcobaleno EAP Atleticaeuropa</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Celle Ligure (SV)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="MercoledÃ¬">09/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXXV^-Kermesse-in-Notturna/COD14058">XXXV^ Kermesse in Notturna</a><br><font style="font-style: italic;">5km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Perugia (PG)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="MercoledÃ¬">09/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXXVIII^-Meeting-Int-le-Trofeo-Citta-di-Avellino-/COD12972">XXXVIII^ Meeting Int.le "Trofeo Citta' di Avellino"</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Avellino (AV)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="GiovedÃ¬">10/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXVIII^-Meeting-Internazionale-Citta-di-Nembro-/COD13283">XXVIII^ Meeting Internazionale "Citta' di Nembro"</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Nembro (BG)</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="GiovedÃ¬">10/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/II^-Pole-Vault-Opitergium/COD12788">II^ Pole Vault Opitergium</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">PIAZZA e altri ambiti</td><td style="text-align: left;">Oderzo (TV)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Sabato">12/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/5--Meeting-della-Leonessa-9--Memorial-Davide-Boroni/COD13350">5. Meeting della Leonessa - 9. Memorial Davide Boroni</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Brescia (BS)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Sabato - Domenica">12-13/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/Campionati-Assoluti-FISPES/COD14052">Campionati Assoluti FISPES</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Grosseto (GR)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Sabato">12/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXI^-Meeting-su-pista-Regione-FVG---ospiti-di-gente-unica-Provincia-di/COD12979">XXI^ Meeting su pista Regione FVG...ospiti di gente unica - Provincia di Pordenone - Comune di Brugnera - 10^ Memorial Guido Maccan - 6^ Memorial Gianfranco Chessa</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Brugnera (PN)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Domenica">13/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/III^-La-Sant-Erasmo-Run-K10/COD13214">III^ La Sant'Erasmo Run K10</a><br><font style="font-style: italic;">10km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Taggia (IM)</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="Domenica">13/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/LXXI^-San-Giacomo-Altissimo/COD12984">LXXI^ San Giacomo Altissimo</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">MONTAGNA</td><td style="text-align: left;">Brentonico Loc San Giacomo TN</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Domenica">13/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXXVI^-Meeting-Int-le-Sport-e-Solidarieta-Lignano-Sabbiadoro/COD12976">XXXVI^ Meeting Int.le Sport e Solidarieta' Lignano Sabbiadoro</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Lignano Sabbiadoro (UD)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="MartedÃ¬">15/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/II^-Grand-Prix-Brescia-2025/COD13294">II^ Grand Prix Brescia 2025</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Brescia (BS)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="GiovedÃ¬ - Domenica">17-20/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/CAMPIONATI-EUROPEI-UNDER-23-SU-PISTA/COD13412">CAMPIONATI EUROPEI  UNDER 23 SU PISTA</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Bergen --</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="VenerdÃ¬">18/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXI^-Stabhochsprung-Schlanders/COD12768">XXI^ Stabhochsprung Schlanders</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">PIAZZA e altri ambiti</td><td style="text-align: left;">Silandro/schlanders BZ</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="VenerdÃ¬">18/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XV^-Tornaco-di-Notte/COD12904">XV^ Tornaco di Notte</a><br><font style="font-style: italic;">5km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Tornaco (NO)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:green;"></i></td><td><b style="color:black;" title="Sabato">19/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/INTERNATIONAL-SNOWDON-RACE/COD14099">INTERNATIONAL SNOWDON RACE</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">MONTAGNA/TRAIL</td><td style="text-align: left;">Llanberis --</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Sabato">19/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/III^-Nuova-Montirun/COD13432">III^ Nuova Montirun</a><br><font style="font-style: italic;">5km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Montirone (BS)</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="Sabato">19/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/I^-Bagolino-Alpin-Trail/COD13433">I^ Bagolino Alpin Trail</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">TRAIL</td><td style="text-align: left;">Bagolino (BS)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Sabato - Domenica">19-20/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/CHALLENGE-ASSOLUTO-SU-PISTA/COD13170">CHALLENGE ASSOLUTO SU PISTA</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Conegliano (TV)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Sabato">19/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/TROFEO-DELLE-REGIONI-MASTER-su-PISTA/COD13169">TROFEO DELLE REGIONI MASTER su PISTA</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Nocera Inferiore (SA)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Sabato">19/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXVIII^-Attraverso-le-Mura/COD12896">XXVIII^ Attraverso le Mura</a><br><font style="font-style: italic;">10km (U/D), 6km (All. D)</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Massa (MS)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Domenica - Sabato">20-26/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/FESTIVAL-OLIMPICO-DELLA-GIOVENTU-EUROPEA-UNDER-18/COD13413">FESTIVAL OLIMPICO DELLA GIOVENTU' EUROPEA - UNDER 18</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Skopje --</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="Domenica">20/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/X^-Piancavallo-Run-Panoramica-delle-Malghe/COD12838">X^ Piancavallo.Run - Panoramica delle Malghe</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">TRAIL</td><td style="text-align: left;">Piancavallo PN</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="Domenica">20/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/II^-Trail-sui-Sentieri-dei-Campioni/COD12944">II^ Trail sui Sentieri dei Campioni</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">TRAIL</td><td style="text-align: left;">Sestriere (TO)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="LunedÃ¬ - Domenica">21-27/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/CAMPIONATI-MONDIALI-UNIVERSITARI-(UNIVERSIADI)/COD13414">CAMPIONATI MONDIALI UNIVERSITARI (UNIVERSIADI)</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Bochum --</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="MercoledÃ¬">23/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/International-Pegaso-Meeting-Citta-di-Firenze/COD13001">International Pegaso Meeting, Citta' di Firenze</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Firenze (FI)</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="VenerdÃ¬">25/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/I^-Jumping-Overcoming-Boundaries/COD13256">I^ Jumping Overcoming Boundaries</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">PIAZZA e altri ambiti</td><td style="text-align: left;">Gorizia (GO)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="GOLD">G</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XCIX^-Giro-Podistico-Int-le-di-Castelbuono/COD12957">XCIX^ Giro Podistico Int.le di Castelbuono</a><br><font style="font-style: italic;">10km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Castelbuono (PA)</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XIV^-Trans-D-Havet/COD12808">XIV^ Trans D'Havet</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">TRAIL</td><td style="text-align: left;">Valdagno (VI)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XIX-Meeting-Nazionale-Citta-di-Teramo/COD13924">XIX Meeting Nazionale Citta' di Teramo</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Teramo (TE)</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/II^-Giir-di-Mont-Uphill/COD13444">II^ Giir di Mont - Uphill</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">MONTAGNA</td><td style="text-align: left;">Premana (LC)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/X^-Memorial-Cristina-Calleri/COD13004">X^ Memorial Cristina Calleri</a><br><font style="font-style: italic;">10km</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Torregrotta (ME)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/Annullato-III^-Edizione-Giro-dell-Abbazia/COD12911">Annullato - III^ Edizione Giro dell'Abbazia</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Montescaglioso (MT)</td></tr><tr role="row" class="even"><td><i class="fa fa-circle" style="color:red;"></i></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="INTERNAZ.LE">I</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XVIII^-Triveneto-Meeting-Internazionale/COD12959">XVIII^ Triveneto Meeting Internazionale</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">OUTDOOR</td><td style="text-align: left;">Trieste (TS)</td></tr><tr role="row" class="odd"><td></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/CAMPIONATI-ITALIANI-INDIVIDUALI-Sen-Pro-e-Jun-di-CORSA-IN-MONTAGNA-Uphill/COD13367">CAMPIONATI ITALIANI INDIVIDUALI  Sen/Pro e Jun di CORSA IN MONTAGNA Uphill (validi per il CdS Sen/Pro e Jun)</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">MONTAGNA</td><td style="text-align: left;">Premana (LC)</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="Sabato">26/07</b></td><td><abbr title="NAZ.LE">N</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/CAMPIONATI-ITALIANI-ASSOLUTI-e-MASTER-di-TRAIL-LUNGO/COD13368">CAMPIONATI ITALIANI ASSOLUTI e MASTER di TRAIL LUNGO</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">TRAIL</td><td style="text-align: left;">Valdagno (VI)</td></tr><tr role="row" class="odd"><td><i class="fa fa-circle" style="color:gray;"></i></td><td><b style="color:black;" title="Domenica">27/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXVIII^-Corrida-di-San-Lorenzo-Highlander-Run/COD13295">XXVIII^ Corrida di San Lorenzo - Highlander Run</a><br><font style="font-style: italic;">8km U/4km D</font></td><td style="text-align: left;">STRADA</td><td style="text-align: left;">Zogno (BG)</td></tr><tr role="row" class="even"><td></td><td><b style="color:black;" title="Domenica">27/07</b></td><td><abbr title="BRONZE">B</abbr></td><td style="text-align: left;"><a href="https://www.fidal.it/calendario/XXXI^-Giir-di-Mont/COD13443">XXXI^ Giir di Mont</a><br><font style="font-style: italic;"></font></td><td style="text-align: left;">MONTAGNA</td><td style="text-align: left;">Premana (LC)</td></tr>
-                                </tbody>
-                            </table>
-                        </div>    
-                        
-                        <br><br>
-                        <div>
-                            <h5>Legenda</h5>
-                            <table style="background:transparent;">
-                                <tbody><tr>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:green; margin-right:2px;"></i>Ultramaratona/Trail</td>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:green; margin-right:2px;"></i>Montagna</td>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:green; margin-right:2px;"></i>Cross</td>
-                                </tr>
-                                <tr>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:gray; margin-right:2px;"></i>Marcia su strada</td>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:gray; margin-right:2px;"></i>Ultramaratona</td>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:gray; margin-right:2px;"></i>Strada</td>
-                                </tr>
-                                <tr>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:red; margin-right:2px;"></i>Outdoor</td>
-                                    <td class="legendatd"><i class="fa fa-circle" style="color:blue; margin-right:2px;"></i>Indoor</td>
-                                    <td></td>
-                                </tr>
-                            </tbody></table>
-                        </div>
-            
-
-        </div>
-        <script>
-
-</script>`
   console.log('Content:', output.content);
   // res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
   res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
@@ -664,44 +507,32 @@ async function getAdminPanel(output, res) {
   }
 }
 
-async function getCalendar(output, res, req, reqUrl) {
+async function getCalendar(output, res, req) {
   try {
-    // const browser = await chromium.launch();
-    const browser = await getBrowser();
-    const page = await browser.newPage();
-
     const website = 'https://www.fidal.it/calendario.php';
-    await page.goto(website, { waitUntil: 'domcontentloaded' });
 
-    let sectionHtml = await page.$eval('.section', section => section.innerHTML);
-
+    // Build full link with query parameters from original URL
     const url = req.protocol + '://' + req.get('host') + req.originalUrl;
+    const secondPartLink = url.split('?')[1];
+    const fullLink = website + (secondPartLink ? '?' + secondPartLink : '');
 
-    const parts = url.split('?');
-    const secondPartLink = parts[1];
+    console.log('Fetching:', fullLink);
 
-    const fullLink = website + '?' + secondPartLink;
+    // Download the page content
+    const response = await axios.get(fullLink);
+    const $ = cheerio.load(response.data);
 
-    console.log(secondPartLink);
-    console.log(fullLink);
-
-    await page.goto(fullLink, { waitUntil: 'domcontentloaded' });
-    sectionHtml = await page.$eval('.section', section => section.innerHTML);
-
+    // Extract the section HTML
+    const sectionHtml = $('.section').html();
     const reset = `    <script>
 
 </script>`;
-
-    // output.content = sectionHtml + reset;
-                                                                                                                                                                                                                    output.content = sectionHtml;
-
-    await page.close();
+    output.content = sectionHtml + reset || '<div>No .section content found</div>';
   } catch (error) {
     console.error('Error:', error.message);
-    res.status(500).send('Internal Server Error getcalendar');
+    res.status(500).send('Internal Server Error (cheerio getCalendar)');
   }
 }
-
 async function getAtleti(output, res) {
   try {
     const websiteUrl = 'https://atletica.me/societa/211';
