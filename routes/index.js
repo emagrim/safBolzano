@@ -84,35 +84,6 @@ router.use('/admin-panel-1953', authenticateAdmin);
 let adminOut;
 let pdfBytes;
 
-/*
-router.post('/estelle-pdf-modul', async (req, res) => {
-  try {
-    const modulData = req.body;
-    console.log('Received data:', modulData);
-
-    const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([600, 800]);
-    const { width, height } = page.getSize();
-    page.drawText('Hello, World!', {
-      x: 50,
-      y: height - 40,
-      size: 30,
-    });
-
-    const pdfBytes = await pdfDoc.save();
-
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename="example.pdf"');
-    res.send(pdfBytes);
-    console.log('PDF sent.');
-    console.log('PDF Bytes:', pdfBytes);
-  } catch (error) {
-    console.error('Error:', error.message);
-    res.status(500).send('Internal Server Error');
-  }
-});
-*/
-
 
 router.post('/staff-save', async (req, res) => {
   try {
@@ -491,7 +462,8 @@ router.get('/:page', async (req, res) => {
     console.error('Error:', error.message);
   }
   console.log('Content:', output.content);
-  res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
+  // res.render(pageName, { pageTitle: pageName, output: output, images: imageFiles, folder: subfolders });
+  res.render(pageName, { pageTitle: pageName, output: output});
 });
 
 router.get('/news/:articleId', async (req, res) => {
@@ -537,34 +509,34 @@ async function getAdminPanel(output, res) {
 async function getCalendar(output, res, req, reqUrl) {
   router.use(bodyParser.json());
   try {
-//     const browser = await chromium.launch();
-//     const page = await browser.newPage();
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
 
-//     const website = 'https://www.fidal.it/calendario.php';
-//     await page.goto(website, { waitUntil: 'domcontentloaded' });
+    const website = 'https://www.fidal.it/calendario.php';
+    await page.goto(website, { waitUntil: 'domcontentloaded' });
 
-//     let sectionHtml = await page.$eval('.section', section => section.innerHTML);
+    let sectionHtml = await page.$eval('.section', section => section.innerHTML);
 
-//     const url = req.protocol + '://' + req.get('host') + req.originalUrl;
+    const url = req.protocol + '://' + req.get('host') + req.originalUrl;
 
-//     const parts = url.split('?');
-//     const secondPartLink = parts[1];
+    const parts = url.split('?');
+    const secondPartLink = parts[1];
 
-//     const fullLink = website + '?' + secondPartLink;
+    const fullLink = website + '?' + secondPartLink;
 
-//     console.log(secondPartLink);
-//     console.log(fullLink);
+    console.log(secondPartLink);
+    console.log(fullLink);
 
-//     await page.goto(fullLink, { waitUntil: 'domcontentloaded' });
-//     sectionHtml = await page.$eval('.section', section => section.innerHTML);
+    await page.goto(fullLink, { waitUntil: 'domcontentloaded' });
+    sectionHtml = await page.$eval('.section', section => section.innerHTML);
 
-//     const reset = `    <script>
+    const reset = `    <script>
 
-// </script>`;
+</script>`;
 
-//     output.content = sectionHtml + reset;
+    output.content = sectionHtml + reset;
 
-//     await browser.close();
+    await browser.close();
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).send('Internal Server Error getcalendar');
