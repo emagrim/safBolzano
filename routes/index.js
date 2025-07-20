@@ -700,7 +700,7 @@ async function getAtleti(output, res) {
 
     output.content = `<div class="athletesList"> <h1 class="bigBigTitle"><p style="font-size: 0.655em; text-align: center; margin: 0; line-height: 70%; transform: translateX(0.1em)">I NOSTRI</p>ATLETI</h1>${concatenatedLines}</div>`;
   } catch (error) {
-    console.error(error);
+    console.error('Error:', error.message)
     next(error);
   }
 }
@@ -1254,7 +1254,7 @@ async function getNumberOfAthletes(output, res) {
                 </div>
             </div>`;
   } catch (error) {
-    console.error(error);
+    console.error('Error:', error.message);
     res.status(500).send('Internal Server Error getnumberofathletes');
   }
 }
