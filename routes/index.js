@@ -18,7 +18,7 @@ const CookieConsent = require('vanilla-cookieconsent');
 require('web-streams-polyfill');
 const fetch = require('node-fetch');
 globalThis.fetch = fetch;
-// const { chromium } = require('playwright');
+const { chromium } = require('playwright');
 
 // const chromiumPath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
 
@@ -570,8 +570,6 @@ async function getAtleti(output, res) {
       };
     });
 
-    //res.send(extractedPropertiesArray);
-
     // Sorting by category and then by name
     extractedPropertiesArray.sort((a, b) => {
       if (a.category_id !== b.category_id) {
@@ -581,6 +579,7 @@ async function getAtleti(output, res) {
       }
     });
 
+    // Category mapping
     const categorie = {
       70: "Esordienti maschi",
       71: "Esordienti femmine",
@@ -642,11 +641,10 @@ async function getAtleti(output, res) {
         const genderLabel = obj.gender == 2 ? "maschio" : obj.gender == 3 ? "femmina" : "other";
 
         formattedLines.push(`
-          <div class="athlete ${genderLabel} " onclick="openLink('https://atletica.me/atleta/${obj.id}');">
-            <div class="part1">  
+          <div class="athlete ${genderLabel}" onclick="openLink('https://atletica.me/atleta/${obj.id}');">
+            <div class="part1">
               <img src="${obj.profile_image}" width="50px" height="50px" class="athleteField profileImg" />
             </div>
-          
             <div class="part2">
               <div>
                 <h3 class="athleteField">${obj.name}</h3>
@@ -654,15 +652,13 @@ async function getAtleti(output, res) {
               <div>
                 <div class="athleteField">${obj.age} Anni</div>
                 <div class="athleteField">${obj.generale}</div>
-<div class="athleteField">
-    ${obj.data_nascita && !isNaN(new Date(obj.data_nascita).getFullYear()) ?
-            (obj.data_nascita.length === 4 ?
-              new Date(obj.data_nascita, 0).toLocaleDateString('it-IT', { year: 'numeric' }) :
-              new Date(obj.data_nascita).toLocaleDateString('it-IT', { year: 'numeric', day: '2-digit', month: 'long' })) :
-            (typeof obj.data_nascita === 'string' ? obj.data_nascita.slice(0, 4) : 'Data non valida')}
-</div>
-
-
+                <div class="athleteField">
+                  ${obj.data_nascita && !isNaN(new Date(obj.data_nascita).getFullYear()) ?
+                    (obj.data_nascita.length === 4 ?
+                      new Date(obj.data_nascita, 0).toLocaleDateString('it-IT', { year: 'numeric' }) :
+                      new Date(obj.data_nascita).toLocaleDateString('it-IT', { year: 'numeric', day: '2-digit', month: 'long' })) :
+                    (typeof obj.data_nascita === 'string' ? obj.data_nascita.slice(0, 4) : 'Data non valida')}
+                </div>
               </div>
             </div>
           </div>
@@ -681,11 +677,6 @@ async function getAtleti(output, res) {
 
       return formattedLines.join('\n');
     }
-
-
-
-
-
 
     const concatenatedLines = printAthleteDataWithCategory(extractedPropertiesArray);
 
