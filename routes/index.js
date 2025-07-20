@@ -457,7 +457,7 @@ router.get('/:page', async (req, res) => {
       await getHome(output, res);
       res.redirect('/');
     }
-  } catch {
+  } catch (error) {
     res.send('Errore grave. contattare alex.decarli@safbolzano.it');
     console.error('Error:', error.message);
   }
