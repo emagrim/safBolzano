@@ -521,12 +521,28 @@ async function getCalendar(output, res, req) {
     const response = await axios.get(fullLink);
     const $ = cheerio.load(response.data);
 
-    // Extract the section HTML
-    const sectionHtml = $('.section').html();
+    // Grab the whole section
+    const $section = $('.section');
+
+    // Extract filters (the form with id calendario)
+    const filters = $section.find('form#calendario').parent().html() || '';
+
+    // Extract results table container (assumed .table_btm)
+    const results = $section.find('.table_btm').html() || '';
+
+    // Extract legend (container with h5 containing "Legenda")
+    const legend = $section.find('h5').filter((i, el) => {
+      return $(el).text().trim().toLowerCase().includes('legenda');
+    }).parent().html() || '';
+
     const reset = `    <script>
 
 </script>`;
-    output.content = sectionHtml + reset || '<div>No .section content found</div>';
+    output.content = {
+        filters,
+        results,
+        legend
+      } || '<div>No .section content found</div>';
   } catch (error) {
     console.error('Error:', error.message);
     res.status(500).send('Internal Server Error (cheerio getCalendar)');

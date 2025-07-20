@@ -29,7 +29,17 @@
                 </g>
             </svg>
         </div>
-        {{{output.content}}}
+        <section id="filters">
+            {{{output.content.filters}}}
+        </section>
+
+        <section id="results">
+            {{{output.content.results}}}
+        </section>
+
+        <section id="legend">
+            {{{output.content.legend}}}
+        </section>
         {{{output.foot}}}
         <script>
             const checkElement = setInterval(function () {
