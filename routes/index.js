@@ -1256,13 +1256,13 @@ async function getInfo(output, res) {
 async function getNumberOfAthletes(output, res) {
   try {
     // Definiamo il percorso del file JSON. `path.join` si assicura che funzioni su tutti i sistemi operativi.
-    const jsonFilePath = path.join(__dirname, 'public', 'partials', 'statistiche_atleti.json');
+    const jsonFilePath = path.join(__dirname, '..', 'public', 'partials', 'statistiche_atleti.json');
 
     // Leggiamo il contenuto del file. 'await' attende che la lettura sia completata.
-    const fileContent = await fs.readFile(jsonFilePath, 'utf8');
+    const fileContent = await readFileAsync(jsonFilePath);
         
     // Convertiamo la stringa JSON in un oggetto JavaScript.
-    const statsData = JSON.parse(fileContent);
+    const statistiche_atleti = JSON.parse(fileContent);
     
     output.content = `<div>
                 <div class="n-container beat shadowBack">
