@@ -389,7 +389,7 @@ module.exports = router;
 
 router.get('/:page', async (req, res) => {
   const pageName = req.params.page;
-  let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
+  let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/gallery'));
   const imgFolder = '../public/images/';
   const middlePath = 'img/';
   let pathToImgDir;
@@ -435,7 +435,8 @@ router.get('/:page', async (req, res) => {
           break;
         case "galleria":
           output.content = ``;
-          pathToImgDir = imgFolder + `/gallery`;
+          imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
+          pathToImgDir = `../public/data/gallery`;
           break;
         case "calendario":
           pathToImgDir = imgFolder + middlePath + pageName;
