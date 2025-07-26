@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Update software
-RUN apt update && apt upgrade -y
+RUN apt update && apt upgrade -y && apt install -y rsync
 
 # Install your application's npm dependencies
 RUN npm install
