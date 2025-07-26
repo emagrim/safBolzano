@@ -1255,36 +1255,27 @@ async function getInfo(output, res) {
 
 async function getNumberOfAthletes(output, res) {
   try {
-    const websiteUrl = 'https://www.fidal.it/societa/SAF-BOLZANO-1953/BZ018';
-    const browser = await chromium.launch();
+    // Definiamo il percorso del file JSON. `path.join` si assicura che funzioni su tutti i sistemi operativi.
+    const jsonFilePath = path.join(__dirname, 'public', 'partials', 'statistiche_atleti.json');
 
-    const page = await browser.newPage();
-    await page.goto(websiteUrl, { waitUntil: 'domcontentloaded' });
-
-    const numbers = await page.evaluate(() => {
-      const labels = document.querySelectorAll('.dati-societa label');
-      const lastThreeLabels = Array.from(labels).slice(-3);
-      return lastThreeLabels.map(label => label.textContent.trim());
-    });
-
-    const totalAthletesNumber = numbers[0] ? parseInt(numbers[0].replace(/[^\d]/g, ''), 10) : 0;
-    const maleAthletesNumber = numbers[1] ? parseInt(numbers[1].replace(/[^\d]/g, ''), 10) : 0;
-    const femaleAthletesNumber = numbers[2] ? parseInt(numbers[2].replace(/[^\d]/g, ''), 10) : 0;
-
-    await browser.close();
-
+    // Leggiamo il contenuto del file. 'await' attende che la lettura sia completata.
+    const fileContent = await fs.readFile(jsonFilePath, 'utf8');
+        
+    // Convertiamo la stringa JSON in un oggetto JavaScript.
+    const statsData = JSON.parse(fileContent);
+    
     output.content = `<div>
                 <div class="n-container beat shadowBack">
                     <h3>MASCHI</h3>
-                    <p>${maleAthletesNumber}</p>
+                    <p>${statistiche_atleti.maschi}</p>
                 </div>
                 <div class="n-container beat shadowBack">
                     <h3>FEMMINE</h3>
-                    <p>${femaleAthletesNumber}</p>
+                    <p>${statistiche_atleti.femmine}</p>
                 </div>
                 <div class="n-container beat shadowBack">
                     <h3>ATLETI</h3>
-                    <p>${totalAthletesNumber}</p>
+                    <p>${statistiche_atleti.atleti}</p>
                 </div>
             </div>`;
   } catch (error) {
