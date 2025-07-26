@@ -348,6 +348,8 @@ function getImagesFromFolder(folderPath) {
   }
 
   searchFolder(folderPath); // Initial call with the provided folder path
+  console.log(folderPath)
+  console.log(imageFiles)
   return imageFiles;
 }
 
