@@ -852,7 +852,7 @@ button.upperNavItem:hover {
 .imageSection {
     height: 80%;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.367), rgba(0, 0, 0, 0.395)), url('/public/images/gallery/2023.05.10_SPEED\ KING\ AND\ QEEN\ BZ/speedkingbz258.jpg') center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.367), rgba(0, 0, 0, 0.395)), url('/public/data/gallery/2023.05.10_SPEED\ KING\ AND\ QUEEN\ BZ/speedkingbz258.jpg') center center;
     background-size: cover;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -861,7 +861,7 @@ button.upperNavItem:hover {
 }
 
 .imageSection.two {
-    background: linear-gradient(rgba(0, 0, 0, 0.367), rgba(0, 0, 0, 0.395)), url('/public/images/gallery/2023.08.23_MEETING\ FRANCO\ CRISCUOLO/meetingcriscuolo-296.jpg') center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.367), rgba(0, 0, 0, 0.395)), url('/public/data/gallery/2023.08.23_MEETING\ FRANCO\ CRISCUOLO/meetingcriscuolo-296.jpg') center center;
     background-size: cover;
 }
 

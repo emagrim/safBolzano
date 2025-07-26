@@ -124,7 +124,7 @@
             justify-content: last baseline;
             align-items: last baseline;
 
-            background: linear-gradient(rgba(28, 28, 28, 0.334), rgba(28, 28, 28, 0.499)), url('/public/images/gallery/2024.08.23_MEETING\ FRANCO\ CRISCUOLO/IMG_7591.JPG') center center;
+            background: linear-gradient(rgba(28, 28, 28, 0.334), rgba(28, 28, 28, 0.499)), url('/public/data/gallery/2024.08.23_MEETING\ FRANCO\ CRISCUOLO/IMG_7591.JPG') center center;
             background-size: cover;
             padding: 12px 16px;
             height: 160px;
@@ -168,7 +168,7 @@
                 <p class="bigText"></p>
             </div>
             {{#each images}}
-            <img class="slide imageSlides heightSmall" src="../public/images/gallery/{{this}}">
+            <img class="slide imageSlides heightSmall" src="../public/data/gallery/{{this}}">
 
             {{/each}}
             <svg class="svgSlider not-full" version="1.0" xmlns="http://www.w3.org/2000/svg">
@@ -185,7 +185,7 @@
         <div class="gallery galleryGrid">
             {{#each folder}}
             <a href="/galleria/{{folder}}" class="folder"
-                style="background: linear-gradient(rgba(28, 28, 28, 0.334), rgba(28, 28, 28, 0.499)), url('/public/images/gallery/{{folder}}/{{firstImage}}') center center; background-size: cover; ">
+                style="background: linear-gradient(rgba(28, 28, 28, 0.334), rgba(28, 28, 28, 0.499)), url('/public/data/gallery/{{folder}}/{{firstImage}}') center center; background-size: cover; ">
                 <small>{{date}}</small>
                 <div></div>
                 <h5>

@@ -230,7 +230,7 @@ router.get('/galleria/:folder', (req, res) => {
   const folder = req.params.folder;
   console.log('Folder:', folder);
 
-  const folderPath = path.join('public/images/gallery', folder);
+  const folderPath = path.join('public/data/gallery', folder);
   console.log('Folder Path:', folderPath);
 
   if (!fs.existsSync(folderPath) || !fs.statSync(folderPath).isDirectory()) {
@@ -265,7 +265,7 @@ router.get('/galleria/:folder', (req, res) => {
   res.send(`
     <html>
     <head>
-        <title>${folder}</title>
+        <title>${folder.split('_')[0].split(".").reverse().join('/')} ${folder.split('_')[1]}</title>
         ${output.style}
         <style>
             .image{
@@ -302,7 +302,7 @@ router.get('/galleria/:folder', (req, res) => {
     </head>
     <body>
         <div style="z-index: 98;padding: 100px auto 100px auto; background-color: #1c1e21; position:fixed;width:100%;">
-          <h1 style="color: white; text-align: center; font-size: 50px;">${folder}</h1>
+          <h1 style="color: white; text-align: center; font-size: 50px;">${folder.split('_')[0].split(".").reverse().join('/')} ${folder.split('_')[1]}</h1>
         </div>
         <div class="gallery">
             ${imageTags}
@@ -393,7 +393,7 @@ router.get('/:page', async (req, res) => {
   const imgFolder = '../public/images/';
   const middlePath = 'img/';
   let pathToImgDir;
-  const folderPath = path.join(__dirname, '../public/images/gallery');
+  const folderPath = path.join(__dirname, '../public/data/gallery');
   const subfolders = getSubfoldersFromFolder(folderPath);
 
   try {
@@ -435,7 +435,8 @@ router.get('/:page', async (req, res) => {
           break;
         case "galleria":
           output.content = ``;
-          pathToImgDir = imgFolder + `/gallery`;
+          imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
+          pathToImgDir = `../public/data/gallery`;
           break;
         case "calendario":
           pathToImgDir = imgFolder + middlePath + pageName;
@@ -1088,7 +1089,7 @@ async function getNumberOfAthletes(output, res) {
 }
 
 router.get('/', async (req, res) => {
-  const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/gallery'));
+  const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
   await getHome(output, res);
   res.render('home', { pageTitle: "home", output: output, images: imageFiles });
 });
