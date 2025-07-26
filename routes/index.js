@@ -231,7 +231,7 @@ router.get('/galleria/:folder', (req, res) => {
   const folder = req.params.folder;
   console.log('Folder:', folder);
 
-  const folderPath = path.join('../public/data/gallery', folder);
+  const folderPath = path.join('public/data/gallery', folder);
   console.log('Folder Path:', folderPath);
 
   if (!fs.existsSync(folderPath) || !fs.statSync(folderPath).isDirectory()) {
