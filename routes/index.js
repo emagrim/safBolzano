@@ -20,6 +20,16 @@ const fetch = require('node-fetch');
 globalThis.fetch = fetch;
 const { chromium } = require('playwright');
 
+// Function needed to read file without having problems with fs not being promises...
+function readFileAsync(filePath, encoding = 'utf8') {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, encoding, (err, data) => {
+      if (err) reject(err);
+      else resolve(data);
+    });
+  });
+}
+
 // const chromiumPath = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
 
 process.env.PUPPETEER_CACHE_DIR = '/la_cash';
@@ -508,6 +518,29 @@ async function getAdminPanel(output, res) {
 
 async function getCalendar(output, res, req) {
   try {
+    const table_path = path.join(__dirname, '..', 'public', 'partials', 'calendario_table.html');
+    const legend_path = path.join(__dirname, '..', 'public', 'partials', 'calendario_legend.html');
+
+    // Leggiamo il contenuto dei file. 'await' attende che la lettura sia completata.
+    const results = await readFileAsync(table_path);
+    const legend = await readFileAsync(legend_path);
+
+    const reset = `    <script>
+
+</script>`;
+    output.content = {
+        // filters,
+        results,
+        legend
+      } || '<div>No .section content found</div>';
+  } catch (error) {
+    console.error('Error:', error.message);
+    res.status(500).send('Internal Server Error (getCalendar)');
+  }
+}
+
+async function getCalendarFromFIDAL(output, res, req) {
+  try {
     const website = 'https://www.fidal.it/calendario.php';
 
     // Build full link with query parameters from original URL
@@ -548,6 +581,7 @@ async function getCalendar(output, res, req) {
     res.status(500).send('Internal Server Error (cheerio getCalendar)');
   }
 }
+
 async function getAtleti(output, res) {
   try {
     const websiteUrl = 'https://atletica.me/societa/211';
