@@ -38,7 +38,8 @@ router.use(bodyParser.json());
 
 const db = new sqlite3.Database('database.db');
 
-const paths = ['', 'news', 'iscrizioni', 'atleti', 'staff', 'risultati', 'galleria', 'calendario', 'info'];
+// const paths = ['', 'news', 'iscrizioni', 'atleti', 'staff', 'risultati', 'galleria', 'calendario', 'info'];
+const paths = ['', 'iscrizioni', 'atleti', 'staff', 'risultati', 'galleria', 'calendario', 'info'];
 const Npaths = paths.length;
 
 const output = {
@@ -402,10 +403,10 @@ router.get('/:page', async (req, res) => {
       switch (pageName) {
         case "admin":
           break;
-        case "news":
-          await getNews(output, res);
-          pathToImgDir = imgFolder + middlePath + pageName;
-          break;
+        // case "news":
+        //   await getNews(output, res);
+        //   pathToImgDir = imgFolder + middlePath + pageName;
+        //   break;
         case "iscrizioni":
           await getNumberOfAthletes(output, res);
           pathToImgDir = imgFolder + middlePath + pageName;
@@ -435,8 +436,8 @@ router.get('/:page', async (req, res) => {
           break;
         case "galleria":
           output.content = ``;
-          imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
-          pathToImgDir = `../public/data/gallery`;
+          pathToImgDir = '../public/data/gallery';
+          imageFiles = getImagesFromFolder(path.join(__dirname, pathToImgDir));
           break;
         case "calendario":
           pathToImgDir = imgFolder + middlePath + pageName;
