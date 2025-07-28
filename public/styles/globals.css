@@ -721,7 +721,6 @@ button.upperNavItem:hover {
 /* === FOOTER SECTION START === */
 
 .footer {
-    background-color: var(--bg-section_dark);
     padding: 36px;
     position: relative;
     overflow: hidden; /* MODIFIED: Changed from 'scroll' to 'hidden' to remove scrollbars */
@@ -817,12 +816,13 @@ button.upperNavItem:hover {
 
 .svgGrid {
     position: absolute;
-    top: 0; /* MODIFIED: Changed from 'bottom' for consistency */
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* MODIFIED: Changed from 0 to place it behind content */
-    pointer-events: none; /* ADDED: Prevents SVG from blocking mouse clicks */
+    z-index: 1; /* MODIFIED: Bring it forward */
+    pointer-events: none;
+    background-color: var(--bg-section_dark); /* ADDED: Moved from .footer */
 }
 
 .footBack {
