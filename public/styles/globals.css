@@ -216,7 +216,7 @@ h2 {
 }
 
 
-/*  NAVBAR  */
+/* NAVBAR  */
 
 .logo {
     height: auto;
@@ -608,7 +608,7 @@ button.upperNavItem:hover {
     }
 }
 
-/*  FINE NAVBAR  */
+/* FINE NAVBAR  */
 
 /* KEYFRAMES */
 @keyframes scroll {
@@ -718,11 +718,13 @@ button.upperNavItem:hover {
     animation: slideIn1 1s ease-in-out;
 }
 
+/* === FOOTER SECTION START === */
+
 .footer {
     background-color: var(--bg-section_dark);
     padding: 36px;
-    overflow: scroll;
     position: relative;
+    overflow: hidden; /* MODIFIED: Changed from 'scroll' to 'hidden' to remove scrollbars */
 }
 
 .footer *,
@@ -815,15 +817,16 @@ button.upperNavItem:hover {
 
 .svgGrid {
     position: absolute;
-    bottom: 0;
+    top: 0; /* MODIFIED: Changed from 'bottom' for consistency */
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: -1; /* MODIFIED: Changed from 0 to place it behind content */
+    pointer-events: none; /* ADDED: Prevents SVG from blocking mouse clicks */
 }
 
 .footBack {
-    width: auto;
+    width: 100%; /* MODIFIED: Changed from 'auto' to ensure it fills the container */
     height: 100%;
     fill: #1c1e21;
 }
@@ -839,6 +842,9 @@ button.upperNavItem:hover {
     }
 
 }
+
+/* === FOOTER SECTION END === */
+
 
 /* sections */
 .section {
@@ -925,7 +931,7 @@ button.upperNavItem:hover {
     }
 }
 
-/*   HOME SECTION   */
+/* HOME SECTION   */
 body {
     width: 100%;
 }
@@ -971,7 +977,7 @@ body {
     animation: slideIn 1s ease-in-out;
     width: 100%;
     object-fit: cover;
-    /*  temporary-fix  */
+    /* temporary-fix  */
 }
 
 .heightHigh {
@@ -1040,7 +1046,7 @@ body {
     align-items: center;
 }
 
-/*   STAFF AND ATHLETES   */
+/* STAFF AND ATHLETES   */
 
 .athletesList {
     margin: 5% 10% 10% 10%;
@@ -2168,7 +2174,7 @@ form#calendario input[type=reset]:hover {
     }
 }
 
-/*  FINE INFO SECTION  */
+/* FINE INFO SECTION   */
 
 
 #section1,
