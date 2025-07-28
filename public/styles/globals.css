@@ -977,6 +977,7 @@ body {
     animation: slideIn 1s ease-in-out;
     width: 100%;
     object-fit: cover;
+    object-position: center 80%; /* This pulls the image UP, showing more of the bottom */
     /* temporary-fix  */
 }
 
