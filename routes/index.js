@@ -468,7 +468,7 @@ router.get('/:page', async (req, res) => {
 
     } else {
       console.log("calling function from ELSE")
-      await getHome(output, res);
+      // await getHome(output, res);
       res.redirect('/');
     }
   } catch (error) {
@@ -1093,7 +1093,7 @@ async function getNumberOfAthletes(output, res) {
 
 router.get('/', async (req, res) => {
   const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
-  await getHome(output, res);
+  // await getHome(output, res);
   res.render('home', { pageTitle: "home", output: output, images: imageFiles });
 });
 
