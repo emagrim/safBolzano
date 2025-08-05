@@ -452,11 +452,7 @@ router.get('/:page', async (req, res) => {
           pathToImgDir = imgFolder + middlePath + pageName;
           break;
         default:
-          output.content = ``;
-          console.log("default switch case chosen.");
-          console.log(output.content);
-          pathToImgDir = imgFolder + middlePath + pageName;
-
+          res.redirect('/');
           break;
       }
 
