@@ -452,8 +452,8 @@ router.get('/:page', async (req, res) => {
           pathToImgDir = imgFolder + middlePath + pageName;
           break;
         default:
-          res.redirect('/');
-          break;
+          console.log("Switching to default, request was:", pageName)
+          return res.redirect('/');
       }
 
       if (pathToImgDir) {
@@ -465,7 +465,7 @@ router.get('/:page', async (req, res) => {
     } else {
       console.log("calling function from ELSE")
       // await getHome(output, res);
-      res.redirect('/');
+      return res.redirect('/');
     }
   } catch (error) {
     res.send('Errore grave. contattare alex.decarli@safbolzano.it');
