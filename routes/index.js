@@ -392,7 +392,7 @@ module.exports = router;
 
 router.get('/:page', async (req, res) => {
   const pageName = req.params.page;
-  let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/gallery'));
+  let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
   const imgFolder = '../public/images/';
   const middlePath = 'img/';
   let pathToImgDir;
