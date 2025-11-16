@@ -336,7 +336,7 @@ function getImagesFromFolder(folderPath) {
 
           if (fileStats.isDirectory()) {
             searchFolder(filePath); // Recursive call for subfolders
-          } else if (/\.(jpg|jpeg|png|gif)$/i.test(file) && file.toLowerCase() !== 'favicon.ico') {
+          } else if (/\.(jpg|jpeg|png|gif|webp)$/i.test(file) && file.toLowerCase() !== 'favicon.ico') {
             const relativePath = path.relative(folderPath, filePath);
             imageFiles.push(relativePath); // Collect image file paths with relative path
           }
@@ -817,7 +817,7 @@ const infoStaff = [
   { nome: 'Mirco', cognome: 'Flaim', anno: 2000, ruolo: 'Allenatore', specialita: 'Lanci', foto: 'https://' },
   { nome: 'Stefano', cognome: 'Sartori', anno: 2000, ruolo: 'Allenatore', specialita: 'Prove multiple', foto: 'https://' },
   { nome: 'Michele', cognome: 'Sacco', anno: 2000, ruolo: 'Allenatore', specialita: 'Velocità', foto: 'https://' },
-  { nome: 'Chiara', cognome: 'Cardinale', anno: 2000, ruolo: 'Fiseoterapista', specialita: 'Asta', foto: 'https://' },
+  { nome: 'Chiara', cognome: 'Cardinale', anno: 2000, ruolo: 'Fisioterapista', specialita: 'Asta', foto: 'https://' },
 ];
 
 function populateStaff() {
