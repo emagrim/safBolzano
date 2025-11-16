@@ -1088,7 +1088,7 @@ async function getNumberOfAthletes(output, res) {
 }
 
 router.get('/', async (req, res) => {
-  const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/gallery'));
+  const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/img/home'));
   // await getHome(output, res);
   res.render('home', { pageTitle: "home", output: output, images: imageFiles });
 });
