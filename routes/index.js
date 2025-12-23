@@ -396,7 +396,7 @@ router.get('/:page', async (req, res) => {
   const imgFolder = '../public/data/lightweight/';
   const middlePath = 'img/';
   let pathToImgDir;
-  const folderPath = path.join(__dirname, '../public/data/gallery');
+  const folderPath = path.join(__dirname, '../public/data/lightweight/img');
   const subfolders = getSubfoldersFromFolder(folderPath);
 
   try {
