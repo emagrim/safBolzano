@@ -529,6 +529,10 @@ button.upperNavItem:hover {
         justify-content: center;
     }
 
+    .gridInnerCenter a.navItem.always-visible {
+        display: flex;
+    }
+
     .contacts h1 {
         font-size: 65px;
 
