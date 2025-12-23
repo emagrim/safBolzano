@@ -518,15 +518,15 @@ button.upperNavItem:hover {
     }
 
     .gridInnerCenter {
+        display: flex;
         flex-direction: column;
-        height: fit-content;
-        margin-right: 10px;
     }
 
     .gridInnerCenter a.navItem {
-        display: none;
+        display: block;
         width: 100%;
-        justify-content: center;
+        text-align: center;
+        padding: 10px 0;
     }
 
     .gridInnerCenter a.navItem.always-visible {
