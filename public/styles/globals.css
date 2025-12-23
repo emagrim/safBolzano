@@ -2175,6 +2175,25 @@ form#calendario input[type=reset]:hover {
     }
 }
 
+.email-box p {
+    display: flex;
+    flex-wrap: wrap;        /* allows wrapping on small screens */
+    gap: 0.5rem;            /* spacing between items */
+}
+
+.email-box a {
+    color: inherit;         /* keeps same text color */
+    text-decoration: none;  /* optional */
+}
+
+.email-box a:hover {
+    text-decoration: underline;
+}
+
+.separator {
+    white-space: nowrap;
+}
+
 /* FINE INFO SECTION   */
 
 
