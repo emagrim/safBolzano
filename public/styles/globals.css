@@ -518,19 +518,15 @@ button.upperNavItem:hover {
     }
 
     .gridInnerCenter {
-        display: flex;
         flex-direction: column;
+        height: fit-content;
+        margin-right: 10px;
     }
 
     .gridInnerCenter a.navItem {
-        display: block;
+        display: none;
         width: 100%;
-        text-align: center;
-        padding: 10px 0;
-    }
-
-    .gridInnerCenter a.navItem.always-visible {
-        display: flex;
+        justify-content: center;
     }
 
     .contacts h1 {
@@ -2177,25 +2173,6 @@ form#calendario input[type=reset]:hover {
     .information div {
         width: 80%;
     }
-}
-
-.email-box p {
-    display: flex;
-    flex-wrap: wrap;        /* allows wrapping on small screens */
-    gap: 0.5rem;            /* spacing between items */
-}
-
-.email-box a {
-    color: inherit;         /* keeps same text color */
-    text-decoration: none;  /* optional */
-}
-
-.email-box a:hover {
-    text-decoration: underline;
-}
-
-.separator {
-    white-space: nowrap;
 }
 
 /* FINE INFO SECTION   */
