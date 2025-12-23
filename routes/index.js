@@ -392,8 +392,8 @@ module.exports = router;
 
 router.get('/:page', async (req, res) => {
   const pageName = req.params.page;
-  let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/img/', pageName));
-  const imgFolder = '../public/images/';
+  let imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/lightweight/img/', pageName));
+  const imgFolder = '../public/data/lightweight/';
   const middlePath = 'img/';
   let pathToImgDir;
   const folderPath = path.join(__dirname, '../public/data/gallery');
@@ -1088,7 +1088,7 @@ async function getNumberOfAthletes(output, res) {
 }
 
 router.get('/', async (req, res) => {
-  const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/images/img/home/'));
+  const imageFiles = getImagesFromFolder(path.join(__dirname, '../public/data/lightweight/img/home/'));
   // await getHome(output, res);
   res.render('home', { pageTitle: "home", output: output, images: imageFiles });
 });
