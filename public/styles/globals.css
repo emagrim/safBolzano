@@ -2340,35 +2340,36 @@ img.imgFR {
     }
 }
 
-/* === MOBILE NAVBAR FIX === */
+/* === RESPONSIVE NAVBAR (tablet + phone) === */
 @media screen and (max-width: 1145px) {
 
-    /* Keep layout horizontal */
+    /* Keep navbar horizontal */
     .gridInnerCenter {
+        display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0;
+        width: 100%;
     }
 
-    /* Hide all nav items by default */
+    /* Hide everything by default */
     .gridInnerCenter .navItem {
         display: none;
     }
 
-    /* Always show selected items */
+    /* Always-visible items */
     .gridInnerCenter .nav-always {
-        display: flex !important;
+        display: flex;
     }
 
-    /* Push hamburger to the right */
+    /* Hamburger */
     .excluded {
         display: flex;
         margin-left: auto;
     }
 
-    /* Reduce padding for mobile */
+    /* Mobile-friendly text */
     .navText {
-        padding: 10px 10px;
         font-size: 14px;
+        padding: 8px 10px;
     }
 }
