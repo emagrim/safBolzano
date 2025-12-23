@@ -2339,3 +2339,36 @@ img.imgFR {
         grid-template-columns: repeat(1, 1fr);
     }
 }
+
+/* === MOBILE NAVBAR FIX === */
+@media screen and (max-width: 1145px) {
+
+    /* Keep layout horizontal */
+    .gridInnerCenter {
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+    }
+
+    /* Hide all nav items by default */
+    .gridInnerCenter .navItem {
+        display: none;
+    }
+
+    /* Always show selected items */
+    .gridInnerCenter .nav-always {
+        display: flex !important;
+    }
+
+    /* Push hamburger to the right */
+    .excluded {
+        display: flex;
+        margin-left: auto;
+    }
+
+    /* Reduce padding for mobile */
+    .navText {
+        padding: 10px 10px;
+        font-size: 14px;
+    }
+}
