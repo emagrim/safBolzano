@@ -2359,36 +2359,58 @@ img.imgFR {
     }
 }
 
-/* === RESPONSIVE NAVBAR (tablet + phone) === */
+/* === MOBILE NAVBAR: FINAL FIX === */
 @media screen and (max-width: 1145px) {
 
-    /* Keep navbar horizontal */
+    /* Navbar must not exceed viewport */
+    .navbar {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Force center container to span full width */
+    .navContainer.gridCenter {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Actual navbar row */
     .gridInnerCenter {
+        width: 100%;
+        max-width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
-        width: 100%;
+        justify-content: flex-start;
+        padding: 0 12px;
+        box-sizing: border-box;
     }
 
-    /* Hide everything by default */
+    /* Hide all items */
     .gridInnerCenter .navItem {
         display: none;
     }
 
-    /* Always-visible items */
+    /* Always visible items */
     .gridInnerCenter .nav-always {
         display: flex;
+        align-items: center;
     }
 
     /* Hamburger */
     .excluded {
         display: flex;
+        align-items: center;
         margin-left: auto;
     }
 
-    /* Mobile-friendly text */
+    /* Text sizing */
     .navText {
         font-size: 14px;
         padding: 8px 10px;
+        white-space: nowrap;
     }
 }
