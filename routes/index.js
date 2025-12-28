@@ -396,8 +396,8 @@ router.get('/:page', async (req, res) => {
   const imgFolder = '../public/data/lightweight/';
   const middlePath = 'img/';
   let pathToImgDir;
-  const folderPath = path.join(__dirname, '../public/data/lightweight/img');
-  const subfolders = getSubfoldersFromFolder(folderPath);
+  folderPath = path.join(__dirname, '../public/data/lightweight/img');
+  subfolders = getSubfoldersFromFolder(folderPath);
 
   try {
     if (pageName !== 'home') {
@@ -439,7 +439,9 @@ router.get('/:page', async (req, res) => {
         case "galleria":
           output.content = ``;
           pathToImgDir = '../public/data/gallery';
-          imageFiles = getImagesFromFolder(path.join(__dirname, pathToImgDir));
+          folderPath = path.join(__dirname, pathToImgDir)
+          imageFiles = getImagesFromFolder(folderPath);
+          subfolders = getSubfoldersFromFolder(folderPath);
           break;
         case "calendario":
           pathToImgDir = imgFolder + middlePath + pageName;
