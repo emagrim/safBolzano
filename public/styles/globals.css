@@ -556,6 +556,13 @@ button.upperNavItem:hover {
         font-size: 60px !important;
     }
 
+    .orari {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        margin-top: 40px;
+    }
+
     .veryLittleSection h1 {
         font-size: 40px !important;
     }
