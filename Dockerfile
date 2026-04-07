@@ -15,6 +15,9 @@ RUN apt update && apt upgrade -y && apt install -y rsync
 # Install your application's npm dependencies
 RUN npm install
 
+# Run playwright install...
+RUN npx playwright install
+
 # Copy the rest of your application code
 COPY . .
 
