@@ -2,9 +2,10 @@
 /**
  * Athletes list and athlete counts.
  *
- * The athletes come from atletica.me, which can only be read with a headless browser. That
- * part lives outside WordPress (tools/scrape-atleti.js) and produces a JSON file that is
- * uploaded from SAF > Atleti (or `wp saf import-atleti <file>`). The list is stored as an option.
+ * The athletes come from the club page on atletica.me, which embeds the whole list as JSON
+ * (glob_tutti_gli_atleti). It is fetched once a day by WP-Cron (see sync.php) or on demand from
+ * SAF > Aggiorna ora. A JSON file made by tools/scrape-atleti.js can still be imported by hand.
+ * The list is stored as an option.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,7 +38,7 @@ function saf_get_atleti_grouped() {
 	$cat    = saf_categorie();
 	$groups = array();
 	foreach ( $athletes as $a ) {
-		$name              = isset( $cat[ (int) $a['category_id'] ] ) ? $cat[ (int) $a['category_id'] ] : 'other';
+		$name              = isset( $cat[ (int) $a['category_id'] ] ) ? $cat[ (int) $a['category_id'] ] : 'Altro';
 		$groups[ $name ][] = $a;
 	}
 	return $groups;
@@ -74,7 +75,15 @@ function saf_import_atleti_json( $json ) {
 	if ( ! is_array( $data ) ) {
 		return new WP_Error( 'saf_json', 'File JSON non valido.' );
 	}
+	return saf_save_atleti( $data );
+}
+
+/** Stores a list in the saf_clean_atleta() input format and recomputes the counts. Returns the count. */
+function saf_save_atleti( $data ) {
 	$clean = array_values( array_filter( array_map( 'saf_clean_atleta', $data ) ) );
+	if ( ! $clean ) {
+		return new WP_Error( 'saf_empty', 'Nessun atleta trovato: la lista attuale non è stata modificata.' );
+	}
 	update_option( 'saf_atleti', $clean, false );
 
 	// The counts follow the list when it is imported.
@@ -109,6 +118,9 @@ function saf_render_admin_page() {
 			) );
 			update_option( 'saf_mail_admin', sanitize_email( wp_unslash( $_POST['mail_admin'] ?? '' ) ) );
 			$notice = 'Impostazioni salvate.';
+		} elseif ( isset( $_POST['saf_sync'] ) ) {
+			$res    = saf_sync_atleti();
+			$notice = is_wp_error( $res ) ? $res->get_error_message() : sprintf( 'Lista aggiornata da atletica.me: %d atleti.', $res );
 		} elseif ( isset( $_POST['saf_import'] ) && ! empty( $_FILES['atleti_json']['tmp_name'] ) ) {
 			$res    = saf_import_atleti_json( file_get_contents( $_FILES['atleti_json']['tmp_name'] ) );
 			$notice = is_wp_error( $res ) ? $res->get_error_message() : sprintf( 'Importati %d atleti.', $res );
@@ -116,6 +128,8 @@ function saf_render_admin_page() {
 	}
 	$counts = saf_get_counts();
 	$list   = get_option( 'saf_atleti', array() );
+	$sync   = get_option( 'saf_atleti_sync', array() );
+	$next   = wp_next_scheduled( SAF_SYNC_HOOK );
 	?>
 	<div class="wrap">
 		<h1>SAF Bolzano</h1>
@@ -131,12 +145,33 @@ function saf_render_admin_page() {
 				<tr><th><label for="femmine">Femmine</label></th><td><input type="number" min="0" id="femmine" name="femmine" value="<?php echo esc_attr( $counts['femmine'] ); ?>"></td></tr>
 				<tr><th><label for="mail_admin">Email che riceve una copia delle iscrizioni</label></th><td><input type="email" class="regular-text" id="mail_admin" name="mail_admin" value="<?php echo esc_attr( get_option( 'saf_mail_admin', get_option( 'admin_email' ) ) ); ?>"></td></tr>
 			</table>
-			<p class="description">Importando la lista atleti i numeri vengono ricalcolati; qui si possono correggere a mano.</p>
+			<p class="description">I numeri vengono ricalcolati a ogni aggiornamento della lista atleti (anche quello automatico giornaliero), che sovrascrive le correzioni fatte qui a mano.</p>
 			<?php submit_button( 'Salva', 'primary', 'saf_save_counts' ); ?>
 		</form>
 
 		<h2>Lista atleti (<?php echo (int) count( $list ); ?>)</h2>
-		<p>Carica il file JSON prodotto da <code>tools/scrape-atleti.js</code>. Sostituisce la lista attuale.</p>
+		<p>
+			La lista si aggiorna da sola una volta al giorno da
+			<a href="<?php echo esc_url( SAF_ATLETI_URL ); ?>" target="_blank" rel="noopener">atletica.me</a>.
+			<?php if ( ! empty( $sync['time'] ) ) : ?>
+				<br>Ultimo aggiornamento: <?php echo esc_html( wp_date( 'd/m/Y H:i', $sync['time'] ) ); ?> –
+				<?php if ( ! empty( $sync['ok'] ) ) : ?>
+					<span style="color:green"><?php echo esc_html( $sync['message'] ); ?></span>
+				<?php else : ?>
+					<strong style="color:crimson"><?php echo esc_html( $sync['message'] ); ?></strong>
+				<?php endif; ?>
+			<?php endif; ?>
+			<?php if ( $next ) : ?>
+				<br>Prossimo aggiornamento: dopo il <?php echo esc_html( wp_date( 'd/m/Y H:i', $next ) ); ?>.
+			<?php endif; ?>
+		</p>
+		<form method="post">
+			<?php wp_nonce_field( 'saf_admin', 'saf_admin_nonce' ); ?>
+			<?php submit_button( 'Aggiorna ora', 'primary', 'saf_sync', false ); ?>
+		</form>
+
+		<h3>Importazione manuale</h3>
+		<p>In alternativa, carica il file JSON prodotto da <code>tools/scrape-atleti.js</code>. Sostituisce la lista attuale.</p>
 		<form method="post" enctype="multipart/form-data">
 			<?php wp_nonce_field( 'saf_admin', 'saf_admin_nonce' ); ?>
 			<input type="file" name="atleti_json" accept=".json,application/json" required>
@@ -153,5 +188,12 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			WP_CLI::error( $res->get_error_message() );
 		}
 		WP_CLI::success( "Importati $res atleti." );
+	} );
+	WP_CLI::add_command( 'saf sync-atleti', function () {
+		$res = saf_sync_atleti();
+		if ( is_wp_error( $res ) ) {
+			WP_CLI::error( $res->get_error_message() );
+		}
+		WP_CLI::success( "Lista aggiornata da atletica.me: $res atleti." );
 	} );
 }

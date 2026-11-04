@@ -14,10 +14,12 @@ define( 'SAF_DATA_DIR', plugin_dir_path( __FILE__ ) );
 
 require_once SAF_DATA_DIR . 'includes/post-types.php';
 require_once SAF_DATA_DIR . 'includes/athletes.php';
+require_once SAF_DATA_DIR . 'includes/sync.php';
 require_once SAF_DATA_DIR . 'includes/enrollment.php';
 require_once SAF_DATA_DIR . 'includes/seed.php';
 
 register_activation_hook( __FILE__, 'saf_data_activate' );
+register_deactivation_hook( __FILE__, 'saf_sync_unschedule' );
 
 function saf_data_activate() {
 	saf_register_post_types();
