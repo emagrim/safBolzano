@@ -1,3 +1,11 @@
-.vercel
 node_modules/
-public/data/
+.vercel
+.env
+.DS_Store
+# foto della galleria: troppo pesanti per git, si caricano a parte (vedi README)
+content/gallery/
+# file generati da WordPress, non fanno parte del repository
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+*.log

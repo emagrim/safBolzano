@@ -1,0 +1,11 @@
+{
+  "name": "saf-tools",
+  "private": true,
+  "description": "Strumenti fuori da WordPress per il sito SAF Bolzano",
+  "scripts": {
+    "scrape-atleti": "node scrape-atleti.js"
+  },
+  "dependencies": {
+    "playwright": "^1.49.1"
+  }
+}

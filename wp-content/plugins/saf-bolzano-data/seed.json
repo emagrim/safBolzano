@@ -1,0 +1,380 @@
+{
+ "records": [
+  {
+   "id": 1,
+   "disciplina": "100m",
+   "tempo": "10\"8",
+   "nome": "Christian",
+   "cognome": "Pedratscher",
+   "data": "03/05/1997",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 2,
+   "disciplina": "110mH",
+   "tempo": "15\"0",
+   "nome": "Stefano",
+   "cognome": "Sartori",
+   "data": "25/07/1997",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 3,
+   "disciplina": "200m",
+   "tempo": "22\"0",
+   "nome": "Christian",
+   "cognome": "Pedratscher",
+   "data": "25/04/1992",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 4,
+   "disciplina": "400m",
+   "tempo": "49\"69",
+   "nome": "Christian",
+   "cognome": "Pedratscher",
+   "data": "22/06/1991",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 5,
+   "disciplina": "400mH",
+   "tempo": "54\"43",
+   "nome": "Stefano",
+   "cognome": "Sartori",
+   "data": "10/07/1997",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 6,
+   "disciplina": "800m",
+   "tempo": "1'52\"28",
+   "nome": "Stefano",
+   "cognome": "Valente",
+   "data": "26/07/2011",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 7,
+   "disciplina": "1500m",
+   "tempo": "3'59\"07",
+   "nome": "Stefano",
+   "cognome": "Valente",
+   "data": "04/06/2010",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 8,
+   "disciplina": "3000m (siepi)",
+   "tempo": "10'32\"35",
+   "nome": "Stefano",
+   "cognome": "Valente",
+   "data": "19/05/2007",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 9,
+   "disciplina": "5000m",
+   "tempo": "16'10\"6",
+   "nome": "Alessio",
+   "cognome": "Fuganti",
+   "data": "05/09/1992",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 10,
+   "disciplina": "10000m",
+   "tempo": "34'53\"3",
+   "nome": "Alessio",
+   "cognome": "Fuganti",
+   "data": "05/09/1992",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 11,
+   "disciplina": "Mezza Maratona",
+   "tempo": "1h11'18\"",
+   "nome": "Luca",
+   "cognome": "Nascimbeni",
+   "data": "26/04/2009",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 12,
+   "disciplina": "Maratona",
+   "tempo": "2h49'51\"",
+   "nome": "Alessio",
+   "cognome": "Fuganti",
+   "data": "15/10/2006",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 13,
+   "disciplina": "4x100",
+   "tempo": "44\"32",
+   "nome": "",
+   "cognome": "Stablum Flaim Cravedi Pedratscher",
+   "data": "12/05/1990",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 14,
+   "disciplina": "4x400",
+   "tempo": "3'26\"22",
+   "nome": "",
+   "cognome": "Pedratscher Tecilla Sartori Tommasini",
+   "data": "22/05/1994",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 15,
+   "disciplina": "Marcia 10km",
+   "tempo": "51'51\"8",
+   "nome": "Sergio",
+   "cognome": "Gobbo",
+   "data": "09/09/1989",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 16,
+   "disciplina": "Decathlon",
+   "tempo": "6467p",
+   "nome": "Christian",
+   "cognome": "Pedratscher",
+   "data": "24-25/09/1994",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 17,
+   "disciplina": "Salto in Lungo",
+   "tempo": "7.25m",
+   "nome": "Christian",
+   "cognome": "Pedratscher",
+   "data": "08/09/1991",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 18,
+   "disciplina": "Salto in Alto",
+   "tempo": "1.95m",
+   "nome": "Luca",
+   "cognome": "Vasarin",
+   "data": "02/06/1985",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 19,
+   "disciplina": "Salto Triplo",
+   "tempo": "13.38m",
+   "nome": "Lorenzo",
+   "cognome": "Morini",
+   "data": "07/05/1994",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 20,
+   "disciplina": "Salto con l'Asta",
+   "tempo": "4.00m",
+   "nome": "Stefano",
+   "cognome": "Sartori",
+   "data": "25/04/1993",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 21,
+   "disciplina": "Giavellotto (0,8 Kg)",
+   "tempo": "56.16",
+   "nome": "Paolo",
+   "cognome": "Valt",
+   "data": "16/08/1989",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 22,
+   "disciplina": "Lancio del Disco (2 Kg)",
+   "tempo": "36.06",
+   "nome": "Leo",
+   "cognome": "Masi",
+   "data": "22/09/2024",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 23,
+   "disciplina": "Getto del Peso (7,257 Kg)",
+   "tempo": "12.76",
+   "nome": "Davide",
+   "cognome": "Comunello",
+   "data": "10/06/1995",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  },
+  {
+   "id": 24,
+   "disciplina": "Lancio del Martello (7,257 Kg)",
+   "tempo": "52.40",
+   "nome": "Davide",
+   "cognome": "Comunello",
+   "data": "04/05/1996",
+   "old_tempo": null,
+   "old_nome": null,
+   "old_cognome": null,
+   "old_data": null
+  }
+ ],
+ "staff": [
+  {
+   "id": 0,
+   "nome": "ALESSIO",
+   "cognome": "FUGANTI",
+   "anno": "28/07/1972",
+   "ruolo": "Presidente",
+   "specialita": "Mezzofondo",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 1,
+   "nome": "MIRCO",
+   "cognome": "FLAIM",
+   "anno": "02/06/1972",
+   "ruolo": "Vicepresidente/Tesoriere",
+   "specialita": "Lanci",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 2,
+   "nome": "MICHELA",
+   "cognome": "DE PILLO",
+   "anno": "--",
+   "ruolo": "Consigliere/resp. SAFEGUARDING",
+   "specialita": "--",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 3,
+   "nome": "MARCO",
+   "cognome": "GRIMALDO",
+   "anno": "05/12/1988",
+   "ruolo": "Consigliere",
+   "specialita": "Corsa",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 4,
+   "nome": "EMANUELE",
+   "cognome": "GRIMALDO",
+   "anno": "05/12/1988",
+   "ruolo": "Consigliere",
+   "specialita": "Mezzofondo",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 5,
+   "nome": "MICHELA",
+   "cognome": "PIVA",
+   "anno": "22/02/1991",
+   "ruolo": "Tecnico settore promozionale",
+   "specialita": "Mezzofondo",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 6,
+   "nome": "STEFANO",
+   "cognome": "SARTORI",
+   "anno": 1973,
+   "ruolo": "Tecnico settore salti/ostacoli",
+   "specialita": "Prove multiple",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 7,
+   "nome": "MICHELE",
+   "cognome": "SACCO",
+   "anno": "17/07/1975",
+   "ruolo": "Tecnico settore velocità",
+   "specialita": "Velocità",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  },
+  {
+   "id": 8,
+   "nome": "MAX",
+   "cognome": "BRICK",
+   "anno": "--",
+   "ruolo": "Collaboratore tecnico",
+   "specialita": "--",
+   "foto": "https://atletica.me/img/noimage.jpg"
+  }
+ ],
+ "counts": {
+  "maschi": 51,
+  "femmine": 31,
+  "atleti": 82
+ }
+}

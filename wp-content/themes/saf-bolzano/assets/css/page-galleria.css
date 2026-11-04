@@ -1,0 +1,199 @@
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fascinate+Inline&family=Protest+Guerrilla&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Unlock&display=swap');
+
+        :root {
+            --margin-section: 40px;
+            --grid-gap: 20px;
+            --grid-columns_n: 4;
+            /*
+            calc(100% - ((var(--grid-columns_n) * var(--grid-gap)) + (var(--margin-section)*2)))
+            calc(100% - (var(--margin-section)*2));
+            */
+        }
+
+
+        .galleryGrid {
+            width: calc(100vw - (var(--margin-section)*2));
+            ;
+            display: grid;
+            grid-gap: var(--grid-gap);
+            /*grid-template-columns: repeat(var(--grid-columns_n), 1fr);*/
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            margin: var(--margin-section);
+        }
+
+        .galleryDiv {
+            position: relative;
+        }
+
+        .galleryItem {
+            max-width: 100%;
+            max-height: 100%;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+
+            /*transition: 0.2s ease-out;*/
+        }
+
+        .galleryItem:hover {
+            opacity: 0.75;
+
+        }
+
+        #modalImage {
+            width: auto;
+            height: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(50%, 50%);
+        }
+
+        
+        .closeModal {
+            font-size: 40px;
+            font-weight: bolder;
+            color: var(--glass-1-background);
+            box-shadow: var(--glass-1-box-shadow);
+            backdrop-filter: var(--glass-1-backdrop-filter);
+            -webkit-backdrop-filter: var(--glass-1--webkit-backdrop-filter);
+            position: absolute;
+            right: 70;
+            top: 70;
+            margin: 10px;
+        }
+
+        .closeModal:hover {
+            cursor: pointer;
+        }
+
+        .toolsModal {
+            position: absolute;
+            top: 45%;
+            right: 70;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toolsModal * {
+            cursor: pointer;
+            font-size: 22px;
+            color: var(--glass-1-background);
+            backdrop-filter: var(--glass-1-backdrop-filter);
+            -webkit-backdrop-filter: var(--glass-1--webkit-backdrop-filter);
+            box-shadow: var(--glass-1-box-shadow);
+        }
+
+        span {
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px;
+
+            /*background-color: var(--glass-1-background);*/
+
+            animation: slideIn1 1s ease-in-out;
+        }
+
+        .folder4Img {}
+
+        .folder {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: last baseline;
+            align-items: last baseline;
+
+            background: linear-gradient(rgba(28, 28, 28, 0.334), rgba(28, 28, 28, 0.499)), var(--saf-bg-two) center center;
+            background-size: cover;
+            padding: 12px 16px;
+            height: 160px;
+
+            transition: all 0.2s ease-out;
+        }
+
+        a.folder {
+            color: white;
+            font-family: "Unlock", sans-serif;
+            text-decoration: none;
+        }
+
+        .folder small {
+            align-self: top;
+        }
+
+        .folder div {
+            height: auto;
+            margin: auto;
+        }
+
+        .folder h5 {
+            align-self: flex-start;
+            justify-self: flex-end;
+            margin: 0;
+        }
+
+        .folder:hover {
+            transform: scale(1.05);
+        }
+    
+
+/* Album page (/galleria/<album>/) */
+.albumTitle {
+    background-color: #1c1e21;
+    padding: 20px 0;
+}
+
+.albumTitle h1 {
+    color: white;
+    text-align: center;
+    font-size: 50px;
+    margin: 0;
+}
+
+.albumGallery {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.albumGallery .image {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.albumGallery .image img {
+    margin: 10px;
+    width: 75%;
+    height: auto;
+}
+
+.albumGallery .image img:hover {
+    transform: scale(1.015);
+}
+
+.albumGallery .dwIcon {
+    width: 75px;
+    transition: all 0.3s ease-in-out;
+}
+
+.albumGallery .dwIcon:hover {
+    opacity: 0.5;
+    scale: 1.1;
+}
+
+.albumBack {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: fixed;
+    background-color: #1c1e21;
+    bottom: 20px;
+    left: 20px;
+    z-index: 99;
+    font-size: 44px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}

@@ -1,0 +1,10 @@
+        body{
+            overflow-x: hidden;
+        }
+        /*   table   */
+         @media (max-width: 1000px) {
+            .tableScroll {
+                align-items: flex-start;
+            }
+        }
+    
