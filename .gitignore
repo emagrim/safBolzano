@@ -9,3 +9,8 @@ wp-content/uploads/
 wp-content/upgrade/
 wp-content/cache/
 *.log
+# ereditato dal vecchio sito: foto/PDF non in git
+legacy/public/data/
+# lista atleti scaricata (dati personali, si importa in WordPress)
+tools/atleti.json
+tools/node_modules/
