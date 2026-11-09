@@ -2,19 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const slides = document.querySelectorAll('.imageSlides');
     const slider = document.querySelector('.containsSlides');
     if (!slider) return;
-    let sliderWidth = slider.clientWidth;
-    
-    // Iterate over each slide and get its computed style
-    slides.forEach(slide => {
-      const slideStyle = window.getComputedStyle(slide);
-      slideWidth = slideStyle.width;
-      console.log(slideWidth); // Do something with the width
-    });
-//slider.clientWidth
+
     let currentSlide = 0;
     let isScrolling = false;
-    let isAutoScrolling = false;
-    let imagesHTML = document.querySelectorAll('.slide');
 
     const element1 = document.querySelector('.sliderButton.left');
     const element2 = document.querySelector('.sliderButton.right');
@@ -25,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isScrolling) return;  // Se lo slider è in movimento, blocca il clic
 
         isScrolling = true;  // Imposta lo stato di scrolling a true
-        const scrollAmount = direction === 'next' ? sliderWidth : -sliderWidth;
+        // Larghezza attuale del riquadro (= una foto, vedi globals.css), corretta anche dopo un resize.
+        const scrollAmount = direction === 'next' ? slider.clientWidth : -slider.clientWidth;
         
         // Imposta lo scrolling e abilita la transizione fluida
         slider.scrollTo({
@@ -90,31 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.sliderButton.left').addEventListener('click', prevSlide);
         document.querySelector('.sliderButton.right').addEventListener('click', alwaysNextSlide);
     }
-
-    // Funzione per determinare la forma dell'immagine
-    function imgHeV(img) {
-        console.log('Image loaded:', img);
-
-        if (img && img.naturalHeight === img.naturalWidth) {
-            console.log('square');
-            img.classList.add('square');
-        } else if (img && img.naturalHeight > img.naturalWidth) {
-            console.log('vertical');
-            img.classList.add('vertical');
-        } else if (img) {
-            console.log('horizontal');
-            img.classList.add('horizontal');
-        }
-    }
-
-    // Applica la funzione alle immagini caricate
-    imagesHTML.forEach(function (img) {
-        console.log('calling function time 1');
-        img.onload = function () {
-            console.log('calling function time 2');
-            imgHeV(img);
-        }
-    });
 
     // Funzione per ricalcolare lo scroll quando cambia la larghezza
     function handleResize() {

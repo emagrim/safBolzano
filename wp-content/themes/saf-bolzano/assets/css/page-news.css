@@ -1,0 +1,25 @@
+/* Titoli degli articoli (pagina News e articolo singolo): stesso stile delle schede "ULTIME NOTIZIE" in home. */
+.ig-post .description h3,
+.ig-post .description h3 a {
+    font-family: "Slackey", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--color-rosso-SAF);
+    text-decoration: none;
+}
+
+.ig-post .description h3 a:hover {
+    text-decoration: underline;
+}
+
+/* "Tutte le notizie" sotto l'articolo: come il link "Tutte le notizie →" in home. */
+.ig-post .articleLink {
+    font-family: "Slackey", sans-serif;
+    font-weight: 400;
+    color: var(--color-rosso-SAF);
+    text-decoration: none;
+}
+
+.ig-post .articleLink:hover {
+    text-decoration: underline;
+}

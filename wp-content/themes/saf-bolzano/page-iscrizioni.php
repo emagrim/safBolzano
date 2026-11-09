@@ -122,7 +122,7 @@ get_header();
                 <h2>U16</h2>
             </div>
             <div>
-                <h3 class="mainColor">ALIEVI</h3>
+                <h3 class="mainColor">ALLIEVI</h3>
                 <h2>U18</h2>
             </div>
             <div>

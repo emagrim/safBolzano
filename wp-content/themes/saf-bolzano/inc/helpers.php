@@ -19,6 +19,12 @@ function saf_document_url( $file ) {
 	return saf_content_url( 'documents/' . $file );
 }
 
+/** Version for an enqueued asset: its last change time, so browsers fetch it again after every edit. */
+function saf_asset_ver( $path ) {
+	$file = get_template_directory() . '/assets/' . ltrim( $path, '/' );
+	return file_exists( $file ) ? (string) filemtime( $file ) : SAF_THEME_VERSION;
+}
+
 function saf_asset_url( $path ) {
 	return get_template_directory_uri() . '/assets/' . ltrim( $path, '/' );
 }

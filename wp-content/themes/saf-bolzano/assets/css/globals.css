@@ -2346,3 +2346,124 @@ img.imgFR {
         grid-template-columns: repeat(1, 1fr);
     }
 }
+/* BAND SOTTO IL MENU
+   Fascia rossa dietro al menu: le foto iniziano sotto, così il menu non copre i volti.
+   Su desktop e tablet il logo grande sporge dalla fascia sull'angolo in alto a sinistra della foto.
+   Il menu resta position: absolute (il menu mobile aperto si sovrappone alla foto come prima). */
+
+:root {
+    --saf-band-height: 150px;
+}
+
+@media screen and (max-width: 750px) {
+    :root {
+        --saf-band-height: 215px;
+    }
+}
+
+.navBand {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--saf-band-height);
+    background-color: var(--color-rosso-SAF);
+    z-index: 40;
+}
+
+.slider,
+.albumTitle {
+    margin-top: var(--saf-band-height);
+}
+
+/* Senza top esplicito il menu scenderebbe con il margine qui sopra. */
+Navbar {
+    top: 0;
+}
+
+/* Home: fascia + foto + onda riempiono ancora la prima schermata (la foto si accorcia della fascia),
+   quindi l'onda (top: calc(97vh - 88px)) e la freccia in basso restano dove sono. */
+.heightMedium,
+.slide.heightMedium {
+    height: calc(97vh - var(--saf-band-height));
+    min-height: calc(97vh - var(--saf-band-height));
+}
+
+/* Le frecce laterali sono posizionate rispetto allo schermo: le si centra sulla foto spostata. */
+.sliderButton.left,
+.sliderButton.right {
+    top: calc(50% + var(--saf-band-height) / 2);
+}
+
+/* ONDA (profilo delle montagne) in fondo alla foto
+   Il disegno si allarga a tutta la larghezza dello schermo (alto almeno 90px: sugli schermi stretti
+   si vede la parte centrale a grandezza piena) e il suo bordo inferiore coincide con quello della foto:
+   top = fondo della foto, poi translateY(-100%) lo fa salire della sua altezza (2px di sovrapposizione
+   evitano una riga sottile di foto sotto l'onda). */
+.svgSlider,
+.svgSlider.not-full {
+    width: 100%;
+    height: max(90px, calc(100vw * 90 / 1370));
+    background: none;
+    transform: translateY(-100%);
+}
+
+/* Home: la foto finisce a 97vh. */
+.svgSlider {
+    top: calc(97vh + 2px);
+}
+
+/* Altre pagine: la foto resta alta 70vh e scende della fascia. */
+.svgSlider.not-full {
+    top: calc(var(--saf-band-height) + 70vh + 2px);
+}
+
+@media screen and (min-width: 2200px) {
+    .svgSlider,
+    .svgSlider.not-full {
+        width: 100%;
+        transform: translateY(-100%) !important;
+    }
+}
+
+/* ISCRIVITI è rosso come la fascia: un bordo bianco lo fa risaltare. */
+button.upperNavItem {
+    border: 2px solid white;
+}
+
+/* Titoli cliccabili (riquadri in home, "ORARI E ALLENAMENTI" in Info): niente sottolineatura dei link. */
+.imageSection a,
+.orari a {
+    text-decoration: none;
+}
+
+/* SLIDER: una foto = esattamente la larghezza del riquadro
+   Le foto erano larghe 100vw (barra di scorrimento compresa) mentre lo script scorre della larghezza
+   del riquadro (barra esclusa): con una barra visibile (Windows) ogni passo restava corto di ~15px.
+   Lo "snap" fa fermare sempre lo scorrimento su una foto intera (anche con il dito sul telefono). */
+.containsSlides {
+    scroll-snap-type: x mandatory;
+}
+
+.containsSlides > .slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+    max-width: 100%;
+    scroll-snap-align: start;
+}
+
+/* 100vw sporgeva oltre lo schermo della larghezza della barra di scorrimento. */
+.introduceSection {
+    width: 100%;
+}
+
+/* LOGO CLICCABILE
+   Il cerchio del logo (.backOfLogo, z-index: -1) sta dietro al proprio contenitore, che intercettava il clic:
+   il contenitore lascia passare i clic, il link del logo li riceve. */
+.gridRight {
+    pointer-events: none;
+}
+
+.gridRight a {
+    pointer-events: auto;
+}

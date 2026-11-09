@@ -1,0 +1,26 @@
+/* Sezione MODULO / CONTATTI: l'onda bianca scende sul bordo superiore della foto.
+   I riquadri sono di vetro (backdrop-filter): devono stare sotto l'onda, non sopra, altrimenti
+   sfocano il bianco e la scritta bianca sparisce. */
+.imageSection.withWave {
+    position: relative;
+    padding-top: 50px;
+}
+
+.sectionWave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    pointer-events: none;
+}
+
+/* Sopra l'onda nell'ordine di disegno. */
+.imageSection.withWave .imageSectionItem {
+    position: relative;
+}
+
+/* "UNISCITI A NOI" / "MANCHI SOLO TU!": il sottotitolo centrato sotto il titolo. */
+.littleSection .underBigTitle {
+    text-align: center;
+}

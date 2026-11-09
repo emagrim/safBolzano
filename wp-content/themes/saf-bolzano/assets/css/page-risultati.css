@@ -5,3 +5,11 @@
             }
         }
     
+
+        /*   Donne / Uomini   */
+        .recordsTitle {
+            margin: 0 0 16px;
+        }
+        .table_btm + .recordsTitle {
+            margin-top: 60px;
+        }

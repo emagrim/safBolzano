@@ -77,15 +77,19 @@ function saf_render_staff() {
 	<?php
 }
 
-function saf_render_records() {
+/**
+ * One records table: 'F' = Donne, 'M' = Uomini. Prints nothing if the category is empty.
+ */
+function saf_render_records( $sesso ) {
 	if ( ! function_exists( 'saf_get_records' ) ) {
 		return;
 	}
-	$rows = saf_get_records();
+	$rows = saf_get_records( $sesso );
 	if ( ! $rows ) {
 		return;
 	}
 	?>
+	<h2 class="recordsTitle"><?php echo 'F' === $sesso ? 'Donne' : 'Uomini'; ?></h2>
 	<table class="table_btm">
 		<tr><th>disciplina</th><th>tempo</th><th>nome</th><th>cognome</th><th>data</th></tr>
 		<?php foreach ( $rows as $r ) : ?>

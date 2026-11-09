@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 function saf_categorie() {
 	return array(
 		70 => 'Esordienti maschi', 71 => 'Esordienti femmine', 72 => 'Ragazzi U14', 73 => 'Ragazze U14',
-		74 => 'Cadetti U16', 75 => 'Cadette U16', 76 => 'Alievi U18', 77 => 'Alieve U18',
+		74 => 'Cadetti U16', 75 => 'Cadette U16', 76 => 'Allievi U18', 77 => 'Allieve U18',
 		78 => 'Juniores uomini U20', 79 => 'Juniores donne U20', 80 => 'Promesse uomini U23', 81 => 'Promesse donne U23',
 		82 => 'Senior uomini', 83 => 'Senior donne',
 		84 => 'Master uomini O35', 85 => 'Master donne O35', 86 => 'Master uomini O40', 87 => 'Master donne O40',
