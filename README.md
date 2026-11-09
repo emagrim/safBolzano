@@ -35,7 +35,7 @@ All'attivazione il tema crea le pagine (home, iscrizioni, atleti, staff, risulta
 |---|---|
 | Notizie | **Articoli > Aggiungi**. Compaiono in `/news/`. Per mostrare "News" nel menu: **Aspetto > Menu** |
 | Staff | **Staff** (l'ordine si cambia con il campo "Ordine") |
-| Record sociali | **Record sociali** |
+| Record sociali | **Record sociali** (campo "Categoria": Donne o Uomini; il sito mostra prima la tabella Donne, poi Uomini) |
 | Numero di atleti, email che riceve le iscrizioni | **SAF** |
 | Lista atleti | si aggiorna da sola, vedi [Lista atleti](#lista-atleti) |
 | Foto galleria / PDF | aggiungi cartelle o file in `wp-content/uploads/saf/` |

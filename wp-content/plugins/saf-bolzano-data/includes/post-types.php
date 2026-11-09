@@ -79,6 +79,14 @@ function saf_render_meta_box( $post ) {
 		echo '<p>Il titolo è il nome completo (es. <code>MARIO ROSSI</code>).</p>';
 	}
 	echo '<table class="form-table">';
+	if ( 'saf_record' === $post->post_type ) {
+		$sesso = saf_record_sesso( $post->ID );
+		echo '<tr><th><label for="saf_sesso">Categoria</label></th><td><select id="saf_sesso" name="saf_sesso">';
+		foreach ( saf_record_categories() as $value => $label ) {
+			printf( '<option value="%s"%s>%s</option>', esc_attr( $value ), selected( $sesso, $value, false ), esc_html( $label ) );
+		}
+		echo '</select></td></tr>';
+	}
 	foreach ( saf_meta_fields( $post->post_type ) as $key => $label ) {
 		printf(
 			'<tr><th><label for="saf_%1$s">%2$s</label></th><td><input type="text" class="large-text" id="saf_%1$s" name="saf_meta[%1$s]" value="%3$s"></td></tr>',
@@ -113,6 +121,39 @@ add_action( 'save_post', function ( $post_id, $post ) {
 		}
 		update_post_meta( $post_id, $key, $value );
 	}
+	if ( 'saf_record' === $post->post_type ) {
+		$sesso = isset( $_POST['saf_sesso'] ) ? sanitize_key( wp_unslash( $_POST['saf_sesso'] ) ) : '';
+		update_post_meta( $post_id, 'sesso', 'f' === $sesso ? 'F' : 'M' );
+	}
+}, 10, 2 );
+
+/* ---- Records: women / men ---------------------------------------------- */
+
+function saf_record_categories() {
+	return array( 'F' => 'Donne', 'M' => 'Uomini' );
+}
+
+/** Records saved before the category existed are men's records. */
+function saf_record_sesso( $post_id ) {
+	return 'F' === get_post_meta( $post_id, 'sesso', true ) ? 'F' : 'M';
+}
+
+add_filter( 'manage_saf_record_posts_columns', function ( $columns ) {
+	$out = array();
+	foreach ( $columns as $key => $label ) {
+		$out[ $key ] = $label;
+		if ( 'title' === $key ) {
+			$out['saf_sesso'] = 'Categoria';
+		}
+	}
+	return $out;
+} );
+
+add_action( 'manage_saf_record_posts_custom_column', function ( $column, $post_id ) {
+	if ( 'saf_sesso' === $column ) {
+		$categories = saf_record_categories();
+		echo esc_html( $categories[ saf_record_sesso( $post_id ) ] );
+	}
 }, 10, 2 );
 
 /* ---- Data accessors used by the theme -------------------------------- */
@@ -144,7 +185,7 @@ function saf_get_staff() {
 	return $out;
 }
 
-function saf_get_records() {
+function saf_get_records( $sesso = null ) {
 	$posts = get_posts( array(
 		'post_type'      => 'saf_record',
 		'post_status'    => 'publish',
@@ -153,7 +194,11 @@ function saf_get_records() {
 	) );
 	$out = array();
 	foreach ( $posts as $p ) {
-		$row = array( 'disciplina' => $p->post_title );
+		$row_sesso = saf_record_sesso( $p->ID );
+		if ( null !== $sesso && $sesso !== $row_sesso ) {
+			continue;
+		}
+		$row = array( 'disciplina' => $p->post_title, 'sesso' => $row_sesso );
 		foreach ( array( 'tempo', 'nome', 'cognome', 'data' ) as $k ) {
 			$row[ $k ] = get_post_meta( $p->ID, $k, true );
 		}

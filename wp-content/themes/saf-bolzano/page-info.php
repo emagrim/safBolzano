@@ -7,12 +7,12 @@ get_header();
     <?php saf_slider( 'info', 'lowerImgOnDisplay' ); ?>
         <div class="section" style="margin-top: 60px; margin-bottom: 0;">
             <div class="orari">
-                <h1 class="bigBigTitle">ORARI E ALLENAMENTI</h1>
-                <div class="centerO">
-                    <a href="<?php echo esc_url( saf_document_url( 'allenamenti_primaverili_2026.pdf' ) ); ?>">
+                <a href="<?php echo esc_url( saf_document_url( 'allenamenti.pdf' ) ); ?>">
+                    <h1 class="bigBigTitle">ORARI E ALLENAMENTI</h1>
+                    <div class="centerO">
                         <i class="fa-solid fa-clock fa-5x"></i>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </div>
             <!-- 
 

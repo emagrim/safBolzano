@@ -48,6 +48,7 @@ function saf_seed_from_file() {
 				foreach ( array( 'tempo', 'nome', 'cognome', 'data', 'old_tempo', 'old_nome', 'old_cognome', 'old_data' ) as $k ) {
 					update_post_meta( $id, $k, isset( $row[ $k ] ) ? (string) $row[ $k ] : '' );
 				}
+				update_post_meta( $id, 'sesso', 'M' );
 			}
 		}
 	}

@@ -7,6 +7,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<div class="navBand" aria-hidden="true"></div>
 <Navbar class="navbar">
 	<div class="navContainer gridRight">
 		<div class="backOfLogo slideIn1">
@@ -15,7 +16,6 @@
 	</div>
 	<div class="navContainer gridCenter">
 		<div class="gridInnerTop slideIn2">
-			<a href="<?php echo saf_link( '/info/' ); ?>" class="upperNavItem navItem"><p>Contattaci ora!</p></a>
 			<a href="https://www.instagram.com/saf_bolzano_1953" target="_blank" rel="noopener" class="upperNavItem navItem" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
 			<a href="https://www.facebook.com/NuvolaRossa1953" target="_blank" rel="noopener" class="upperNavItem navItem" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
 			<a href="<?php echo saf_link( '/iscrizioni/#modulo' ); ?>"><button class="upperNavItem">ISCRIVITI</button></a>

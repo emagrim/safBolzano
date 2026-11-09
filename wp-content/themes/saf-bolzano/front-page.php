@@ -19,7 +19,7 @@ get_header();
         <button class="sliderButton bottom slideIn upDown" onclick="document.getElementById('description').scrollIntoView({ behavior: 'smooth' });">&darr;</button>
         <!--<svg class="svgSlider" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path class="svgSlider" fill="white" fill-opacity="1" d="M0,128L24,144C48,160,96,192,144,218.7C192,245,240,267,288,240C336,213,384,139,432,133.3C480,128,528,192,576,197.3C624,203,672,149,720,128C768,107,816,117,864,133.3C912,149,960,171,1008,192C1056,213,1104,235,1152,213.3C1200,192,1248,128,1296,117.3C1344,107,1392,149,1416,170.7L1440,192L1440,320L1416,320C1392,320,1344,320,1296,320C1248,320,1200,320,1152,320C1104,320,1056,320,1008,320C960,320,912,320,864,320C816,320,768,320,720,320C672,320,624,320,576,320C528,320,480,320,432,320C384,320,336,320,288,320C240,320,192,320,144,320C96,320,48,320,24,320L0,320Z"></path></svg>
     !-->
-        <svg class="svgSlider" version="1.0" xmlns="http://www.w3.org/2000/svg">
+        <svg class="svgSlider" version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="29 0 1370 90" preserveAspectRatio="xMidYMax slice">
             <g transform="translate(0 90) scale(.1 -.1)" fill="#fff">
                 <path
                     d="m11340 864c-39-33-107-168-149-294-18-52-36-99-40-103-5-4-11 19-14 53-10 109-66 175-103 121-11-15-22-19-42-15-34 7-52-12-77-80-10-27-35-67-57-89-21-22-54-72-72-111-46-97-93-140-171-154-72-13-366-15-565-3-116 7-161 14-225 36-102 35-267 117-398 198-56 35-108 67-115 71s-28 1-46-8c-40-19-68-12-94 23-26 36-101 47-164 25-51-18-92-11-131 22-36 30-71 30-122-1-47-29-115-33-160-9-87 48-81 47-127 26-24-10-68-39-98-64-58-47-117-81-162-92-41-9-287-36-338-36-66 0-118 17-153 52-111 107-145 118-189 66l-27-33-47 47c-61 62-79 67-107 32-22-28-46-68-69-112-22-43-52-21-37 30 4 16 3 32-4 41-17 22-55 4-63-30-4-15-18-38-31-50-12-12-23-29-23-38 0-8-16-23-35-32-34-16-38-16-70 1-18 10-39 32-46 48-14 34-36 48-78 48-16 0-40 4-53 9-31 12-184 163-229 226-40 57-67 66-105 36-15-12-32-21-38-21-7 0-27-16-46-35-43-44-69-44-140 0-73 47-121 48-181 2-24-19-74-51-112-71-75-42-93-42-155-1-82 54-142 42-235-45-101-94-144-106-272-75-129 31-145 26-375-109-63-38-209-115-323-173l-209-104-282 1c-297 0-345 6-439 50-55 26-121 95-177 185-24 39-58 88-76 111-58 73-181 123-399 160-118 21-389 24-477 6-32-6-125-17-207-24-144-11-152-11-237 11-103 27-270 39-302 22-25-13-52-84-94-241-17-63-33-117-34-119-8-10-14 10-39 129-29 138-47 190-69 190-20 0-74-79-132-193-67-134-138-226-194-254-41-20-210-53-345-67-102-11-314-27-625-46-63-4 2997-7 6800-8s6908 2 6900 7-58 12-110 16c-125 9-339 41-376 56-18 8-121 15-269 20-191 6-254 11-310 27-38 11-77 20-85 20-120 0-348 26-427 48-132 38-190 75-225 144-25 51-73 190-98 289-17 66-54 98-126 106-32 4-75 14-96 22-33 13-39 13-75-5-79-41-115-100-141-228l-17-85-37 45c-35 41-38 50-44 128-6 79-9 87-57 158-88 132-102 140-157 94z" />
@@ -42,6 +42,39 @@ get_header();
             <img src="<?php echo esc_url( saf_content_url( 'gallery/2023.08.23_MEETING FRANCO CRISCUOLO/meetingcriscuolo-296.jpg' ) ); ?>" alt="Image">
         </div>
     </div>
+    <?php
+    $saf_news = new WP_Query( array(
+        'posts_per_page'      => 3,
+        'ignore_sticky_posts' => true,
+        'no_found_rows'       => true,
+    ) );
+    if ( $saf_news->have_posts() ) :
+        ?>
+    <div class="section homeNews">
+        <h1 class="bigBigTitle">ULTIME NOTIZIE</h1>
+        <div class="homeNewsGrid">
+            <?php while ( $saf_news->have_posts() ) : $saf_news->the_post(); ?>
+                <a class="homeNewsCard" href="<?php the_permalink(); ?>">
+                    <div class="homeNewsImg">
+                        <?php if ( has_post_thumbnail() ) : ?>
+                            <?php the_post_thumbnail( 'medium_large', array( 'alt' => '' ) ); ?>
+                        <?php else : ?>
+                            <img class="homeNewsLogo" src="<?php echo esc_url( saf_asset_url( 'images/official/logo_saf.png' ) ); ?>" alt="">
+                        <?php endif; ?>
+                    </div>
+                    <div class="homeNewsText">
+                        <small><?php echo esc_html( get_the_date() ); ?></small>
+                        <h3><?php the_title(); ?></h3>
+                    </div>
+                </a>
+            <?php endwhile; ?>
+        </div>
+        <a class="homeNewsAll" href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/news/' ) ); ?>">Tutte le notizie &rarr;</a>
+    </div>
+        <?php
+    endif;
+    wp_reset_postdata();
+    ?>
     <div class="adSection" style="display: none">
         <svg class="svg-back" version="1.0" xmlns="http://www.w3.org/2000/svg" width="3520.000000pt"
             height="2026.000000pt" viewBox="0 0 3520.000000 2026.000000" preserveAspectRatio="xMidYMid meet">
@@ -127,12 +160,16 @@ l-137 7 0 -2236 c0 -1231 2 -2237 5 -2237 3 0 47 36 97 81 318 281 398 290
     </div>
     <div class="imageSection">
         <div class="imageSectionItem">
-            <h2>ISCRIZIONI</h2>
-            <p class="paragraph"><a href="<?php echo esc_url( saf_document_url( 'Iscrizione.pdf' ) ); ?>"><i class="fa-solid fa-sheet-plastic"></i></a></p>
+            <a href="<?php echo esc_url( saf_document_url( 'Iscrizione.pdf' ) ); ?>">
+                <h2>ISCRIZIONI</h2>
+                <p class="paragraph"><i class="fa-solid fa-sheet-plastic"></i></p>
+            </a>
         </div>
         <div class="imageSectionItem">
-            <h2>ORARI E ALLENAMENTI</h2>
-            <p class="paragraph"><a href="<?php echo esc_url( saf_document_url( 'allenamenti_primaverili_2026.pdf' ) ); ?>"><i class="fa-solid fa-clock"></i></a></p>
+            <a href="<?php echo esc_url( saf_document_url( 'allenamenti.pdf' ) ); ?>">
+                <h2>ORARI E ALLENAMENTI</h2>
+                <p class="paragraph"><i class="fa-solid fa-clock"></i></p>
+            </a>
         </div>
     </div>
     <div class="section grid4Text">
@@ -140,7 +177,7 @@ l-137 7 0 -2236 c0 -1231 2 -2237 5 -2237 3 0 47 36 97 81 318 281 398 290
             <img src="<?php echo esc_url( saf_content_url( 'gallery/2023.12.17_FESTA NATALE/festa natale -016.jpg' ) ); ?>" alt="Image">
         </div>
         <div class="description">
-            <h1>70' Anni di SAF</h1>
+            <h1>70 Anni di SAF</h1>
             <p class="paragraph">Con l'arrivo del 2024 la SAF BOLZANO 1953 compie ufficialmente 70 anni di operato a Bolzano. Alla festa natalizia annuale della società abbiamo avuto modo di ripercorrere il nostro passato e premiare le nostre eccellenze per spronare i più giovani a prendere esempio. Con il ritorno della premiazione dell'atleta dell'anno, nel 2024 spiccano le prestazioni martellistiche di Nicole Castlunger, che batte molteplici volte il record provinciale di categoria onorando i colori della società.
                 Bolzano.</p>
             <!--<a href="<?php echo saf_link( '/info#storia' ); ?>">
