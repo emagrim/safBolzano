@@ -114,7 +114,7 @@ function saf_render_records( $sesso ) {
 	?>
 	<h2 class="recordsTitle"><?php echo 'F' === $sesso ? 'Donne' : 'Uomini'; ?></h2>
 	<table class="table_btm">
-		<tr><th>disciplina</th><th>tempo</th><th>nome</th><th>cognome</th><th>data</th></tr>
+		<tr><th>disciplina</th><th>prestazione</th><th>nome</th><th>cognome</th><th>data</th></tr>
 		<?php foreach ( $rows as $r ) : ?>
 			<tr>
 				<td><?php echo esc_html( $r['disciplina'] ); ?></td>
