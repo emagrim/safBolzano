@@ -38,7 +38,7 @@ function saf_get_atleti_grouped() {
 	$cat    = saf_categorie();
 	$groups = array();
 	foreach ( $athletes as $a ) {
-		$name              = isset( $cat[ (int) $a['category_id'] ] ) ? $cat[ (int) $a['category_id'] ] : 'Altro';
+		$name              = isset( $cat[ (int) $a['category_id'] ] ) ? $cat[ (int) $a['category_id'] ] : 'Giovanissimi';
 		$groups[ $name ][] = $a;
 	}
 	return $groups;

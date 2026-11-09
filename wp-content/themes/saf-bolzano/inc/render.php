@@ -40,16 +40,39 @@ function saf_render_atleti() {
 	<?php
 }
 
-/** "1999-05-03" => "03 maggio 1999"; a bare year stays as is. */
+/**
+ * Italian date, e.g. "9 settembre 2026", whatever the site language is.
+ * Takes day, month (1-12) and year.
+ */
+function saf_date_it( $day, $month, $year ) {
+	$mesi = array( 1 => 'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre' );
+	return (int) $day . ' ' . $mesi[ (int) $month ] . ' ' . (int) $year;
+}
+
+/** Publication date of the current post (in the site's timezone), in Italian. */
+function saf_post_date_it( $post = null ) {
+	$ts = get_post_timestamp( $post );
+	if ( ! $ts ) {
+		return '';
+	}
+	list( $d, $m, $y ) = explode( ' ', wp_date( 'j n Y', $ts ) );
+	return saf_date_it( $d, $m, $y );
+}
+
+/** "1999-05-03" => "3 maggio 1999"; a bare year stays as is. */
 function saf_format_birth( $value ) {
+	$value = (string) $value;
 	if ( preg_match( '/^\d{4}$/', $value ) ) {
 		return $value;
 	}
+	if ( preg_match( '/^(\d{4})-(\d{1,2})-(\d{1,2})/', $value, $m ) && $m[2] >= 1 && $m[2] <= 12 ) {
+		return saf_date_it( $m[3], $m[2], $m[1] );
+	}
 	$ts = strtotime( $value );
 	if ( ! $ts ) {
-		return substr( (string) $value, 0, 4 );
+		return substr( $value, 0, 4 );
 	}
-	return wp_date( 'd F Y', $ts );
+	return saf_date_it( gmdate( 'j', $ts ), gmdate( 'n', $ts ), gmdate( 'Y', $ts ) );
 }
 
 function saf_render_staff() {

@@ -1632,7 +1632,6 @@ h3.athleteField {
     align-items: center;
     justify-content: center;
     width: 100%;
-    overflow: scroll;
     gap: 10px;
     flex-wrap: wrap;
 }

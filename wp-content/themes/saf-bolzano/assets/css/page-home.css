@@ -51,17 +51,18 @@ body{
     justify-content: center;
 }
 
+/* Foto intera, mai tagliata: lo spazio libero resta grigio. */
 .homeNewsImg img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
-/* Articolo senza immagine in evidenza: lo scudo SAF. */
+/* Articolo senza immagine in evidenza: lo scudo SAF.
+   40% della larghezza = circa 56% dell'altezza del riquadro 4:3, quindi entra sempre. */
 .homeNewsImg img.homeNewsLogo {
-    width: 45%;
+    width: 40%;
     height: auto;
-    object-fit: contain;
 }
 
 .homeNewsText {

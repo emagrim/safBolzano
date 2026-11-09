@@ -11,10 +11,12 @@ while ( have_posts() ) :
 		<article class="ig-post articleBack">
 			<?php if ( has_post_thumbnail() ) : ?>
 				<?php the_post_thumbnail( 'large' ); ?>
+			<?php else : ?>
+				<div class="newsNoImg"><img src="<?php echo esc_url( saf_asset_url( 'images/official/logo_saf.png' ) ); ?>" alt=""></div>
 			<?php endif; ?>
 			<div class="description">
 				<h3><?php the_title(); ?></h3>
-				<p class="paragraph"><?php echo esc_html( get_the_date() ); ?></p>
+				<p class="paragraph"><?php echo esc_html( saf_post_date_it() ); ?></p>
 				<div class="paragraph"><?php the_content(); ?></div>
 				<a class="articleLink" href="<?php echo saf_link( '/news/' ); ?>">Tutte le notizie</a>
 			</div>

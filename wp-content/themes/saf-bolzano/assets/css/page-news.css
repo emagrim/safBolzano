@@ -23,3 +23,77 @@
 .ig-post .articleLink:hover {
     text-decoration: underline;
 }
+
+/* ---- Immagini delle notizie: sempre intere, mai tagliate ---------------- */
+
+/* Anteprime nella pagina News: riquadro fisso, foto intera su sfondo grigio. */
+.ig-grid-news .ig-post > a > img {
+    object-fit: contain;
+    background: #f3f3f3;
+}
+
+/* Articolo completo: la foto si vede tutta, alta al massimo l'80% dello schermo. */
+.articleBack > img {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    background: #f3f3f3;
+}
+
+/* Nessuna immagine in evidenza: lo scudo SAF, dimensionato sull'altezza del riquadro. */
+.ig-post .newsNoImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    background: #f3f3f3;
+}
+
+.ig-post .newsNoImg img {
+    width: auto;
+    height: 70%;
+    max-width: 80%;
+    object-fit: contain;
+}
+
+@media (max-width: 1000px) {
+    .ig-post .newsNoImg {
+        height: 300px;
+    }
+}
+
+/* ---- Testo delle notizie: niente tagli, anche da cellulare --------------- */
+
+/* Pagina News: le schede non superano mai la larghezza dello schermo. */
+.ig-grid-news {
+    grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr));
+}
+
+.ig-post .description h3 {
+    overflow-wrap: anywhere;
+}
+
+/* Anteprima del testo: al massimo 6 righe intere, poi "…". */
+.ig-grid-news .ig-post .paragraph {
+    height: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Articolo completo: il testo si vede tutto. */
+.articleBack .description {
+    max-height: none;
+}
+
+.articleBack .paragraph {
+    height: auto;
+    overflow: visible;
+}
+
+.articleBack .paragraph p {
+    margin: 0 0 1em;
+}

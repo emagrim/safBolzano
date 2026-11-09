@@ -12,10 +12,12 @@ saf_slider( 'news' );
 				<div class="ig-post newsBack" id="post-<?php the_ID(); ?>">
 					<?php if ( has_post_thumbnail() ) : ?>
 						<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'large' ); ?></a>
+					<?php else : ?>
+						<a href="<?php the_permalink(); ?>" class="newsNoImg"><img src="<?php echo esc_url( saf_asset_url( 'images/official/logo_saf.png' ) ); ?>" alt=""></a>
 					<?php endif; ?>
 					<div class="description">
 						<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-						<p class="paragraph"><?php echo esc_html( get_the_date() ); ?> &middot; <?php echo esc_html( wp_trim_words( get_the_excerpt(), 40 ) ); ?></p>
+						<p class="paragraph"><?php echo esc_html( saf_post_date_it() ); ?> &middot; <?php echo esc_html( wp_trim_words( get_the_excerpt(), 40 ) ); ?></p>
 						<a href="<?php the_permalink(); ?>" class="newsLink"><i class="fa-solid fa-chevron-down"></i></a>
 					</div>
 				</div>

@@ -63,7 +63,7 @@ get_header();
                         <?php endif; ?>
                     </div>
                     <div class="homeNewsText">
-                        <small><?php echo esc_html( get_the_date() ); ?></small>
+                        <small><?php echo esc_html( saf_post_date_it() ); ?></small>
                         <h3><?php the_title(); ?></h3>
                     </div>
                 </a>
