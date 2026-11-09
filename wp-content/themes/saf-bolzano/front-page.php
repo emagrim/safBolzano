@@ -177,10 +177,10 @@ l-137 7 0 -2236 c0 -1231 2 -2237 5 -2237 3 0 47 36 97 81 318 281 398 290
             <img src="<?php echo esc_url( saf_content_url( 'gallery/2023.12.17_FESTA NATALE/festa natale -016.jpg' ) ); ?>" alt="Image">
         </div>
         <div class="description">
-            <h1>70 Anni di SAF</h1>
-            <p class="paragraph">Con l'arrivo del 2024 la SAF BOLZANO 1953 compie ufficialmente 70 anni di operato a Bolzano. Alla festa natalizia annuale della società abbiamo avuto modo di ripercorrere il nostro passato e premiare le nostre eccellenze per spronare i più giovani a prendere esempio. Con il ritorno della premiazione dell'atleta dell'anno, nel 2024 spiccano le prestazioni martellistiche di Nicole Castlunger, che batte molteplici volte il record provinciale di categoria onorando i colori della società.
+            <h1>70+ Anni di SAF</h1>
+            <p class="paragraph">Nel 2024 la SAF BOLZANO 1953 compie ufficialmente 70 anni di operato a Bolzano. Alla festa natalizia annuale della società abbiamo avuto modo di ripercorrere il nostro passato e premiare le nostre eccellenze per spronare i più giovani a prendere esempio. La storia della società è stata raccontata di recente in un video della RAI Alto Adige che potete trovare al seguente link: <a href="https://www.raialtoadige.rai.it/it/index.php?media=Ptv1789857300">Passpartù: Oltre il campo</a>.
                 Bolzano.</p>
-            <!--<a href="<?php echo saf_link( '/info#storia' ); ?>">
+            <!--<a href="/info#storia">
                 <p>La nostra storia ..</p>
             </a>!-->
         </div>
