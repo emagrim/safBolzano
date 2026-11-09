@@ -179,7 +179,7 @@ l-137 7 0 -2236 c0 -1231 2 -2237 5 -2237 3 0 47 36 97 81 318 281 398 290
         <div class="description">
             <h1>70+ Anni di SAF</h1>
             <p class="paragraph">Nel 2024 la SAF BOLZANO 1953 compie ufficialmente 70 anni di operato a Bolzano. Alla festa natalizia annuale della società abbiamo avuto modo di ripercorrere il nostro passato e premiare le nostre eccellenze per spronare i più giovani a prendere esempio. La storia della società è stata raccontata di recente in un video della RAI Alto Adige che potete trovare al seguente link: <a href="https://www.raialtoadige.rai.it/it/index.php?media=Ptv1789857300">Passpartù: Oltre il campo</a>.
-                Bolzano.</p>
+            </p>
             <!--<a href="/info#storia">
                 <p>La nostra storia ..</p>
             </a>!-->
